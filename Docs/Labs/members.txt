@@ -1,4 +1,4 @@
-Hello World by Bakytzhan
-Hello my team by Raiymbet Tukpetov
-Hello team
-NO Hello 
+1.Akzhol Bakytzhan |  LEADER
+2.Tukpetov Rayimbet | PHP Programmer
+3.Dosumbetov Alimkhan | Designer
+4.Ferdausiuli Aibek | HTML && Debagger Programmer
