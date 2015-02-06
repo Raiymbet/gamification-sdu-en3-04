@@ -8,13 +8,67 @@
     <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
     <!-- Add custom CSS here -->
+
+    <!-- Custom jquery-ui libraries-->
+
+    <style>
+        #draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+    </style>
+
 </head>
 <body>
 
 <script src="../../project/js/jquery-1.10.2.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
 <script src="../../project/js/bootstrap.js"></script>
-<input style="width: 100px">
-<button class="btn btn-info">Click me!</button>
-<button>Click me!</button>
+
+
+<p>What kind of Version Control System do you know?</p>
+<div id="frame1">    </div>
+<br>
+<div id="frame2">    </div>
+
+<script>
+    answer = ['S', 'U', 'B', 'V', 'E', 'R', 'S', 'I', 'O', 'N'];
+    gameranswer = [];
+    click = 0;
+
+    for (var i = 0; i < 10; i++) {
+        $("#frame1").append("<button class='btn btn-default' "+"id='a_id"+i+"' style='width: 50px; height: 50px'>" +" "+ "</button>");
+    }
+
+    alpha = [2,4,9,8,3,1,7,5,0,6];
+    for (var i = 0; i < 10; i++) {
+        //j = Math.floor((Math.random()*10));
+        //console.log(j);
+        $("#frame2").append("<button class='btn_' id='id"+i+"' class='btn btn-default' style='width: 50px; height: 50px'>" + answer[alpha[i]] + "</button>");
+    }
+    $(document).ready(function(){
+        $(".btn_").click(function(){
+            if(click>=0 && click<10){
+                console.log($(this).attr("id"));
+                gameranswer.push($(this).text());
+                console.log(gameranswer.toString()+" "+gameranswer.length);
+
+                $("#a_id"+click).text(""+$(this).text());
+                click++;
+            }else
+                console.log("Click is over 10");
+        });
+
+        $(".btn-default").draggable(function(){
+
+        });
+
+        $(function() {
+            $("#frame2").draggable();
+        });
+    });
+</script>
+
+<br>
+<button class="btn btn-info" id="cancel">Cancel</button>
+
+
 </body>
 </html>
