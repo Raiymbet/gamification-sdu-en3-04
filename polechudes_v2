@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
+    <!-- Add custom CSS here -->
+
+    <!-- Custom jquery-ui libraries-->
+    <style>
+        #sortable {
+            list-style-type: none;
+            margin-top: 15%;
+        }
+
+        #sortable li {
+            margin: 0 5px 5px 5px;
+            padding: 10px;
+        }
+
+        html > body #sortable li {
+            height: 3em;
+            width: 3em;
+            display: inline;
+            line-height: 1.2em;
+        }
+
+        .ui-state-highlight{
+            line-height: 1.2em;
+            background-color: #269abc;
+            border-radius: 0.3em;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<script src="../../project/js/jquery-1.10.2.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
+<script src="../../project/js/bootstrap.js"></script>
+
+<div style="width: 500px; height: 400px; border: 1px solid #000000; background-color: lightgray; margin-left: 35%; margin-top: 5%">
+    <p style="margin-top: 15%; margin-left: 10%">What kind of Version Control System do you know?</p>
+    <br>
+    <ul id="sortable">
+        <li value="A" class="btn btn-info">A</li>
+        <li value="B" class="btn btn-info">B</li>
+        <li value="E" class="btn btn-info">E</li>
+        <li value="N" class="btn btn-info">N</li>
+        <li value="J" class="btn btn-info">J</li>
+        <li value="M" class="btn btn-info">M</li>
+        <li value="N" class="btn btn-info">N</li>
+        <li value="I" class="btn btn-info">I</li>
+    </ul>
+    <br>
+    <button id="finish" class="btn btn-danger" style="margin-left: 70%">Incorrect</button>
+
+</div>
+
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            placeholder: "ui-state-highlight",
+            update: function(){
+                returnValue = "";
+                $(".btn-info").each(function () {
+                    returnValue += $(this).attr("value");
+
+                });
+
+                //console.log("RESULT: "+returnValue);
+                if(returnValue=="BENJAMIN"){
+                    $("#finish").text("Correct").removeClass("btn").removeClass("btn-danger").addClass("btn").addClass("btn-success");
+                    //console.log("Correct");
+                }else{
+                    $("#finish").text("Incorrect");
+                    //console.log("Incorrect");
+                }
+                returnValue="";
+
+            }
+        });
+        $("#sortable").disableSelection();
+    });
+</script>
+
+</body>
+</html>
