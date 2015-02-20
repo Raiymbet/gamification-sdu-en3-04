@@ -44,17 +44,15 @@
 <script src="../../project/js/bootstrap.js"></script>
 
 <div style="width: 500px; height: 400px; border: 1px solid #000000; background-color: lightgray; margin-left: 35%; margin-top: 5%">
-    <p style="margin-top: 15%; margin-left: 10%">What kind of Version Control System do you know?</p>
+    <p style="margin-top: 15%; margin-left: 10%">Some question</p>
     <br>
     <ul id="sortable">
         <li value="A" class="btn btn-info">A</li>
-        <li value="B" class="btn btn-info">B</li>
-        <li value="E" class="btn btn-info">E</li>
-        <li value="N" class="btn btn-info">N</li>
-        <li value="J" class="btn btn-info">J</li>
-        <li value="M" class="btn btn-info">M</li>
-        <li value="N" class="btn btn-info">N</li>
-        <li value="I" class="btn btn-info">I</li>
+        <li value="B" class="btn btn-info">N</li>
+        <li value="E" class="btn btn-info">S</li>
+        <li value="N" class="btn btn-info">W</li>
+        <li value="J" class="btn btn-info">E</li>
+        <li value="M" class="btn btn-info">R</li>
     </ul>
     <br>
     <button id="finish" class="btn btn-danger" style="margin-left: 70%">Incorrect</button>
@@ -62,6 +60,12 @@
 </div>
 
 <script>
+    questions = ["In python, what is one function to output content to the console?",
+                "Which variable is defined outside function?",
+                "Which variable is not defined outside function?",
+                "Which process of retrieving original python object from the stored string representation for use?"];
+    answers = ["print", "global variable", "local variable", "unpickling"];
+
     $(function () {
         $("#sortable").sortable({
             placeholder: "ui-state-highlight",
@@ -83,8 +87,7 @@
                 returnValue="";
 
             }
-        });
-        $("#sortable").disableSelection();
+        }).disableSelection();
     });
 </script>
 

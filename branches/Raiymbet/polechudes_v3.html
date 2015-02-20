@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
+    <!-- Add custom CSS here -->
+
+    <!-- Custom jquery-ui libraries-->
+    <style>
+        #ul_for_answer {
+            list-style-type: none;
+            margin-top: 15%;
+        }
+
+        #ul_for_answer li {
+            margin: 0 5px 5px 5px;
+            padding: 10px;
+        }
+
+        html > body #ul_for_answer li {
+            height: 3em;
+            width: 3em;
+            display: inline;
+            line-height: 1.2em;
+        }
+
+        .ui-state-highlight {
+            line-height: 1.2em;
+            background-color: #269abc;
+            border-radius: 0.3em;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<script src="../../project/js/jquery-1.10.2.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
+<script src="../../project/js/bootstrap.js"></script>
+
+<div style="width: 500px; height: 400px; border: 1px solid #000000; background-color: lightgray; margin-left: 35%; margin-top: 5%">
+    <p style="margin-top: 15%; margin-left: 10%" id="p_for_question">Some question</p>
+    <br>
+    <ul id="ul_for_answer"></ul>
+    <br>
+    <button id="finish" class="btn btn-danger" style="margin-left: 70%">Incorrect</button>
+
+</div>
+
+<script>
+    questions = ["In python, what is one function to output content to the console?",
+        "Which variable is defined outside function?",
+        "Which variable is not defined outside function?",
+        "Which process of retrieving original python object from the stored string representation for use?"];
+    answers = ["print", "global variable", "local variable", "unpickling"];
+    var index_question_answer = 0;
+    var random_array = [];
+
+    $(document).ready(function () {
+        convert_question();
+        set_random_int(answers[index_question_answer].length, random_array);
+
+        convert_answer();
+    });
+
+    function convert_question() {
+        $("#p_for_question").text(questions[index_question_answer]);
+    }
+    function convert_answer() {
+        for (var i = 0; i < answers[index_question_answer].length; i++) {
+            $("#ul_for_answer").append("<li class='btn btn-info'>" + answers[index_question_answer].charAt(random_array[i]) + "</li>");
+        }
+    }
+    function equals_to_answer(array){
+        for(var i=0; i<array.length; i++){
+
+        }
+    }
+    function set_random_int(length_of_answer, array) {
+        array[0] = get_random();
+        for (var i = 1; i < length_of_answer; i++) {
+            a = get_random();
+            if (!dont_have(a, array)) {
+                array.push(a);
+            }else
+                i--;
+        }
+        function get_random() {
+            return Math.floor(Math.random() * length_of_answer);
+        }
+
+        function dont_have(a, array) {
+            var have = false;
+            for (var i = 0; i < array.length; i++) {
+                if (a == array[i]) {
+                    have = true;
+                }
+            }
+            return have;
+        }
+    }
+
+
+    $(function () {
+        $("#ul_for_answer").sortable({
+            placeholder: "ui-state-highlight",
+            update: function () {
+                returnValue = " ";
+                $(this).each(function () {
+                    console.log(1);
+                });
+                console.log("Updated: "+returnValue);
+            }
+        }).disableSelection();
+    });
+</script>
+
+</body>
+</html>
