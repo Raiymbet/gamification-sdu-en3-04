@@ -15,14 +15,97 @@
     -->
 </head>
 <body>
+<nav class="navbar navbar-default ">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="img/icon.png" style="width: 32px;height: 32px">
+                </a>
+            </div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><img src="img/person.png"
+                                     style="width: 32px;height: 32px;margin-right: 8px;margin-top: -8px">Username</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Contacts</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
 <div class="container">
+    <div class="row">
+        <div class="col-2 small" style="margin-left: -7%">
+            <ul class="nav nav-pills  nav-stacked">
+                <li id="li1" role="presentation" class="active"><a class='navigation' name='Home' href="#">Home</a></li>
+                <li id="li2" role="presentation"><a name='Profile' class='navigation' href="#">Profile</a></li>
+                <li id="li3" role="presentation"><a name='Messages' class='navigation' href="#">Messages</a></li>
+            </ul>
+        </div>
+        <div class="col-6 small">
+            <div class="well">
+                <div class="row">
+                    <div class="col-6 small">
+                        <div class="col-3">
+                            <img src="img/sc1.png" style="width:50px;height: 50px">
+                        </div>
+                        <div class="col-6">
+                            <h4>Тема</h4>
+
+                            <p>Время: 10:00</p>
+
+                            <p>500 Очко</p>
+                        </div>
+                        <div class="col-1 small">
+                            <button class="btn btn-default">
+                                Starting Game
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.js"></script>
-
 <script>
-    $(".btn_alvabit").click(function () {
-        window.open("student.html", "self");
+    $("a[class=navigation]").click(function () {
+        var name = $(this).attr("name");
+        $("li[role=presentation]").each(function () {
+            $(this).removeClass();
+        });
+        if (name == 'Home') {
+            $("#li1").addClass("active");
+        } else if (name == 'Profile') {
+            $("#li2").addClass("active");
+        } else if (name == 'Messages') {
+            $("#li3").addClass("active");
+        }
     });
 </script>
 </body>
