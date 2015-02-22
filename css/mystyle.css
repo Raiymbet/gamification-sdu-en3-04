@@ -1,0 +1,33 @@
+#container {
+    width: 500px;
+    height: 250px;
+    margin: 8px auto;
+}
+
+.nagrada {
+    display: inline;
+    margin-left: 20%;
+}
+
+.nagrada img {
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    padding: 8px;
+    transition: .5s;
+}
+
+.nagrada img:hover {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    transition: .5s;
+}
+
+.carousel-controls {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.carousel-indicators {
+    bottom: -70px;
+}
