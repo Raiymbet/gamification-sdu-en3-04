@@ -51,28 +51,32 @@ a {
     text-decoration: none;
 }
 
-.arrow {
-    content: url("img/up_arrow.png");
-    width: 20px;
-    height: 20px;
-    margin-left: 12px;
-}
-
-.arrow:hover {
-    content: url("img/up_arrow_disable.png");
-}
-
-.arrow_down {
-    content: url("img/down_arrow.png");
-    width: 20px;
-    height: 20px;
-    margin-left: 12px;
-}
-
-.arrow_down:hover {
-    content: url("img/down_arrow_disable.png");
-}
-
 th {
     font-size: 16px;
+}
+
+#nagrada-frame {
+    display: none;
+}
+
+#raiting-frame {
+    display: none;
+}
+
+.gold_text {
+    margin-top: 14px;
+    font-size: 32px;
+    color: gold;
+    text-shadow: 1px 1px white;
+}
+
+.raiting_item img {
+    width: 48px;
+    height: 48px;
+    margin-top: 10px
+}
+
+.raiting_item p {
+    margin-top: 20px;
+    font-size: 18px
 }
