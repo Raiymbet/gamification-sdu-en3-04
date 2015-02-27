@@ -57,7 +57,7 @@
 </nav>
 <div class="container">
     <div class="row">
-        <div class="col-2 small">
+        <div class="col-2 small" style="position:fixed">
             <div class="list-group">
                 <a role="link" href="#" name="Home" class="list-group-item active">Главная</a>
                 <a role="link" href="#" name="Profile" class="list-group-item">Награды</a>
@@ -65,47 +65,105 @@
                 <a role="link" class="list-group-item">...</a>
             </div>
         </div>
-        <div class="col-6 small hidden">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="col-2">
-                        <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+        <div class="col-6 small col-offset-3" id="main-frame">
+            <div class="well">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
                     </div>
-                    <div class="col-8">
-                        <p>Время: 10:00</p>
+                    <div class="panel-body">
+                        <div class="col-2">
+                            <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+                        </div>
+                        <div class="col-8">
+                            <p>Время: 10:00</p>
 
-                        <p>500 Очко</p>
-                    </div>
-                    <div class="col-1">
-                        <button class="btn btn-danger">Play</button>
+                            <p>500 Очко</p>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger">Play</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Panel title</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="col-2">
-                        <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
                     </div>
-                    <div class="col-8">
-                        <p>Время: 10:00</p>
+                    <div class="panel-body">
+                        <div class="col-2">
+                            <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+                        </div>
+                        <div class="col-8">
+                            <p>Время: 10:00</p>
 
-                        <p>500 Очко</p>
+                            <p>500 Очко</p>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger">Play</button>
+                        </div>
                     </div>
-                    <div class="col-1">
-                        <button class="btn btn-primary">
-                            Result
-                        </button>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-2">
+                            <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+                        </div>
+                        <div class="col-8">
+                            <p>Время: 10:00</p>
+
+                            <p>500 Очко</p>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger">Play</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-2">
+                            <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+                        </div>
+                        <div class="col-8">
+                            <p>Время: 10:00</p>
+
+                            <p>500 Очко</p>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-danger">Play</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-2">
+                            <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px">
+                        </div>
+                        <div class="col-8">
+                            <p>Время: 10:00</p>
+
+                            <p>500 Очко</p>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-primary">
+                                Result
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 small">
+
+        <!-- Nagrada frame -->
+        <div class="col-6 small col-offset-3" id="nagrada-frame" style="display: none">
             <div class="well">
                 <div class="panel">
                     <div class="row">
@@ -154,8 +212,7 @@
                                     <div class="carousel-inner" role="listbox" style="">
                                         <div class="item active">
                                             <div class="nagrada">
-                                                <label>
-                                                    <img src="img/sc1.png" alt="..."></label>
+                                                <img src="img/sc1.png" alt="...">
                                                 <img src="img/sc1.png" alt="...">
                                                 <img src="img/sc1.png" alt="...">
                                                 <img src="img/sc1.png" alt="...">
@@ -193,46 +250,107 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- Raiting frame -->
+        <div class="col-8 small col-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-1 small">
+                            <img src="img/cup.png" width="54px" height="54px"></div>
+                        <div class="col-4 small">
+                            <h3><b>TOP PLAYERS</b></h3>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>№
+                            </th>
+                            <th>Score
+                            </th>
+                            <th>Players
+                            </th>
+                            <th>Groups
+                            </th>
+                            <th>Goals</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>11223</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-2 small">
+                                        <a href=""> <img src="img/account.png" width="36px"
+                                                         height="48px"
+                                                         alt="no photo"></a>
+                                    </div>
+                                    <div class="col-6 small">
+                                        <a href="" style="font-size: 16px">Maksut Tolen</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>EN3_XX</td>
+
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>9043</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-2 small">
+                                        <a href=""> <img src="img/account.png" width="36px"
+                                                         height="48px"
+                                                         alt="no photo"></a>
+                                    </div>
+                                    <div class="col-6 small">
+                                        <a href="" style="font-size: 16px">Ahmetova Akjarkin</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>EN2_XX</td>
+
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>8444</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-2 small">
+                                        <a href=""> <img src="img/account.png" width="36px"
+                                                         height="48px"
+                                                         alt="no photo"></a>
+                                    </div>
+                                    <div class="col-6 small">
+                                        <a href="" style="font-size: 16px">Ahmetova Akjarkin</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>EN2_XX</td>
+
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+
+</div>
+</div>
 </div>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.js"></script>
-
+<script src="js/slick.min.js"></script>
 <script type="text/javascript" src="../../project/js/flotr2.min.js"></script>
-<script>
-    $("a[role=link]").click(function () {
-        var name = $(this).attr("name");
-        console.clear();
-        $("a[role=link]").each(function () {
-            $(this).removeClass().removeClass().addClass("list-group-item");
-            console.log("CON");
-        });
-        $(this).addClass("active");
-        if (name == 'Home') {
-        } else if (name == 'Profile') {
-        } else if (name == 'Messages') {
-        }
-    });
-    setInterval("basic()", 250);
-    function basic() {
-        var element = document.getElementById("container");
-        var d1 = [], i, graph;
-
-        for (i = 0; i < 10; i += 1) {
-            d1.push([i, Math.random(i) * 100]);
-        }
-        graph = Flotr.draw(element, [d1], {
-            title: "Статистика",
-            xaxis: {
-                minorTickFreq: 4
-            },
-            grid: {
-                minorVerticalLines: false
-            }
-        });
-    }
-</script>
+<script type="text/javascript" src="js/student_js.js"></script>
 </body>
 </html>
