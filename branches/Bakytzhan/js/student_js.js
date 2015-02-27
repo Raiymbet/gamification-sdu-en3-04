@@ -7,16 +7,19 @@ $("a[role=link]").click(function () {
     });
     $(this).addClass("active");
     if (name == 'Home') {
-        $("#main-frame").show("fast");
-        $("#nagrada-frame").hide("fast");
+        $("#main-frame").fadeIn("fast");
+        $("#nagrada-frame").fadeOut("fast");
+        $("#raiting-frame").fadeOut("fast");
         activate = 0;
     } else if (name == 'Profile') {
-        $("#main-frame").hide("fast");
-        $("#nagrada-frame").show("fast");
+        $("#main-frame").fadeOut("fast");
+        $("#nagrada-frame").fadeIn("fast");
+        $("#raiting-frame").fadeOut("fast");
         activate = 1;
     } else if (name == 'Messages') {
-        $("#nagrada-frame").hide("fast");
-        $("#main-frame").hide("fast");
+        $("#nagrada-frame").fadeOut("fast");
+        $("#main-frame").fadeOut("fast");
+        $("#raiting-frame").fadeIn("fast");
         activate = 2;
     }
 });
