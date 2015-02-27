@@ -4,21 +4,27 @@
     margin: 8px auto;
 }
 
+/* * * * *Nagrada frame* * * * * */
 .nagrada {
     display: inline;
     margin-left: 20%;
+    padding: 16px;
+    margin-bottom: 10px;
 }
 
 .nagrada img {
     width: 64px;
     height: 64px;
     text-align: center;
-    padding: 8px;
+    padding: 12px;
     transition: .5s;
 }
 
 .nagrada img:hover {
+    width: 67px;
+    height: 67px;
     border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 100%;
     transition: .5s;
 }
 
@@ -29,5 +35,44 @@
 }
 
 .carousel-indicators {
-    bottom: -70px;
+    bottom: -20px;
+}
+
+.carousel-indicators li {
+    border: 1px solid #808080;
+}
+
+.carousel-indicators .active {
+    background-color: #269abc;
+}
+
+/* * * * *Raiting frame* * * * * */
+a {
+    text-decoration: none;
+}
+
+.arrow {
+    content: url("img/up_arrow.png");
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+}
+
+.arrow:hover {
+    content: url("img/up_arrow_disable.png");
+}
+
+.arrow_down {
+    content: url("img/down_arrow.png");
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+}
+
+.arrow_down:hover {
+    content: url("img/down_arrow_disable.png");
+}
+
+th {
+    font-size: 16px;
 }
