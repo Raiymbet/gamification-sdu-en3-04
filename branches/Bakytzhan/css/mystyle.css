@@ -80,3 +80,29 @@ th {
     margin-top: 20px;
     font-size: 18px
 }
+
+.question {
+    font-size: 16px;
+    color: #464646;
+    alignment: center;
+    margin-left: 8px;
+    margin-top: 8px;
+
+}
+.answers_item {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    background-color: #357ebd;
+    color: #ffffff;
+    font-size: 24px;
+    padding:4px;
+    margin:4px;
+    margin-left:8px;
+    transition:.5s;
+}
+.answers_item:hover{
+    background-color: #ffff00;
+    transition:.5s;color:#000000;
+    cursor: pointer;
+    /*Сделать текст не выделямым*/
+}
