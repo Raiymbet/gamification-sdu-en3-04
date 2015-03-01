@@ -88,29 +88,28 @@
     <div class="row">
         <div class="col-7 col-offset-2">
             <div class="panel panel-default">
-                <div class="question">
-                    Что означает ООП?
+                <div class="question" id="que">
+                    <!-- Здесь задается вопрос -->
                 </div>
-
                 <div style="margin-top:50px"></div>
                 <div class="row">
-                    <div class="col-11 col-offset-1 text-center">
-                        <div class="col-5 answers_item">
-                            Вариант А
-                        </div>
-                        <div class="col-5 answers_item">
-                            Вариант Б
-                        </div>
+                    <div class="col-11 answers_item" id="ANS1" name="1">
+                        Вариант А
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-11 col-offset-1 text-center">
-                        <div class="col-5 answers_item">
-                            Вариант В
-                        </div>
-                        <div class="col-5 answers_item">
-                            Вариант Г
-                        </div>
+                    <div class="col-11 answers_item" name="2" id="ANS2">
+                        Вариант Б
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-11 answers_item" name="3" id="ANS3">
+                        Вариант В
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-11 col-offset-1 answers_item" name="4" id="ANS4">
+                        Вариант Г
                     </div>
                 </div>
                 <div style="margin-top:50px"></div>
@@ -123,6 +122,21 @@
 <script>
     time = $("#time");
     time_limit = 900;
+    $.ajax({
+        type: "POST",
+        url: "getQuestion.php",
+        cache: false,
+        success: function (response) {
+            var json = $.parseJSON(response);
+            $("#ANS1").html(json.ANS1);
+            $("#ANS2").html(json.ANS2);
+            $("#ANS3").html(json.ANS3);
+            $("#ANS4").html(json.ANS4);
+          $("#que").html(json.Question);
+        }
+    });
+    correct_answer = 0;
+    $()
     var Timer = setInterval(function () {
         if (time_limit < 1) {
             //Stopping game;
@@ -139,7 +153,7 @@
             time.text((minuts < 10 ? "0" + minuts : minuts) + " " + (seconds < 10 ? "0" + seconds : seconds));
         }
     }, 1);
-    total_question=10;
+    total_question = 10;
 </script>
 </body>
 </html>
