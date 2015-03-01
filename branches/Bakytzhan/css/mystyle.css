@@ -92,17 +92,25 @@ th {
 .answers_item {
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    background-color: #357ebd;
+    background-color: #428bca;
     color: #ffffff;
-    font-size: 24px;
+    font-size: 16px;
     padding:4px;
     margin:4px;
     margin-left:8px;
     transition:.5s;
 }
 .answers_item:hover{
-    background-color: #ffff00;
+    background-color: #a6e1ec;
     transition:.5s;color:#000000;
+    cursor: pointer;
+    /*Сделать текст не выделямым*/
+}
+
+.answers_item:active{
+    background-color: #00ec25;
+    transition:.2s;
+    color:#ffffff;
     cursor: pointer;
     /*Сделать текст не выделямым*/
 }

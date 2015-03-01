@@ -1,0 +1,10 @@
+<?php
+$url = "localhost";
+$user = "root";
+$password = "";
+$DB = "test";
+$con = mysqli_connect($url, $user, $password, $DB) or die("Connection error");
+mysqli_query($con, 'set names utf8');
+mysqli_query($con, 'set character_set_server=utf8');
+header("Content-Type: text/html; charset=utf-8");
+?>
