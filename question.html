@@ -93,24 +93,24 @@
                 </div>
                 <div style="margin-top:50px"></div>
                 <div class="row">
-                    <div class="col-11 answers_item" id="ANS1" name="1">
+                    <p class="col-11 answers_item" id="ANS1" name="1" onclick="clickAnswer(this)">
                         Вариант А
-                    </div>
+                    </p>
                 </div>
                 <div class="row">
-                    <div class="col-11 answers_item" name="2" id="ANS2">
+                    <p class="col-11 answers_item" name="2" id="ANS2" onclick="clickAnswer(this)">
                         Вариант Б
-                    </div>
+                    </p>
                 </div>
                 <div class="row">
-                    <div class="col-11 answers_item" name="3" id="ANS3">
+                    <p class="col-11 answers_item" name="3" id="ANS3" onclick="clickAnswer(this)">
                         Вариант В
-                    </div>
+                    </p>
                 </div>
                 <div class="row">
-                    <div class="col-11 col-offset-1 answers_item" name="4" id="ANS4">
+                    <p class="col-11 col-offset-1 answers_item" name="4" id="ANS4" onclick="clickAnswer(this)">
                         Вариант Г
-                    </div>
+                    </p>
                 </div>
                 <div style="margin-top:50px"></div>
             </div>
@@ -122,21 +122,7 @@
 <script>
     time = $("#time");
     time_limit = 900;
-    $.ajax({
-        type: "POST",
-        url: "getQuestion.php",
-        cache: false,
-        success: function (response) {
-            var json = $.parseJSON(response);
-            $("#ANS1").html(json.ANS1);
-            $("#ANS2").html(json.ANS2);
-            $("#ANS3").html(json.ANS3);
-            $("#ANS4").html(json.ANS4);
-          $("#que").html(json.Question);
-        }
-    });
     correct_answer = 0;
-    $()
     var Timer = setInterval(function () {
         if (time_limit < 1) {
             //Stopping game;
@@ -153,7 +139,44 @@
             time.text((minuts < 10 ? "0" + minuts : minuts) + " " + (seconds < 10 ? "0" + seconds : seconds));
         }
     }, 1);
+    current_question = 0;
     total_question = 10;
+    question_id = 0;
+    function clickAnswer(item) {
+        var selected = item.getAttribute("name");
+        var ans = $("#ANS" + selected + "").removeClass("answers_item");
+        if (ans.text() == correct_answer) {
+            ans.addClass("correct");
+        } else {
+            ans.addClass("incorrect");
+        }
+        console.log(ans.text() + " : " + correct_answer);
+    }
+    function nextQuestion(ID) {
+        $.ajax({
+            type: "POST",
+            url: "getQuestion.php",
+            data: {ID: ID},
+            cache: false,
+            success: function (response) {
+                var json = $.parseJSON(response);
+                console.log(json);
+                current_question = json.ID;
+                $("#ANS1").html(json.ANS1);
+                $("#ANS2").html(json.ANS2);
+                $("#ANS3").html(json.ANS3);
+                $("#ANS4").html(json.ANS4);
+                $("#que").html(json.Question);
+                array=new Array()
+               // array = [json.ANS1, json.ANS1, json.ANS3, json.ANS4];
+
+                correct_answer = $("#ANS" + json.CORRECT).text();
+           //     console.log(array);
+            }
+        });
+    }
+   // array = array();
+    nextQuestion(1);
 </script>
 </body>
 </html>
