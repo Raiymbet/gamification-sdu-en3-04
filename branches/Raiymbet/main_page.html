@@ -30,11 +30,11 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">О нас </a></li>
-                <li><a href="#">Разделы</a></li>
-                <li><a href="#">Комментарий</a></li>
-                <li><a href="#">Помощь</a></li>
-                <li><a href="#">Контакты</a></li>
+                <li><a href="#about">О нас </a></li>
+                <li><a href="#pages">Разделы</a></li>
+                <li><a href="#comments">Комментарий</a></li>
+                <li><a href="#helps">Помощь</a></li>
+                <li><a href="#contacts">Контакты</a></li>
 
             </ul>
         </div>
@@ -44,7 +44,7 @@
 </nav>
 
 <div class="container" style="margin-top: 70px">
-    <div class="row">
+    <div class="row" id="#aboust">
         <div class="carousel slide" data-ride="carousel" id="carousel-example-generic" data-interval="3000">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -146,20 +146,26 @@
 <footer class="footer" style="background-color: #d8d6f4;padding-bottom: 20px;padding-top: 20px">
     <div class="container">
         <div class="row">
-            <div class="col-3" >
+            <div class="col-2">
                 <h3>Navigation</h3>
 
-                <p>О нас</p>
-                <p>Разделы</p>
-                <p>Комментарий</p>
-                <p>Помощь</p>
+                <p><a href="#about">О нас</a></p>
+
+                <p><a href="#pager">Разделы</a></p>
+
+                <p><a href="#comments">Комментарий</a></p>
+
+                <p><a href="#help">Помощь</a></p>
+
+                <p><a href="#contacts">Контакты</a></p>
             </div>
-            <div class="col-3 col-offset-1">
+            <div class="col-2">
                 <h3>About</h3>
 
-                <p>Rhja sahbd ksa sakjbd asbdksankdsajbd dbja
-                    sjdanok asnd sadk kjasnd sadksajdn asknd ksand
-                    asdn ksand lkansdknakmladk djandklna uidhadnk</p>
+                <p>t is a long established fact that a reader will be distracted by the readable content of a page when
+                    looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
+                    distribution of letters, as opposed to using 'Content here, content here', making it look like
+                    readable English. </p>
             </div>
 
             <div class="col-3">
@@ -171,18 +177,23 @@
 
                 <p>E-mail: SDU@sdu.edu.kz</p>
             </div>
+            <div class="col-3">
+
+                <div id="googleMap" style="width:500px;height:380px;"></div>
+            </div>
         </div>
     </div>
-
 </footer>
-<footer class="footer" style="width:100%;padding-bottom:8px;padding-top: 8px;background-color: #bcbcd7">
+<footer class="footer">
     <div class="container">
-        <span class="text-muted left"> © 2015 Gamers Team.</span>
-                <span class="text-muted right" style="float:right">Students of <a href="http://sdu.edu.kz"> Suleyman
+        <span class="text-info left"> © 2015 Gamers Team.</span>
+                <span class="text-info right" style="float:right">Students of <a href="http://sdu.edu.kz"> Suleyman
                     Demirel University</a></span>
     </div>
 </footer>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.min.js"></script>
+<script src="../../project/js/google_maps_api.js"></script>
+<script src="js/main_page.js"></script>
 </body>
 </html>
