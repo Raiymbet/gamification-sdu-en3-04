@@ -1,7 +1,18 @@
 
 .img-circle {
 
-}.img-circle:hover {
+}
+
+.img-circle:hover {
     transition: .5s;
     width: 500px;
+}
+.footer {
+    width: 100%;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    background-color: #bcbcd7;
+}
+.footer a{
+    text-decoration: none;
 }
