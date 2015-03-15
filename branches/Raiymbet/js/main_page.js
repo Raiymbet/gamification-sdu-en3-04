@@ -25,6 +25,15 @@ $(function () {
         };
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
-
     google.maps.event.addDomListener(window, 'load', initialize);
+
+    $(window).scroll( function(){
+        console.log($(this).scrollTop());
+        if($(this).scrollTop()>=85){
+            $("nav").addClass("my-nav-fixed")
+        }else{
+            $("nav").removeClass("my-nav-fixed")
+        }
+    });
+
 });
