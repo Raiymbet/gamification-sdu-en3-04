@@ -1,4 +1,30 @@
-
+#carousel-example-generic {
+    width: 100%;
+    height: 500px;
+}
+#images_carousel {
+    width: 100%;
+    height: 500px;
+}
+.carousel-control-fa-chevron {
+    margin-top: 220px;
+}
+.my-header {
+    width: 100%;
+    height: 10%;
+    background-color: #bcbcd7;
+}
+.container-header {
+    width: 100%;
+    height: 100%;
+    margin-left: 20px;
+}
+.img-header {
+    margin-top: 5px;
+    padding-bottom: 5px;
+    width: 70px;
+    height: 70px;
+}
 .img-circle {
 
 }
@@ -6,6 +32,10 @@
 .img-circle:hover {
     transition: .5s;
     width: 500px;
+}
+#content_news {
+    width: 100%;
+    height: 550px;
 }
 .footer {
     width: 100%;
