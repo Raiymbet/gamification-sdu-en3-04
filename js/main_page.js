@@ -1,22 +1,18 @@
 var current = "top";
 $(function () {
-    $(window).scroll(function(){
-       //console.log($(this).scrollTop());
+    $(window).scroll(function () {
+        //console.log($(this).scrollTop());
     });
-    current="about";
+    current = "about";
     $('a[href*=#]:not([href=#])').click(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
-            var target = $(this.hash);
-            $("#" + current+ "1").removeClass();
-            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-            var menu = this.hash.slice(1);
-            $("#" + menu + 1).addClass("active");
-            current = menu;
-            if (target.length==0) {
-                $("html,body").animate({
-                    scrollTop: target.pageY - 70
-                }, 1000);
-                return false;
+            var name = this.hash.slice(1);
+            var target = this.hash.slice(1) > 2 ? null : $('#' +name);
+            if (target != null) {
+                $("#" + current + "1").removeClass();
+                $("#" + name + "1").addClass("active");
+                current = name;
+                $("html, body").animate({scrollTop: target.offset().top - 60}, 1000);
             }
         }
     });
@@ -29,14 +25,11 @@ $(function () {
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
     google.maps.event.addDomListener(window, 'load', initialize);
-
-    $(window).scroll( function(){
-      //  console.log($(this).scrollTop());
-        if($(this).scrollTop()>=85){
-            $("nav").addClass("my-nav-fixed")
-        }else{
-            $("nav").removeClass("my-nav-fixed")
-        }
-    });
-
+});$(window).scroll(function () {
+    //  console.log($(this).scrollTop());
+    if ($(this).scrollTop() >= 85) {
+        $("nav").addClass("my-nav-fixed")
+    } else {
+        $("nav").removeClass("my-nav-fixed")
+    }
 });
