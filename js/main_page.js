@@ -1,17 +1,20 @@
 var current = "top";
 $(function () {
+    $(window).scroll(function(){
+       //console.log($(this).scrollTop());
+    });
+    current="about";
     $('a[href*=#]:not([href=#])').click(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
             var target = $(this.hash);
-
-            $("#" + current + 1 + "").attr("class", "");
+            $("#" + current+ "1").removeClass();
             target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
             var menu = this.hash.slice(1);
-            $("#" + menu + 1).attr("class", "checked");
+            $("#" + menu + 1).addClass("active");
             current = menu;
-            if (target.length) {
-                $('html,body').animate({
-                    scrollTop: target.offset().top - 70
+            if (target.length==0) {
+                $("html,body").animate({
+                    scrollTop: target.pageY - 70
                 }, 1000);
                 return false;
             }
@@ -28,7 +31,7 @@ $(function () {
     google.maps.event.addDomListener(window, 'load', initialize);
 
     $(window).scroll( function(){
-        console.log($(this).scrollTop());
+      //  console.log($(this).scrollTop());
         if($(this).scrollTop()>=85){
             $("nav").addClass("my-nav-fixed")
         }else{
