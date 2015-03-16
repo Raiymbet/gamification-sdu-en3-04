@@ -8,7 +8,7 @@ $(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
             var name = this.hash.slice(1);
             var target = this.hash.slice(1) > 2 ? null : $('#' +name);
-            if (target != null) {
+            if (target) {
                 $("#" + current + "1").removeClass();
                 $("#" + name + "1").addClass("active");
                 current = name;
