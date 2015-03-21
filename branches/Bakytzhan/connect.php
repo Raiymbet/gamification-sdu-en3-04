@@ -2,7 +2,7 @@
 $url = "localhost";
 $user = "root";
 $password = "";
-$DB = "test";
+$DB = "db_gamification";
 $con = mysqli_connect($url, $user, $password, $DB) or die("Connection error");
 if (!$con) {
     $error = mysqli_connect_error();
