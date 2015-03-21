@@ -12,9 +12,24 @@ include_once 'connect.php';
 
 if (isset($_POST['submit'])) {
     $e_mail = $_POST['e_mail'];
-    $password = $_POST['password'];
+    $password = md5(md5($_POST['password']));
     $remember_checkbox = $_POST['remember_checkbox'];
-
-    $db_password = mysqli_query($con,'SELECT  FROM tb_student');
+    $query = mysqli_query($con, "SELECT * FROM tb_student WHERE email='$e_mail' and password='$password'");
+    if ($query and mysqli_num_rows($query) > 0) {
+        $row = mysqli_fetch_assoc($query);
+        $time = time() + 3600 * 24;
+        setcookie("id", $row['id'], $time);
+        setcookie("name", $row['name'], $time);
+        setcookie("surname", $row['surname'], $time);
+        setcookie("birthday", $row['birthday'], $time);
+        setcookie("group", $row['group_name'], $time);
+        setcookie("telephone", $row['phone_number'], $time);
+        setcookie("gender", $row['gender'], $time);
+        setcookie("photo_url", $row['photo_url'], $time);
+        setcookie("time", $time, $time);
+        echo mysqli_num_rows($query);
+    } else {
+        echo "Неправильный логин или пароль!";
+    }
 }
 ?>

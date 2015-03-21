@@ -23,13 +23,17 @@
                 <span class="text-info"> Surname : </span>
                 <input type="text" class="form-control" name="surname" required="">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="birthday">
                 <span class="text-info"> Birthday : </span>
                 <input type="date" class="form-control" name="birthday" required="">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="gender">
                 <span class="text-info"> Gender : </span>
-                <input type="text" class="form-control" name="gender" required="">
+                <select class="form-control" title="Choose your gender">
+                    <option></option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
             </div>
             <div class="form-group" id="email">
                 <span class="text-info"> E-mail : </span>
@@ -39,19 +43,30 @@
                    <span class="text-info"> Photo : </span>
                    <input type="url" class="form-control" name="photo_url">
                </div> -->
-            <div class="form-group">
+            <div class="form-group" id="telephone">
                 <span class="text-info"> Phone number : </span>
                 <input type="tel" class="form-control" name="phone_number">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="group_name">
                 <span class="text-info"> Group : </span>
-                <input type="text" class="form-control" name="group" required="">
+                <select class="form-control" title="Choose your group">
+                    <option>EN1_A_03</option>
+                    <option>EN1_B_03</option>
+                    <option>EN1_A_04</option>
+                    <option>EN1_B_04</option>
+                    <option>EN1_C_04</option>
+                    <option>EN1_D_04</option>
+                    <option>EN1_E_04</option>
+                    <option>EN1_F_04</option>
+                    <option>EN1_03(kz)</option>
+                    <option>EN1_04(kz)</option>
+                </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="password">
                 <span class="text-info"> Password : </span>
                 <input type="password" class="form-control" name="password" required="">
             </div>
-            <button type="submit" class="form-control" name="submit" disabled>Submit</button>
+            <button type="submit" class="form-control" name="submit">Submit</button>
         </form>
     </div>
 </div>
@@ -66,16 +81,29 @@
         } else {
             $("#name").removeClass('has-success').addClass('has-error');
         }
+    });
+    $("input[name=surname]").keyup( function (event) {
         //проверка фамилий пользователя
         var text_surname = $("input[name=surname]").val();
-        if (/^[a-zA-Z\- ]*$/.test(text_surname)) {
-            $("#surname").removeClass('has-error').addClass('has-success');
+        if (/^[a-zA-Z\- ]*$/.test(text_surname) && text_surname.length!=0) {
+            $("#surname").removeClass('has-error').addClass('has-success').addClass('has-feedback');
         } else {
             $("#surname").removeClass('has-success').addClass('has-error');
         }
+    });
+    $("input[name=e_mail]").keyup(function (event) {
         //проверка майла пользователя
-        var text_email = $("input[name=email]").val();
-        if (/^[a-zA-Z\- ]*$/.test(text_email)) {
+        var text_email = $("input[name=e_mail]").val();
+        if (/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(text_email) && text_email.length!=0) {
+            $("#email").removeClass('has-error').addClass('has-success');
+        } else {
+            $("#email").removeClass('has-success').addClass('has-error');
+        }
+    });
+    $("input[name=gender]").keyup(function (event) {
+        //проверка майла пользователя
+        var text_gender = $("input[name=gender]").val();
+        if (/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(text_email) && text_email.length!=0) {
             $("#email").removeClass('has-error').addClass('has-success');
         } else {
             $("#email").removeClass('has-success').addClass('has-error');
