@@ -14,7 +14,7 @@
 .border-left-solid {
     border-left: 1px solid #e4e4e4;
 }
-.col-md-3 {
+.my-col-md-3 {
     width: 23.8%;
     float: left;
     height: 400px;
@@ -24,11 +24,20 @@
     width: 100%;
     height: 30%;
     background-color: #ce8483;
+    border-radius: 5px;
+}
+.col-head-text {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #ffffff;
 }
 .col-content {
     width:100%;
     height: 70%;
     background-color: #999999;
+    border-radius: 5px;
 }
 .carousel-control-fa-chevron {
     margin-top: 220px;
