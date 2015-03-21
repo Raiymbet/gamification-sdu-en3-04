@@ -78,7 +78,7 @@
                     <td>
                         <p class="gold_text" style="color:blue" id="time">03:10</p></td>
                     <td>
-                        <p class="gold_text">2000</p>
+                        <p class="gold_text" name="score">0</p>
                     </td>
                 </tr>
                 </tbody>
@@ -123,6 +123,12 @@
     time = $("#time");
     time_limit = 900;
     correct_answer = 0;
+    score = 0;
+    current_question = 0;
+    total_question = 10;
+    question_id = 0;
+    total_info = null;
+    array_json = null;
     var Timer = setInterval(function () {
         if (time_limit < 1) {
             //Stopping game;
@@ -138,45 +144,70 @@
             var seconds = time_limit % 60;
             time.text((minuts < 10 ? "0" + minuts : minuts) + " " + (seconds < 10 ? "0" + seconds : seconds));
         }
-    }, 1);
-    current_question = 0;
-    total_question = 10;
-    question_id = 0;
+    }, 1000);
     function clickAnswer(item) {
         var selected = item.getAttribute("name");
         var ans = $("#ANS" + selected + "").removeClass("answers_item");
         if (ans.text() == correct_answer) {
             ans.addClass("correct");
+            score += array_json.level * 50;
+            $(".gold_text[name=score]").text(score);
         } else {
             ans.addClass("incorrect");
         }
+        setTimeout(function () {
+            if (current_question < total_question) {
+                cmp = total_info.question[current_question++];
+                nextQuestion(cmp);
+            } else {
+                window.open("finish.html?score=" + score, "_self");
+            }
+        }, 1000);
         console.log(ans.text() + " : " + correct_answer);
+    }
+    function init() {
+        $.ajax({
+            type: "POST",
+            url: "getQuestion.php",
+            data: {id: 3, q: 'init'},
+            cache: false,
+            success: function (response) {
+                time_limit = response.time_limit;
+                total_question = response.count;
+                total_info = response;
+                console.log(total_info);
+                if (total_question > 0) {
+                    nextQuestion(response.question[current_question++]);
+                }
+                response = null;
+            }
+        });
+
     }
     function nextQuestion(ID) {
         $.ajax({
             type: "POST",
             url: "getQuestion.php",
-            data: {ID: ID},
+            data: {id: ID, q: 'question'},
             cache: false,
             success: function (response) {
-                var json = $.parseJSON(response);
-                console.log(json);
-                current_question = json.ID;
-                $("#ANS1").html(json.ANS1);
-                $("#ANS2").html(json.ANS2);
-                $("#ANS3").html(json.ANS3);
-                $("#ANS4").html(json.ANS4);
-                $("#que").html(json.Question);
-                array=new Array()
-               // array = [json.ANS1, json.ANS1, json.ANS3, json.ANS4];
+                console.log(response.question);
+                array_json = response;
+                for (var i = 0; i < response.variants.length; i++) {
+                    $("#ANS" + (i + 1)).text(response.variants[i].answer)
+                            .removeClass("correct")
+                            .removeClass("incorrect")
+                            .addClass("answers_item");
 
-                correct_answer = $("#ANS" + json.CORRECT).text();
-           //     console.log(array);
+                    if (response.variants[i].correct == 1) {
+                        correct_answer = response.variants[i].answer;
+                    }
+                }
+                $("#que").text(response.question);
             }
         });
     }
-   // array = array();
-    nextQuestion(1);
+    init();
 </script>
 </body>
 </html>
