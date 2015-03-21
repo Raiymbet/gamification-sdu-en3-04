@@ -17,27 +17,27 @@
         <form class="form-horizontal" method="post" action="registration.php">
             <div class="form-group" id="name">
                 <span class="text-info"> Name : </span>
-                <input type="text" class="form-control" name="name" required="">
+                <input type="text" class="form-control" name="name" required="required">
             </div>
             <div class="form-group" id="surname">
                 <span class="text-info"> Surname : </span>
-                <input type="text" class="form-control" name="surname" required="">
+                <input type="text" class="form-control" name="surname" required="required">
             </div>
             <div class="form-group" id="birthday">
                 <span class="text-info"> Birthday : </span>
-                <input type="date" class="form-control" name="birthday" required="">
+                <input type="date" class="form-control" name="birthday" required="required">
             </div>
             <div class="form-group" id="gender">
                 <span class="text-info"> Gender : </span>
-                <select class="form-control" title="Choose your gender">
-                    <option></option>
+                <select class="form-control" name="gender" title="Choose your gender" required="required">
+                    <option hidden="hidden">Choose your gender</option>
                     <option>Male</option>
                     <option>Female</option>
                 </select>
             </div>
             <div class="form-group" id="email">
                 <span class="text-info"> E-mail : </span>
-                <input type="email" class="form-control for" name="e_mail" required="">
+                <input type="email" class="form-control for" name="e_mail" required="required">
             </div>
             <!--   <div class="form-group">
                    <span class="text-info"> Photo : </span>
@@ -49,7 +49,8 @@
             </div>
             <div class="form-group" id="group_name">
                 <span class="text-info"> Group : </span>
-                <select class="form-control" title="Choose your group">
+                <select class="form-control" name="group_name" title="Choose your group">
+                    <option hidden="hidden">Choose your group</option>
                     <option>EN1_A_03</option>
                     <option>EN1_B_03</option>
                     <option>EN1_A_04</option>
@@ -64,7 +65,7 @@
             </div>
             <div class="form-group" id="password">
                 <span class="text-info"> Password : </span>
-                <input type="password" class="form-control" name="password" required="">
+                <input type="password" class="form-control" name="password" required="required">
             </div>
             <button type="submit" class="form-control" name="submit">Submit</button>
         </form>
@@ -76,7 +77,7 @@
     $("input[name=name]").keyup(function (event) {
         //проверка имени пользователя
         var text_name = $("input[name=name]").val();
-        if (/^[a-zA-Z\- ]*$/.test(text_name)) {
+        if (/^[a-zA-Z\-]+${3,50}/.test(text_name) && text_name.length!=0) {
             $("#name").removeClass('has-error').addClass('has-success');
         } else {
             $("#name").removeClass('has-success').addClass('has-error');
@@ -85,7 +86,7 @@
     $("input[name=surname]").keyup( function (event) {
         //проверка фамилий пользователя
         var text_surname = $("input[name=surname]").val();
-        if (/^[a-zA-Z\- ]*$/.test(text_surname) && text_surname.length!=0) {
+        if (/^[a-zA-Z\- ]*${3,50}/.test(text_surname) && text_surname.length!=0) {
             $("#surname").removeClass('has-error').addClass('has-success').addClass('has-feedback');
         } else {
             $("#surname").removeClass('has-success').addClass('has-error');
@@ -100,15 +101,24 @@
             $("#email").removeClass('has-success').addClass('has-error');
         }
     });
-    $("input[name=gender]").keyup(function (event) {
-        //проверка майла пользователя
-        var text_gender = $("input[name=gender]").val();
-        if (/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(text_email) && text_email.length!=0) {
-            $("#email").removeClass('has-error').addClass('has-success');
+    $("input[name=password]").keyup(function (event) {
+        //проверка password пользователя
+        var text_password = $("input[name=password]").val();
+        if (/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$/.test(text_password) && text_password.length!=0) {
+            $("#password").removeClass('has-error').addClass('has-success');
         } else {
-            $("#email").removeClass('has-success').addClass('has-error');
+            $("#password").removeClass('has-success').addClass('has-error');
         }
     });
+    $("select[name=gender]").change(function () {
+        //проверка gender пользователя
+        $("#gender").addClass('has-success');
+    });
+    $("select[name=group_name]").change(function () {
+        //проверка group пользователя
+        $("#group_name").addClass('has-success');
+    });
+
 </script>
 </body>
 </html>

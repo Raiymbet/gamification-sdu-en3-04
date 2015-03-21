@@ -27,7 +27,16 @@ if (isset($_POST['submit'])) {
         setcookie("gender", $row['gender'], $time);
         setcookie("photo_url", $row['photo_url'], $time);
         setcookie("time", $time, $time);
-        echo mysqli_num_rows($query);
+        echo "Авторизация прошла успешно! Ваши данные:\n";
+        echo $_COOKIE['id'],"\n",
+        $_COOKIE['name'],"\n",
+        $_COOKIE['surname'] ,"\n",
+        $_COOKIE['birthday'],"\n",
+        $_COOKIE['group'],"\n",
+        $_COOKIE['telephone'],"\n",
+        $_COOKIE['gender'],"\n",
+        $_COOKIE['photo_url'],"\n",
+        $_COOKIE['time'];
     } else {
         echo "Неправильный логин или пароль!";
     }
