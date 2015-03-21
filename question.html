@@ -73,10 +73,10 @@
                 <tbody>
                 <tr>
                     <td>
-                        <p class="gold_text" style="color:green"> 2/10</p>
+                        <p class="gold_text" style="color:green" name="ques">2/10</p>
                     </td>
                     <td>
-                        <p class="gold_text" style="color:blue" id="time">03:10</p></td>
+                        <p class="gold_text" style="color:blue" id="time">00:00</p></td>
                     <td>
                         <p class="gold_text" name="score">0</p>
                     </td>
@@ -158,6 +158,7 @@
         setTimeout(function () {
             if (current_question < total_question) {
                 cmp = total_info.question[current_question++];
+                $(".gold_text[name=ques]").text(current_question + "/" + total_question);
                 nextQuestion(cmp);
             } else {
                 window.open("finish.html?score=" + score, "_self");
@@ -178,6 +179,7 @@
                 console.log(total_info);
                 if (total_question > 0) {
                     nextQuestion(response.question[current_question++]);
+                    $(".gold_text[name=ques]").text(current_question + "/" + total_question);
                 }
                 response = null;
             }
