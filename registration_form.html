@@ -13,45 +13,74 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-horizontal" method="post" action="registration.php">
-        <div class="form-group">
-            <span class="text-info"> Name : </span>
-            <input type="text" class="form-control" name="name">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Surname : </span>
-            <input type="text" class="form-control" name="surname">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Birthday : </span>
-            <input type="date" class="form-control" name="birthday">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Gender : </span>
-            <input type="text" class="form-control" name="gender">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> E-mail : </span>
-            <input type="email" class="form-control" name="e_mail">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Photo : </span>
-            <input type="url" class="form-control" name="photo_url">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Phone number : </span>
-            <input type="tel" class="form-control" name="phone_number">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Group : </span>
-            <input type="text" class="form-control" name="group">
-        </div>
-        <div class="form-group">
-            <span class="text-info"> Password : </span>
-            <input type="password" class="form-control" name="password">
-        </div>
-        <button type="submit" name="submit">Submit</button>
-    </form>
+    <div class="col-4">
+        <form class="form-horizontal" method="post" action="registration.php">
+            <div class="form-group" id="name">
+                <span class="text-info"> Name : </span>
+                <input type="text" class="form-control" name="name" required="">
+            </div>
+            <div class="form-group" id="surname">
+                <span class="text-info"> Surname : </span>
+                <input type="text" class="form-control" name="surname" required="">
+            </div>
+            <div class="form-group">
+                <span class="text-info"> Birthday : </span>
+                <input type="date" class="form-control" name="birthday" required="">
+            </div>
+            <div class="form-group">
+                <span class="text-info"> Gender : </span>
+                <input type="text" class="form-control" name="gender" required="">
+            </div>
+            <div class="form-group" id="email">
+                <span class="text-info"> E-mail : </span>
+                <input type="email" class="form-control for" name="e_mail" required="">
+            </div>
+            <!--   <div class="form-group">
+                   <span class="text-info"> Photo : </span>
+                   <input type="url" class="form-control" name="photo_url">
+               </div> -->
+            <div class="form-group">
+                <span class="text-info"> Phone number : </span>
+                <input type="tel" class="form-control" name="phone_number">
+            </div>
+            <div class="form-group">
+                <span class="text-info"> Group : </span>
+                <input type="text" class="form-control" name="group" required="">
+            </div>
+            <div class="form-group">
+                <span class="text-info"> Password : </span>
+                <input type="password" class="form-control" name="password" required="">
+            </div>
+            <button type="submit" class="form-control" name="submit" disabled>Submit</button>
+        </form>
+    </div>
 </div>
+<script src="../../project/js/jquery-1.10.2.js"></script>
+<script src="../../project/js/bootstrap.js"></script>
+<script>
+    $("input[name=name]").keyup(function (event) {
+        //проверка имени пользователя
+        var text_name = $("input[name=name]").val();
+        if (/^[a-zA-Z\- ]*$/.test(text_name)) {
+            $("#name").removeClass('has-error').addClass('has-success');
+        } else {
+            $("#name").removeClass('has-success').addClass('has-error');
+        }
+        //проверка фамилий пользователя
+        var text_surname = $("input[name=surname]").val();
+        if (/^[a-zA-Z\- ]*$/.test(text_surname)) {
+            $("#surname").removeClass('has-error').addClass('has-success');
+        } else {
+            $("#surname").removeClass('has-success').addClass('has-error');
+        }
+        //проверка майла пользователя
+        var text_email = $("input[name=email]").val();
+        if (/^[a-zA-Z\- ]*$/.test(text_email)) {
+            $("#email").removeClass('has-error').addClass('has-success');
+        } else {
+            $("#email").removeClass('has-success').addClass('has-error');
+        }
+    });
+</script>
 </body>
 </html>

@@ -20,26 +20,44 @@ if (isset($_POST['submit'])) {
     $group = htmlspecialchars($_POST['group']);
     $password = md5(md5(htmlspecialchars($_POST['password'])));
 
+    //check all information
+    if(!isset($_POST['name']) || empty($_POST['name'])){
+        echo "Name is required";
+    }
     //checking password
     if (!preg_match("/^[a-zA-Z0-9]+$/", $password)) {
         $err[] = "Password shall consists of lower and upper case, numbers";
-    }
-    if (strlen($password) < 6 or strlen($password) > 32) {
-        $err[] = "Password length shall be between 6-32";
+    } else if (strlen($password) < 8 or strlen($password) > 100) {
+        $err[] = "Password length shall be between 8-100";
     }
 
     //checking user on db
-    $count_user = mysqli_query($con, "SELECT COUNT(email) FROM tb_student WHERE email='" . mysql_real_escape_string($email) . "'");
-    if ($count_user > 0) {
+    $count_user = mysqli_query($con, "SELECT COUNT(email) as COUNT FROM tb_student WHERE email='$email'");
+    $row = mysqli_fetch_assoc($count_user);
+    if ($row['COUNT'] > 0) {
         $err[] = "User already exists on database";
     }
+    $row = null;
 
     //if no error we can register user
+    $user = 'student';
     if (count($err) == 0) {
-        mysqli_query($con, "INSERT INTO tb_student VALUES ('','$name','$surname','$password','$birthday','$gender'
-                                                    ,'$email','$photo','$tel','$group')") or die(mysql_error());
+        if ($user == 'student') {
+            mysqli_query($con, "
+            INSERT INTO tb_student (name, surname, password, birthday, gender, email, photo_url, phone_number, group_name)
+            VALUES ('$name', '$surname', '$password', '$birthday', '$gender', '$email', '$photo', '$tel','$group')") or die(mysqli_error($con));
+        } else if ($user == 'teacher') {
+            mysqli_query($con, "INSERT INTO tb_teacher('name','surname','password','birthday','gender','email','photo_url','phone_number')
+                                        VALUES('$name','$surname','$password','$birthday','$gender','$email','$photo','$tel')") or die(mysqli_error($con));
+        }
+        echo "Name: $name \n";
+        echo "Surname: $surname \n";
+        echo "Password: $password \n";
     } else {
-        echo "$err";
+        print "<b>При регистрация произошло ошибка</b><br>";
+        foreach ($err AS $error) {
+            print $error . "<br>";
+        }
     }
 }
 ?>

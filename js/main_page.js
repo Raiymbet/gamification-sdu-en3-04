@@ -7,7 +7,7 @@ $(function () {
     $('a[href*=#]:not([href=#])').click(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
             var name = this.hash.slice(1);
-            var target = this.hash.slice(1) > 2 ? null : $('#' +name);
+            var target = this.hash.slice(1) > 2 ? null : $('#' + name);
             if (target) {
                 $("#" + current + "1").removeClass();
                 $("#" + name + "1").addClass("active");
@@ -24,12 +24,15 @@ $(function () {
         };
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     }
+
     google.maps.event.addDomListener(window, 'load', initialize);
-});$(window).scroll(function () {
-    //  console.log($(this).scrollTop());
-    if ($(this).scrollTop() >= 85) {
-        $("nav").addClass("my-nav-fixed")
-    } else {
-        $("nav").removeClass("my-nav-fixed")
-    }
+
+    $(window).scroll(function () {
+        //  console.log($(this).scrollTop());
+        if ($(this).scrollTop() >= 85) {
+            $("nav").addClass("my-nav-fixed")
+        } else {
+            $("nav").removeClass("my-nav-fixed")
+        }
+    });
 });
