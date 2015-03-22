@@ -33,6 +33,7 @@ if (isset($_POST['submit'])) {
 
     //checking user on db
     $count_user = mysqli_query($con, "SELECT COUNT(email) as COUNT FROM tb_student WHERE email='$email'");
+    mysqli_close($con);
     $row = mysqli_fetch_assoc($count_user);
     if ($row['COUNT'] > 0) {
         $err[] = "User already exists on database";
@@ -45,10 +46,30 @@ if (isset($_POST['submit'])) {
         if ($user == 'student') {
             mysqli_query($con, "
             INSERT INTO tb_student (name, surname, password, birthday, gender, email, photo_url, phone_number, group_name)
-            VALUES ('$name', '$surname', '$password', '$birthday', '$gender', '$email', '$photo', '$tel','$group')") or die(mysqli_error($con));
+            VALUES ('$name',
+                    '$surname',
+                    '$password',
+                    '$birthday',
+                    '$gender',
+                    '$email',
+                    '$photo',
+                    '$tel',
+                    '$group')")
+            or die(mysqli_error($con));
+            mysqli_close($con);
         } else if ($user == 'teacher') {
-            mysqli_query($con, "INSERT INTO tb_teacher('name','surname','password','birthday','gender','email','photo_url','phone_number')
-                                        VALUES('$name','$surname','$password','$birthday','$gender','$email','$photo','$tel')") or die(mysqli_error($con));
+            mysqli_query($con,
+            "INSERT INTO tb_teacher(name, surname, password, birthday, gender, email, photo_url, phone_number)
+            VALUES( '$name',
+                    '$surname',
+                    '$password',
+                    '$birthday',
+                    '$gender',
+                    '$email',
+                    '$photo',
+                    '$tel')")
+            or die(mysqli_error($con));
+            mysqli_close($con);
         }
         echo "Name: $name \n";
         echo "Surname: $surname \n";
