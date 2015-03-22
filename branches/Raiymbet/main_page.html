@@ -33,9 +33,9 @@
                 <li id="helps1"><a href="#helps">Помощь</a></li>
                 <li id="contacts1"><a href="#contacts">Контакты</a></li>
             </ul>
-            <ul class=" nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">
                 <li class="border-left-solid">
-                    <a href="#" role="button">Create new account</a>
+                    <a href="#" role="button">Create account</a>
                 </li>
                 <li class="dropdown border-left-solid">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
@@ -58,6 +58,24 @@
                                             <input id="check_box" type="checkbox" name="remember_checkbox">Remember me
                                         </div>
                                         <div class="form-group">
+                                            <span style="text-align: center">Who are you?</span>
+                                            <div class="btn-group-vertical">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="student" name="checkbox_user">
+                                                        Student
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="teacher" name="checkbox_user">
+                                                        Teacher
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
                                             <button type="submit" style="float: right;" class="btn btn-success">Sign
                                                 in
                                             </button>
@@ -70,11 +88,11 @@
                 </li>
             </ul>
 
-            <form class="navbar-form navbar-right">
+            <form class="navbar-form navbar-right form-inline">
                 <div class="form-group">
-                    <input class="form-control" type="search" placeholder="Search">
+                        <input class="form-control" type="search" placeholder="Search">
                 </div>
-                <button type="submit" class="fa fa-search fa-1x"></button>
+                <button class="fa fa-search"></button>
             </form>
         </div>
         <!-- /.navbar-collapse -->
