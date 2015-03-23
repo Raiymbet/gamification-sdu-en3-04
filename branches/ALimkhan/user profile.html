@@ -51,7 +51,7 @@
         <div class="col-10" style="background-color: #ffffff ; border: solid 1px ">
             <div class="well-sm">
                 <fieldset>
-                    <legend class="text-primary page-header text-center" ; style="font-size: xx-large">User profile
+                    <legend class="text-primary page-header text-center" style="font-size: xx-large">User profile
                     </legend>
                 </fieldset>
             </div>
@@ -62,7 +62,7 @@
             <div class="col-6">
                 <div class="row" style="border: solid 1px">
                     <div class="col-1 col-offset-8">
-                        <img class="delete_icon" onclick="myFunction()" width="20" height="20">
+                        <img class="delete_icon" name="delete" onclick="myFunction()" width="20" height="20">
                     </div>
                 </div>
                 <div class="row" style="border: solid 1px">
@@ -78,19 +78,20 @@
                     </div>
                 </div>
 
-                <div class="row" style="margin:10px ; border: solid 1px">
-                    <div class="col-10 col-offset-1">
-                        <button class="btn btn-info" style="margin-left:100px">Принять</button>
-                    </div>
-                </div>
             </div>
             <div class="col-6" style="background-color:#ffffff;border: solid 1px #fff">
                 <div class="row" style="border: solid 1px">
-                    <div class="col-6" style="border: solid 1px">
+                    <div class="col-4" style="border: solid 1px">
                         <p class="text-primary" style="font-size: large; margin-top: 20px"><b>Personal info</b></p>
 
                     </div>
-                    <div class="col-4" style="border: solid 1px"><i class="fa fa-pencil"></i> Edit</div>
+                    <div class="col-4 col-offset-3" style="border: solid 1px">
+                        <p role="button" class="text-muted ch " id="edit" style="font-size: small"><i class="fa fa-pencil"></i> Edit
+                        </p>
+                    </div>
+                    <div class="col-5 col-offset-3" style="border: solid 1px">
+                        <p class="text-muted ch"><i class="fa fa-key"></i>Change password</p>
+                    </div>
                 </div>
                 <div class="row" style="border: solid 1px">
                     <div class="col-6">
@@ -116,7 +117,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label class="left">
-                            Email:<input class="form-control" value="alimkhan.dossymbetov@mail.ru" disabled>
+                            Email:<input class="form-control" name="email" value="alimkhan.dossymbetov@mail.ru" >
                         </label>
                     </div>
                 </div>
@@ -127,8 +128,15 @@
                         </label>
                     </div>
                 </div>
+                <div class="row" style="margin:10px ; border: solid 1px">
+                    <div class="col-10 col-offset-1" id="submit">
+                        <button class="btn btn-primary">Сохранить</button>
+                    </div>
+                </div>
             </div>
+
         </div>
+
 
     </div>
 </div>
@@ -136,8 +144,11 @@
 <script src="../../project/js/bootstrap.js"></script>
 
 <script>
+    $("#edit").onclick(function(){
+       $("email").removeAttribute('disabled');
+    });
+    $("#submit")
     function readURL(input) {
-
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -147,6 +158,9 @@
             };
 
             reader.readAsDataURL(input.files[0]);
+            $(".delete_icon").css({"visibility": "visible"});
+            $("#submit").css({"visibility": "visible"});
+
         }
     }
     function myFunction() {
