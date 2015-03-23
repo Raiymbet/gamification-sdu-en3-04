@@ -1,4 +1,5 @@
 <?php
+
 function check_user($con)
 {
     if (!isset($_COOKIE['id']) || empty($_COOKIE['id'])) {
@@ -30,6 +31,20 @@ function check_user($con)
             }
         }
 
+    }
+}
+
+function getUserData()
+{
+    session_start();
+    if (isset($_COOKIE['id'])) {
+        $json = array('id' => $_COOKIE['id'], 'name' => $_COOKIE['name'], 'surname' => $_COOKIE['surname'], 'birthday' => $_COOKIE['birthday'], 'group' => $_COOKIE['group'], 'telephone' => $_COOKIE['telephone'], 'gender' => $_COOKIE['gender'], 'photo_url' => $_COOKIE['photo_url'], 'time' => $_COOKIE['time']);
+        echo json_encode($json, JSON_UNESCAPED_UNICODE);
+    } else if (isset($_SESSION['id'])) {
+        $json = array('id' => $_SESSION['id'], 'name' => $_SESSION['name'], 'surname' => $_SESSION['surname'], 'birthday' => $_SESSION['birthday'], 'group' => $_SESSION['group'], 'telephone' => $_SESSION['telephone'], 'gender' => $_SESSION['gender'], 'photo_url' => $_SESSION['photo_url'], 'time' => $_SESSION['time']);
+        echo json_encode($json, JSON_UNESCAPED_UNICODE);
+    } else {
+        header("Location: main_page.html?problems=auth");
     }
 }
 
