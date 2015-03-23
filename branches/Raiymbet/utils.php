@@ -1,5 +1,5 @@
 <?php
-
+getUserData();
 function check_user($con)
 {
     if (!isset($_COOKIE['id']) || empty($_COOKIE['id'])) {
@@ -37,6 +37,7 @@ function check_user($con)
 function getUserData()
 {
     session_start();
+    header("Content-Type: application/json; charset=utf-8");
     if (isset($_COOKIE['id'])) {
         $json = array('id' => $_COOKIE['id'], 'name' => $_COOKIE['name'], 'surname' => $_COOKIE['surname'], 'birthday' => $_COOKIE['birthday'], 'group' => $_COOKIE['group'], 'telephone' => $_COOKIE['telephone'], 'gender' => $_COOKIE['gender'], 'photo_url' => $_COOKIE['photo_url'], 'time' => $_COOKIE['time']);
         echo json_encode($json, JSON_UNESCAPED_UNICODE);

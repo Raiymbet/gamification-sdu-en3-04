@@ -55,28 +55,10 @@
                                                    name="password">
                                         </div>
                                         <div class="form-group">
-                                            <input id="check_box" type="checkbox" name="remember_checkbox">Remember me
+                                            <input id="check_box" type="checkbox" value="false" name="remember_checkbox">Remember me
                                         </div>
                                         <div class="form-group">
-                                            <span style="text-align: center">Who are you?</span>
-                                            <div class="btn-group-vertical">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" value="student" name="checkbox_user">
-                                                        Student
-                                                    </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" value="teacher" name="checkbox_user">
-                                                        Teacher
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" style="float: right;" class="btn btn-success">Sign
+                                            <button type="submit" name="submit" style="float: right;" class="btn btn-success">Sign
                                                 in
                                             </button>
                                         </div>
@@ -186,27 +168,36 @@
     </div>
     <!-- Content news about tournaments -->
     <div class="row">
+        <div class="">
+            <span class="fa fa-chevron-left"></span>
+        </div>
         <div class="panel-collapse" id="content_news">
-            <div class="col-md-3 my-col-md-3">
-                <div class="col-head"><span>August 27</span></div>
+            <div class="my-col-md-3">
+                <div class="col-head col-head-text">
+                    <span>August 27</span>
+                </div>
                 <div class="col-content"></div>
             </div>
-            <div class="col-md-3 my-col-md-3">
+
+            <div class="my-col-md-3">
                 <div class="col-head">
                     <div class="col-head-text">
-                        <span>Jule 18</span>
+                        <span>July 18</span>
                     </div>
                 </div>
                 <div class="col-content"></div>
             </div>
-            <div class="col-md-3 my-col-md-3">
-                <div class="col-head"></div>
+
+            <div class="my-col-md-3">
+                <div class="col-head col-head-text">
+                    <span>August 31</span>
+                </div>
                 <div class="col-content"></div>
             </div>
-            <div class="col-md-3 my-col-md-3">
-                <div class="col-head"></div>
-                <div class="col-content"></div>
-            </div>
+        </div>
+
+        <div class="">
+            <span class="fa fa-chevron-right"></span>
         </div>
     </div>
 </div>
