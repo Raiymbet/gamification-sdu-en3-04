@@ -1,0 +1,139 @@
+#container {
+    width: 500px;
+    height: 250px;
+    margin: 8px auto;
+}
+
+/* * * * *Nagrada frame* * * * * */
+.nagrada {
+    display: inline;
+    margin-left: 20%;
+    padding: 16px;
+    margin-bottom: 10px;
+}
+
+.nagrada img {
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    padding: 12px;
+    transition: .5s;
+}
+
+.nagrada img:hover {
+    width: 67px;
+    height: 67px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 100%;
+    transition: .5s;
+}
+
+.carousel-controls {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.carousel-indicators {
+    bottom: -20px;
+}
+
+.carousel-indicators li {
+    border: 1px solid #808080;
+}
+
+.carousel-indicators .active {
+    background-color: #269abc;
+}
+
+/* * * * *Raiting frame* * * * * */
+a {
+    text-decoration: none;
+}
+
+th {
+    font-size: 16px;
+}
+
+#nagrada-frame {
+    display: none;
+}
+
+#raiting-frame {
+    display: none;
+}
+
+.gold_text {
+    margin-top: 14px;
+    font-size: 32px;
+    color: gold;
+    text-shadow: 1px 1px white;
+}
+
+.raiting_item img {
+    width: 48px;
+    height: 48px;
+    margin-top: 10px
+}
+
+.raiting_item p {
+    margin-top: 20px;
+    font-size: 18px
+}
+
+.question {
+    font-size: 16px;
+    color: #464646;
+    alignment: center;
+    margin-left: 8px;
+    margin-top: 8px;
+
+}
+
+.answers_item {
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    background-color: #2196F3;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 4px;
+    margin: 4px;
+    margin-left: 8px;
+    transition: .5s;
+    cursor: pointer;
+}
+
+.answers_item:hover {
+    background-color: #2196F3;
+    border: 2px solid rgba(0, 0, 0, 1);
+    transition: .5s;
+    /*Сделать текст не выделямым*/
+}
+
+.correct {
+
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 4px;
+    margin: 4px;
+    margin-left: 8px;
+    transition: .5s;
+    background-color: #4CAF50;
+}
+
+
+.incorrect {
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 4px;
+    margin: 4px;
+    margin-left: 8px;
+    transition: .5s;
+    background-color: #F44336;
+}
