@@ -1,7 +1,7 @@
 <?php
 if (isset($_COOKIE['login_user'])) {
-    setcookie('login_user', 'bigbaak', time() + (3600*24*3));
+    $time = time() - 3600 * 24;
+    setcookie('login_user', 'bigbaak', $time);
 }
-header("index.html");
-//Здесь дополняешь значение, который хранятся в cookie.Абсолютно все
+header("Location: main_page.html");
 ?>
