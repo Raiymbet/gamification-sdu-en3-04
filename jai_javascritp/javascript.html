@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<p>Click this is image you have change </p>
+<img src="lampa_off.gif" id="changeImg" onclick="ChangeImg()">
+<script>
+    function ChangeImg() {
+        var image = document.getElementById("changeImg");
+        if (image.src.match("lampa_off.gif")) {
+            image.src = "lampa_on.gif";
+        } else {
+            image.src = "lampa_off.gif";
+        }
+
+
+    }
+</script>
+
+<p id="changetxtsize">Click this is text and change text size</p>
+<button id="button" onclick="ChangeButton()">Change Text size</button>
+<script>
+    function ChangeButton() {
+        var button = document.getElementById("button");
+        var txt = document.getElementById("changetxtsize");
+        button.style.color = "green";
+        txt.style.fontSize = "60px";
+        if (txt.style.fontSize = "60px") {
+            txt.style.color = "red";
+        }
+    }
+    function Changetext() {
+        var t = document.getElementById("changetext");
+        t.innerHTML = "Change this is text";
+        t.style.color = "red";
+
+    }
+    function Aertmassag() {
+
+        alert("Save change");
+    }
+    function InputChange() {
+        var input = document.getElementById("inputs");
+        input.getElementById("inputs").style.display=false;
+
+
+    }
+
+</script>
+<p id="changetext" onclick="Changetext()">Change.</p>
+
+<button id="aertmassag" onclick="Aertmassag()">Sava change</button>
+
+<p>This is example input type change</p>
+<input id="inputs" placeholder="name" type="text" disabled>
+<button onclick="InputChange()">click me change input</button>
+</body>
+</html>
