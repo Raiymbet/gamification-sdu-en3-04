@@ -38,6 +38,7 @@ if (isset($_POST['q'])) {
       a.id             AS id_question,
       a.question       AS question,
       a.level_question AS level,
+      a.type_question as type,
       c.id             AS id,
       c.text           AS text,
       c.correct        AS correct
@@ -50,7 +51,8 @@ if (isset($_POST['q'])) {
                     $array = array(
                         'id_question' => $row['id_question'],
                         'level' => $row['level'],
-                        'question' => $row['question']);
+                        'question' => $row['question'],
+                        'type' => $row['type']);
                     array_push($variants, array('answer' => $row['text'], 'correct' => $row['correct'], 'id' => $row['id']));
                 }
                 $array['variants'] = $variants;

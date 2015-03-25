@@ -175,3 +175,26 @@ th {
     transition:.10s;
     color: #1b3b4c;
 }
+
+#ul_for_answer {
+    list-style-type: none;
+    margin-top: 15%;
+}
+
+#ul_for_answer li {
+    margin: 0 5px 5px 5px;
+    padding: 10px;
+}
+
+html > body #ul_for_answer li {
+    height: 3em;
+    width: 3em;
+    display: inline;
+    line-height: 1.2em;
+}
+
+.ui-state-highlight {
+    line-height: 1.2em;
+    background-color: #269abc;
+    border-radius: 0.3em;
+}

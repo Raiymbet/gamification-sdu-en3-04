@@ -1,5 +1,4 @@
 <?php
-
 function check_user($con)
 {
     if (!isset($_COOKIE['id']) || empty($_COOKIE['id'])) {
@@ -49,4 +48,7 @@ function getUserData()
     }
 }
 
+if (isset($_POST['q']) && $_POST['q'] == 'getUserData()') {
+    getUserData();
+}
 ?>

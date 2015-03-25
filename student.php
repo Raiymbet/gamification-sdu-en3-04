@@ -22,6 +22,19 @@
 </style>
 <body>
 <?php
+include_once 'utils.php';
+include_once 'connect.php';
+//Для пробный проверки достаточные эти данные
+setcookie("id", "1", time() + 3600);
+setcookie("name", "Raiymbet", time() + 3600);
+setcookie("email", "tukpetov@bk.ru", time() + 3600);
+setcookie("photo_url", "person_1.png", time() + 3600);
+if (check_user($con) == True) {
+    printf("<script>console.log('Пользователь найден ... OK')</script>");
+} else {
+    header("Location: main_page.html");
+}
+mysqli_close($con);
 require_once 'nav.php';
 ?>
 <div class="container">

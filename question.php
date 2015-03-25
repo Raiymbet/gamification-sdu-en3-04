@@ -39,7 +39,6 @@ require_once 'nav.php';
 ?>
 <div class="container">
     <div class="row">
-
         <div style="margin-top:50px"></div>
         <div class="col-7 col-offset-2">
             <table class="table table-bordered text-center">
@@ -65,7 +64,12 @@ require_once 'nav.php';
             </table>
         </div>
     </div>
-    <div class="row">
+    <!-- Каждый тип вопроса буду звать как type_1
+        type_1 - > Обычный вопрос
+        type_2 - > Вопрос с разбросанным ответом
+
+     -->
+    <div class="row" id="type_1">
         <div class="col-7 col-offset-2">
             <div class="panel panel-default">
                 <div class="question" id="que" style="margin-bottom: 50px">
@@ -95,9 +99,24 @@ require_once 'nav.php';
             </div>
         </div>
     </div>
+    <div class="row" id="type_2">
+        <div class="col-7 col-offset-2">
+            <div class="panel panel-default">
+                <div class="question" id="p_for_question" style="margin-bottom: 50px">
+                    <!-- Здесь задается вопрос -->
+                </div>
+                <div class="col-11 col-offset-1">
+                    <ul id="ul_for_answer"></ul>
+                </div>
+                <button id="finish" class="btn btn-danger" style="margin-left: 70%">Next >>></button>
+                <div style="margin-top:50px"></div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
 <script>
     time = $("#time");
     time_limit = 900;
@@ -108,6 +127,9 @@ require_once 'nav.php';
     question_id = 0;
     total_info = null;
     array_json = null;
+    $("#ul_for_answer").sortable({
+        placeholder: "ui-state-highlight"
+    }).disableSelection();
     var Timer = setInterval(function () {
         var minuts, seconds;
         if (time_limit < 1) {
@@ -180,21 +202,80 @@ require_once 'nav.php';
             success: function (response) {
                 console.log(response.question);
                 array_json = response;
-                for (var i = 0; i < response.variants.length; i++) {
-                    $("#ANS" + (i + 1)).text(response.variants[i].answer)
+                     if (response.type == 1) {
+                    for (var i = 0; i < response.variants.length; i++) {
+                        $("#ANS" + (i + 1)).text(response.variants[i].answer)
                             .removeClass("correct")
                             .removeClass("incorrect")
                             .addClass("answers_item");
-
-                    if (response.variants[i].correct == 1) {
-                        correct_answer = response.variants[i].answer;
+                        if (response.variants[i].correct == 1) {
+                            correct_answer = response.variants[i].answer;
+                        }
                     }
+                    $("#type_1").fadeIn("fast");
+                    $("#type_2").fadeOut("fast");
+                    $("#que").text(response.question);
+                } else {
+                    type2_question(response.question, response.variants[0].answer);
+                    $("#type_1").fadeOut("fast");
+                    $("#type_2").fadeIn("fast");
                 }
-                $("#que").text(response.question);
             }
         });
     }
     init();
+    questions = "hello World";
+    answers = "Kenguru";
+    shuffle = "";
+    var index_question_answer = 0;
+    var random_array = [];
+    function type2_question(question, answer) {
+        questions = question;
+        answers = answer;
+        convert_question();
+        set_random_int(answers.length, random_array);
+        convert_answer();
+    }
+    function convert_question() {
+        $("#p_for_question").text(questions);
+    }
+    function convert_answer() {
+        for (var i = 0; i < answers.length; i++) {
+            $("#ul_for_answer").append("<li class='btn btn-info'>" + answers[random_array[i]] + "</li>");
+            shuffle += answers[random_array[i]];
+        }
+    }
+    function set_random_int(length_of_answer, array) {
+        array[0] = get_random();
+        console.log(length_of_answer);
+        for (var i = 1; i < length_of_answer; i++) {
+            a = get_random();
+            if (!dont_have(a, array)) {
+                array.push(a);
+            } else
+                i--;
+        }
+    }
+    function get_random(length_of_answer) {
+        return Math.floor(Math.random() * length_of_answer);
+    }
+    function dont_have(a, array) {
+        var have = false;
+        for (var i = 0; i < array.length; i++) {
+            if (a == array[i]) {
+                have = true;
+            }
+        }
+        return have;
+    }
+    $("#finish").click(function () {
+        cmp = total_info.question[current_question++];
+        $(".gold_text[name=ques]").text(current_question + "/" + total_question);
+        if (shuffle == answers) {
+            score += array_json.level * 50;
+        }
+        nextQuestion(cmp);
+    });
 </script>
 </body>
 </html>
