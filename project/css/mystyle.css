@@ -67,6 +67,7 @@ th {
     margin-top: 14px;
     font-size: 32px;
     color: gold;
+    font-weight: 900;
     text-shadow: 1px 1px white;
 }
 
@@ -98,7 +99,7 @@ th {
     font-size: 16px;
     padding: 4px;
     margin: 4px;
-    margin-left: 8px;
+    margin-left: 24px;
     transition: .5s;
     cursor: pointer;
 }
@@ -136,4 +137,64 @@ th {
     margin-left: 8px;
     transition: .5s;
     background-color: #F44336;
+}
+
+/*finish.style*/
+
+.nagrada-finish img {
+    width: 24px;
+    height: 24px;
+}
+
+.nagrada-finish span {
+    margin-left: 30%;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 4px
+}
+
+.fd_text {
+    font-size: 16px;
+}
+
+.nagrada-finish h3 {
+    color: gold;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-weight: 600;
+}
+
+.nagrada-finish .player_name {
+    margin-left: 42px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+.img-circle{
+    cursor: pointer;
+}
+.player_name:hover {
+    transition:.10s;
+    color: #1b3b4c;
+}
+
+#ul_for_answer {
+    list-style-type: none;
+    margin-top: 15%;
+}
+
+#ul_for_answer li {
+    margin: 0 5px 5px 5px;
+    padding: 10px;
+}
+
+html > body #ul_for_answer li {
+    height: 3em;
+    width: 3em;
+    display: inline;
+    line-height: 1.2em;
+}
+
+.ui-state-highlight {
+    line-height: 1.2em;
+    background-color: #269abc;
+    border-radius: 0.3em;
 }

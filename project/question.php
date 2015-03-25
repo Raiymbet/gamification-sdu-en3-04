@@ -6,9 +6,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Student page</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/stylish-portfolio.css" rel="stylesheet" media="screen">
     <link href="css/mystyle.css" rel="stylesheet" media="screen">
     <!-- Add custom CSS here -->
     <!--
@@ -116,7 +116,7 @@ require_once 'nav.php';
 </div>
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="../../project/js/jquery-ui.js"></script>
+<script src="js/jquery-ui.js"></script>
 <script>
     time = $("#time");
     time_limit = 900;
@@ -202,7 +202,8 @@ require_once 'nav.php';
             success: function (response) {
                 console.log(response.question);
                 array_json = response;
-                     if (response.type == 1) {
+                console.log(response.type);
+                if (response.type == 1) {
                     for (var i = 0; i < response.variants.length; i++) {
                         $("#ANS" + (i + 1)).text(response.variants[i].answer)
                             .removeClass("correct")
@@ -255,19 +256,20 @@ require_once 'nav.php';
             } else
                 i--;
         }
-    }
-    function get_random(length_of_answer) {
-        return Math.floor(Math.random() * length_of_answer);
-    }
-    function dont_have(a, array) {
-        var have = false;
-        for (var i = 0; i < array.length; i++) {
-            if (a == array[i]) {
-                have = true;
-            }
+        function get_random() {
+            return Math.floor(Math.random() * length_of_answer);
         }
-        return have;
+        function dont_have(a, array) {
+            var have = false;
+            for (var i = 0; i < array.length; i++) {
+                if (a == array[i]) {
+                    have = true;
+                }
+            }
+            return have;
+        }
     }
+
     $("#finish").click(function () {
         cmp = total_info.question[current_question++];
         $(".gold_text[name=ques]").text(current_question + "/" + total_question);
