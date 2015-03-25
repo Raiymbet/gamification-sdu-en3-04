@@ -20,11 +20,22 @@
         padding-top: 70px;
     }
 </style>
-
 <body>
-
 <?php
-require_once 'nav.html';
+include_once 'utils.php';
+include_once 'connect.php';
+//Для пробный проверки достаточные эти данные
+setcookie("id", "1", time() + 3600);
+setcookie("name", "Raiymbet", time() + 3600);
+setcookie("email", "tukpetov@bk.ru", time() + 3600);
+setcookie("photo_url", "person_1.png", time() + 3600);
+if (check_user($con) == True) {
+    printf("<script>console.log('Пользователь найден ... OK')</script>");
+} else {
+    header("Location: main_page.html");
+}
+mysqli_close($con);
+require_once 'nav.php';
 ?>
 <div class="container">
     <div class="row">
@@ -38,7 +49,6 @@ require_once 'nav.html';
                     <th class="text-center">Limit</th>
                     <th class="text-center">Score</th>
                 </tr>
-
                 </thead>
                 <tbody>
                 <tr>
@@ -58,17 +68,16 @@ require_once 'nav.html';
     <div class="row">
         <div class="col-7 col-offset-2">
             <div class="panel panel-default">
-                <div class="question" id="que">
+                <div class="question" id="que" style="margin-bottom: 50px">
                     <!-- Здесь задается вопрос -->
                 </div>
-                <div style="margin-top:50px"></div>
                 <div class="row">
                     <p class="col-11 answers_item" id="ANS1" name="1" onclick="clickAnswer(this)">
                         Вариант А
                     </p>
                 </div>
                 <div class="row">
-                    <p class="col-11 answers_item" name="2" id="ANS2" onclick="clickAnswer(this)">
+                    <p class="col-11 col-offset-1 answers_item" name="2" id="ANS2" onclick="clickAnswer(this)">
                         Вариант Б
                     </p>
                 </div>
@@ -100,19 +109,26 @@ require_once 'nav.html';
     total_info = null;
     array_json = null;
     var Timer = setInterval(function () {
+        var minuts, seconds;
         if (time_limit < 1) {
             //Stopping game;
-            //window.open("over.html", "_self");
             time.text("00:00");
+            setTimeout(function () {
+                window.open("finish.php?score=" + score, "_self");
+            }, 1200);
             clearInterval(Timer);
         } else if (time_limit % 2 == 0) {
-            var minuts = Math.round(--time_limit / 60);
-            var seconds = time_limit % 60;
+            minuts = Math.round(--time_limit / 60);
+            seconds = time_limit % 60;
             time.text((minuts < 10 ? "0" + minuts : minuts) + ":" + (seconds < 10 ? "0" + seconds : seconds));
         } else if (time_limit % 2 == 1) {
-            var minuts = Math.round(--time_limit / 60);
-            var seconds = time_limit % 60;
+            minuts = Math.round(--time_limit / 60);
+            seconds = time_limit % 60;
             time.text((minuts < 10 ? "0" + minuts : minuts) + " " + (seconds < 10 ? "0" + seconds : seconds));
+        }
+        //Если время игры осталось меньше 10 секунд
+        if (time_limit <= 10) {
+            time.css({"color": "red"});
         }
     }, 1000);
     function clickAnswer(item) {
@@ -131,7 +147,7 @@ require_once 'nav.html';
                 $(".gold_text[name=ques]").text(current_question + "/" + total_question);
                 nextQuestion(cmp);
             } else {
-                window.open("finish.html?score=" + score, "_self");
+                window.open("finish.php?score=" + score, "_self");
             }
         }, 1000);
         console.log(ans.text() + " : " + correct_answer);
@@ -140,7 +156,7 @@ require_once 'nav.html';
         $.ajax({
             type: "POST",
             url: "getQuestion.php",
-            data: {id: 3, q: 'init'},
+            data: {id: 1, q: 'init'},
             cache: false,
             success: function (response) {
                 time_limit = response.time_limit;
@@ -154,7 +170,6 @@ require_once 'nav.html';
                 response = null;
             }
         });
-
     }
     function nextQuestion(ID) {
         $.ajax({
