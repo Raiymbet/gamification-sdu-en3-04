@@ -90,41 +90,47 @@
                         </p>
                     </div>
                     <div class="col-5 col-offset-3" style="border: solid 1px">
-                        <p class="text-muted ch"><i class="fa fa-key"></i>Change password</p>
+                        <!-- Button trigger modal -->
+                        <p type="button" class="text-muted ch " data-toggle="modal" data-target="#myModal"><i
+                                class="fa fa-key"></i>Change password</p>
                     </div>
                 </div>
                 <div class="row" style="border: solid 1px">
                     <div class="col-6">
                         <label class="left">First name:
-                            <input class="form-control" value="Alimkhan" size="30" disabled>
+                            <input class="form-control" placeholder="Alimkhan"size="30" disabled>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label class="left">
-                            Last name:<input class="form-control" value="Dossymbetov" size="30" disabled>
+                            Last name:<input class="form-control" disabled placeholder="Dossymbetov" size="30">
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label class="left">
-                            Group name:<input class="form-control" value="EN3_04(kz)" size="30" disabled>
+                            Group name:<input class="form-control" placeholder="EN3_04(kz)" size="30" disabled>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label class="left">
-                            Email:<input class="form-control" name="email" value="alimkhan.dossymbetov@mail.ru" >
+                            Email:<input class="form-control" id="email" placeholder="alimkhan.dossymbetov@mail.ru"
+                                         disabled>
                         </label>
                     </div>
                 </div>
                 <div class="row">
+
+
                     <div class="col-6">
                         <label class="left">
-                            Phone number:<input class="form-control" value="+77788866826" disabled>
+                            Phone number: <input id="phone" class="form-control" placeholder="+77788866826" size="30"
+                                                 disabled>
                         </label>
                     </div>
                 </div>
@@ -142,12 +148,19 @@
 </div>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.js"></script>
-
 <script>
-    $("#edit").onclick(function(){
-       $("email").removeAttribute('disabled');
+    $("#edit").click(function () {
+        $("input").each(function () {
+            var id = $(this).attr("id");
+            if (id != 'imgInp') {
+                $(this).attr({"disabled": !$(this).attr("disabled")});
+            }
+        });
+
+        $("#submit").css({"visibility": "visible"});
     });
-    $("#submit")
+    $("#submit");
+    console.log($("#phone"));
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -169,7 +182,59 @@
     $("#imgInp").change(function () {
         readURL(this);
     });
+function Changesave(){
+    alert("Save change")
+}
+
 </script>
+
+
+<!-- Modal -->
+<div class="modal fade  bs-example-modal-sm " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></p>
+                <h4 class="modal-title text-primary" id="myModalLabel ">Change password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-offset-1">Current password:</label>
+                            <div class="input-group col-4 col-offset-1" >
+                                <span class="input-group-addon">
+                                <i class="fa fa-unlock"></i>
+                                </span>
+                               <input class="form-control" placeholder=" Give old address" size="30">
+                            </div>
+                            <label class="col-offset-1">New password:</label>
+                            <div class="input-group col-4 col-offset-1">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-unlock"></i>
+                                </span>
+                                <input class="form-control" placeholder="Give new password" size="30">
+                            </div>
+                            <label class="col-offset-1">Kaitala password</label>
+                            <div class="input-group col-4 col-offset-1">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-unlock"></i>
+                                </span>
+                                <input class="form-control" placeholder="Give kaitala password">
+                            </div>
+                        </div>
+                    </form>
+                   </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button onclick="Changesave()" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
