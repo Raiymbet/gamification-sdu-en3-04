@@ -22,7 +22,7 @@
 </style>
 <body>
 <?php
-require_once 'nav.html';
+require_once 'nav.php';
 ?>
 <div class="container">
     <div class="row">
