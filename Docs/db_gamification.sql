@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
--- Хост: 127.0.0.1
--- Время создания: Мар 21 2015 г., 18:33
--- Версия сервера: 5.6.20
--- Версия PHP: 5.5.15
+-- Хост: localhost
+-- Время создания: Мар 26 2015 г., 11:35
+-- Версия сервера: 5.6.21
+-- Версия PHP: 5.5.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,7 +32,14 @@ CREATE TABLE IF NOT EXISTS `tb_groups` (
   `teacher_id` int(11) NOT NULL,
   `secret_code` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
   `category` varchar(4) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `tb_groups`
+--
+
+INSERT INTO `tb_groups` (`id`, `title`, `teacher_id`, `secret_code`, `category`) VALUES
+(1, 'IT GAMERS', 1, 'XFDS', 'IT');
 
 -- --------------------------------------------------------
 
@@ -47,7 +54,14 @@ CREATE TABLE IF NOT EXISTS `tb_group_students` (
   `approved` int(11) NOT NULL,
   `date_request` date NOT NULL COMMENT 'время запроса',
   `date_approved` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `tb_group_students`
+--
+
+INSERT INTO `tb_group_students` (`id`, `id_groups`, `id_student`, `approved`, `date_request`, `date_approved`) VALUES
+(1, 1, 1, 1, '2015-03-05', '2015-03-07');
 
 -- --------------------------------------------------------
 
@@ -59,8 +73,20 @@ CREATE TABLE IF NOT EXISTS `tb_questions` (
 `id` int(11) NOT NULL,
   `id_tournament` int(11) NOT NULL,
   `question` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `type_question` int(11) NOT NULL,
   `level_question` varchar(20) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `tb_questions`
+--
+
+INSERT INTO `tb_questions` (`id`, `id_tournament`, `question`, `type_question`, `level_question`) VALUES
+(1, 1, 'Что такое SQL?', 1, '3'),
+(2, 1, 'Найдите метод сортировки данных?', 1, '3'),
+(3, 1, 'Какой язык программирование Python?', 1, '2'),
+(4, 1, 'Сколько битов имеет тип boolean?', 1, '1'),
+(5, 1, '? - выявление и устранение ошибок в программах', 2, '2');
 
 -- --------------------------------------------------------
 
@@ -79,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `tb_student` (
   `photo_url` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `phone_number` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `group_name` varchar(10) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Дамп данных таблицы `tb_student`
@@ -88,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `tb_student` (
 INSERT INTO `tb_student` (`id`, `name`, `surname`, `password`, `birthday`, `gender`, `email`, `photo_url`, `phone_number`, `group_name`) VALUES
 (1, 'Raiymbet', 'Tukpetov', '2ac683870d5aa948f983b97337b700ce', '0000-00-00', 'm', 'tukpetov@bk.ru', 'image.jpg', '87755472936', 'EN3_04kz'),
 (2, 'Raiymbet', 'Tukpetov', '2ac683870d5aa948f983b97337b700ce', '0000-00-00', 'm', 'tukpessstov@bk.ru', 'image.jpg', '87755472936', 'EN3_04kz'),
-(3, 'Raika', 'Adrahman', 'd9b1d7db4cd6e70935368a1efb10e377', '2015-03-01', 'F', 'tukpetov@mail.ru', '', '87755472936', '');
+(3, 'Raika', 'Adrahman', 'd9b1d7db4cd6e70935368a1efb10e377', '2015-03-01', 'F', 'tukpetov@mail.ru', 'image.jpg', '87755472936', '');
 
 -- --------------------------------------------------------
 
@@ -104,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `tb_student_result` (
   `time_end` int(11) NOT NULL,
   `percent_correct` int(11) NOT NULL,
   `datetime` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -122,7 +148,14 @@ CREATE TABLE IF NOT EXISTS `tb_teacher` (
   `phone_number` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `gender` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
   `photo_url` varchar(200) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `tb_teacher`
+--
+
+INSERT INTO `tb_teacher` (`id`, `name`, `surname`, `password`, `birthday`, `email`, `phone_number`, `gender`, `photo_url`) VALUES
+(1, 'Test', 'Teacher', '12345', '2015-03-03', 'test@com.com', '+77020322', 'M', 'image.jpg');
 
 -- --------------------------------------------------------
 
@@ -142,7 +175,14 @@ CREATE TABLE IF NOT EXISTS `tb_tournaments` (
   `when_closed` datetime NOT NULL,
   `public` tinyint(1) NOT NULL,
   `description` varchar(500) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `tb_tournaments`
+--
+
+INSERT INTO `tb_tournaments` (`id`, `title`, `id_groups`, `id_teacher`, `datetime_added`, `time_limit`, `status`, `when_opened`, `when_closed`, `public`, `description`) VALUES
+(1, 'Season tour', 1, 1, '2015-03-07 00:00:00', 30, 'yes', '2015-03-26 00:00:00', '2015-03-31 00:00:00', 1, 'Its test games. Please, dont be worry');
 
 -- --------------------------------------------------------
 
@@ -155,104 +195,127 @@ CREATE TABLE IF NOT EXISTS `tb_variants` (
   `id_question` int(11) NOT NULL,
   `correct` tinyint(1) NOT NULL,
   `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Indexes for dumped tables
+-- Дамп данных таблицы `tb_variants`
+--
+
+INSERT INTO `tb_variants` (`id`, `id_question`, `correct`, `text`) VALUES
+(1, 1, 0, 'Сервер'),
+(2, 1, 0, 'Метод хранение данных'),
+(3, 1, 1, 'База данных'),
+(4, 1, 0, 'Формат файла'),
+(5, 2, 0, 'JSON'),
+(6, 2, 0, 'XML'),
+(7, 2, 1, 'Bubble'),
+(8, 2, 0, 'USB'),
+(9, 3, 0, 'Процедурный'),
+(10, 3, 0, 'Скриптовый'),
+(11, 3, 1, 'Интерпретатор'),
+(12, 3, 0, 'Ассоицативные'),
+(13, 4, 1, '1'),
+(16, 4, 0, '2'),
+(17, 4, 0, '16'),
+(18, 4, 0, '8'),
+(19, 5, 1, 'ОТЛАДКА');
+
+--
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `tb_groups`
+-- Индексы таблицы `tb_groups`
 --
 ALTER TABLE `tb_groups`
  ADD PRIMARY KEY (`id`), ADD KEY `teacher_id` (`teacher_id`);
 
 --
--- Indexes for table `tb_group_students`
+-- Индексы таблицы `tb_group_students`
 --
 ALTER TABLE `tb_group_students`
  ADD PRIMARY KEY (`id`), ADD KEY `fk_groups` (`id_groups`), ADD KEY `id_student` (`id_student`);
 
 --
--- Indexes for table `tb_questions`
+-- Индексы таблицы `tb_questions`
 --
 ALTER TABLE `tb_questions`
  ADD PRIMARY KEY (`id`), ADD KEY `fk_questions_to_tournament` (`id_tournament`);
 
 --
--- Indexes for table `tb_student`
+-- Индексы таблицы `tb_student`
 --
 ALTER TABLE `tb_student`
  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `tb_student_result`
+-- Индексы таблицы `tb_student_result`
 --
 ALTER TABLE `tb_student_result`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_teacher`
+-- Индексы таблицы `tb_teacher`
 --
 ALTER TABLE `tb_teacher`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tb_tournaments`
+-- Индексы таблицы `tb_tournaments`
 --
 ALTER TABLE `tb_tournaments`
  ADD PRIMARY KEY (`id`), ADD KEY `fk_tournaments_to_groups` (`id_groups`), ADD KEY `id_teacher` (`id_teacher`);
 
 --
--- Indexes for table `tb_variants`
+-- Индексы таблицы `tb_variants`
 --
 ALTER TABLE `tb_variants`
  ADD PRIMARY KEY (`id`), ADD KEY `fk_variant_to_questions` (`id_question`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `tb_groups`
+-- AUTO_INCREMENT для таблицы `tb_groups`
 --
 ALTER TABLE `tb_groups`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `tb_group_students`
+-- AUTO_INCREMENT для таблицы `tb_group_students`
 --
 ALTER TABLE `tb_group_students`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `tb_questions`
+-- AUTO_INCREMENT для таблицы `tb_questions`
 --
 ALTER TABLE `tb_questions`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT for table `tb_student`
+-- AUTO_INCREMENT для таблицы `tb_student`
 --
 ALTER TABLE `tb_student`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `tb_student_result`
+-- AUTO_INCREMENT для таблицы `tb_student_result`
 --
 ALTER TABLE `tb_student_result`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tb_teacher`
+-- AUTO_INCREMENT для таблицы `tb_teacher`
 --
 ALTER TABLE `tb_teacher`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `tb_tournaments`
+-- AUTO_INCREMENT для таблицы `tb_tournaments`
 --
 ALTER TABLE `tb_tournaments`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `tb_variants`
+-- AUTO_INCREMENT для таблицы `tb_variants`
 --
 ALTER TABLE `tb_variants`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
