@@ -122,8 +122,8 @@ require_once 'nav.php';
                     </div>
                 </div>
                 <div class="row" style="margin:10px">
-                    <div class=" col-10 col-offset-1" id="submit">
-                        <button class="btn btn-primary">Сохранить</button>
+                    <div class=" col-10 col-offset-1">
+                        <button id="submit" class="btn btn-primary">Сохранить</button>
                     </div>
                 </div>
             </div>
@@ -133,32 +133,42 @@ require_once 'nav.php';
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/bootstrap.js"></script>
 <script>
+    lastResponse = "";
     $.ajax({
         type: "POST",
         url: "utils.php",
         data: {q: 'getUserData()'},
         cache: false,
         success: function (response) {
-            console.log(response);
             $("#phone").val(response.telephone);
             $("#email").val(response.email);
             $("#name").val(response.name);
             $("#surname").val(response.surname);
             $("#groupname").val(response.group);
             $("#alim").attr("src", "img/" + response.photo_url);
+            lastResponse = response;
         }
     });
+    editTurn = true;
     $("#edit").click(function () {
         $("input").each(function () {
             var id = $(this).attr("id");
             if (id != 'imgInp') {
+                editTurn = !$(this).attr("disabled");
                 $(this).attr({"disabled": !$(this).attr("disabled")});
+            }
+            if (editTurn) {
+                $("#submit").css({"visibility": "hidden"});
+                $("#phone").val(lastResponse.telephone);
+                $("#email").val(lastResponse.email);
+                $("#name").val(lastResponse.name);
+                $("#surname").val(lastResponse.surname);
+                $("#groupname").val(lastResponse.group);
             }
         });
         $("#submit").css({"visibility": "visible"});
     });
     $("#submit");
-    console.log($("#phone"));
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -173,11 +183,15 @@ require_once 'nav.php';
         }
     }
     function myFunction() {
-        alert("Delete photo");
+        $(".delete_icon").css({"visibility": "hidden"});
+        $("#submit").css({"visibility": "hidden"});
+        $('#alim').attr('src', lastResponse.photo_url);
+
     }
     $("#imgInp").change(function () {
         readURL(this);
     });
+
     function Changesave() {
         alert("Save change")
     }
@@ -202,7 +216,7 @@ require_once 'nav.php';
                                 <span class="input-group-addon">
                                 <i class="fa fa-unlock"></i>
                                 </span>
-                                <input class="form-control" placeholder=" Give old address" size="30">
+                                <input class="form-control" placeholder=" Give old password" size="30">
                             </div>
                             <label class="col-offset-1">New password:</label>
 
@@ -212,13 +226,13 @@ require_once 'nav.php';
                                 </span>
                                 <input class="form-control" placeholder="Give new password" size="30">
                             </div>
-                            <label class="col-offset-1">Kaitala password</label>
+                            <label class="col-offset-1">Comfirm password</label>
 
                             <div class="input-group col-4 col-offset-1">
                                 <span class="input-group-addon">
                                     <i class="fa fa-unlock"></i>
                                 </span>
-                                <input class="form-control" placeholder="Give kaitala password">
+                                <input class="form-control" placeholder="Repeat password">
                             </div>
                         </div>
                     </form>
