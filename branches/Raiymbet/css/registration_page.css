@@ -1,0 +1,59 @@
+/* Style text and images*/
+.navbar-text-style {
+    font-family: fantasy;
+    font-size: 20px;
+    color: #ffffff;
+    float: left;
+    margin: 15px 15px 10px 10px;
+}
+.img-header{
+    width: 48px;
+    height: 48px;
+}
+.home-text-style {
+    font-size: 20px;
+    font-family: sans-serif;
+    color: #ffffff;
+}
+
+.container-text-header {
+    text-align: center;
+}
+
+/* Style of contents*/
+.navbar-inverse {
+    background-color: #0099CC;
+}
+.navbar-inverse .navbar-nav > li >a{
+    color: #ffffff;
+}
+.navbar-inverse .navbar-nav > li >a:hover{
+    color: #5bc0de;
+}
+.navbar-inverse .navbar-nav > .open >a,
+.navbar-inverse .navbar-nav > .open >a:hover,
+.navbar-inverse .navbar-nav > .open >a:focus {
+    background-color: #0099CC;
+}
+.navbar-brand {
+    padding: 8px 8px;
+}
+
+.container-fluid-1-style {
+    background-color: #33B5E5;
+}
+
+.panel-style {
+    width: 50%;
+    height: 520px;
+    border: solid 5px #5bc0de;
+    margin-top: 20px;
+    margin-left: 5%;
+    background-color: #ffffff;
+}
+.form-teacher {
+    margin-top: 25px;
+}
+.submit {
+    float: right;
+}

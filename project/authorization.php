@@ -93,5 +93,4 @@ if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password
     /* Close connection */
     mysqli_close($con);
 }
-
 ?>

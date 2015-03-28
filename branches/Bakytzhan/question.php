@@ -255,19 +255,20 @@ require_once 'nav.php';
             } else
                 i--;
         }
-    }
-    function get_random(length_of_answer) {
-        return Math.floor(Math.random() * length_of_answer);
-    }
-    function dont_have(a, array) {
-        var have = false;
-        for (var i = 0; i < array.length; i++) {
-            if (a == array[i]) {
-                have = true;
-            }
+        function get_random() {
+            return Math.floor(Math.random() * length_of_answer);
         }
-        return have;
+        function dont_have(a, array) {
+            var have = false;
+            for (var i = 0; i < array.length; i++) {
+                if (a == array[i]) {
+                    have = true;
+                }
+            }
+            return have;
+        }
     }
+
     $("#finish").click(function () {
         cmp = total_info.question[current_question++];
         $(".gold_text[name=ques]").text(current_question + "/" + total_question);

@@ -36,6 +36,7 @@ if ((($_FILES["file"]["type"] == "image/png")
         move_uploaded_file($_FILES["file"]["tmp_name"],
             "upload/" . $_FILES["file"]["name"]);
     }
+
     $result = mysqli_query($con, "UPDATE tb_student SET photo_url='$filename' WHERE id=$id") or die("2");
     if (mysqli_num_rows($result) > 0) {
         //Комманда 2F:Что-то не так!
