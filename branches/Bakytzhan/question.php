@@ -19,6 +19,10 @@
     body {
         padding-top: 70px;
     }
+
+    div {
+        margin-top: 2px;
+    }
 </style>
 <body>
 <?php
@@ -37,10 +41,49 @@ if (check_user($con) == True) {
 mysqli_close($con);
 require_once 'nav.php';
 ?>
-<div class="container">
+<div style="margin-left: 20px">
     <div class="row">
         <div style="margin-top:50px"></div>
-        <div class="col-7 col-offset-2">
+        <div class="col-2" style="">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-3">
+                            <img src="img/person.png" style="width:48px;height: 48px" class="img img-circle">
+                        </div>
+                        <div class="col-8" style="margin-top: 4px">
+                            <a href="profile.php">Player1</a>
+
+                            <div class="progress" style="margin-top: 6px">
+                                <div class="progress-bar progress-bar-success" role="progressbar" id="progress1"
+                                     aria-valuenow="40"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 40%"> 2 из 10
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-3">
+                            <img src="img/person.png" style="width:48px;height: 48px" class="img-circle">
+                        </div>
+                        <div class="col-8" style="margin-top: 4px">
+                            <a href="profile.php">Player2</a>
+
+                            <div class="progress" style="margin-top: 6px">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 40%" id="progress2"> 2 из 10
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-7">
             <table class="table table-bordered text-center">
                 <thead>
                 <tr>
@@ -202,7 +245,7 @@ require_once 'nav.php';
             success: function (response) {
                 console.log(response.question);
                 array_json = response;
-                     if (response.type == 1) {
+                if (response.type == 1) {
                     for (var i = 0; i < response.variants.length; i++) {
                         $("#ANS" + (i + 1)).text(response.variants[i].answer)
                             .removeClass("correct")
@@ -223,7 +266,7 @@ require_once 'nav.php';
             }
         });
     }
-    init();
+    //init();
     questions = "hello World";
     answers = "Kenguru";
     shuffle = "";
@@ -276,7 +319,8 @@ require_once 'nav.php';
             score += array_json.level * 50;
         }
         nextQuestion(cmp);
-    });
+    }); // $("#progress1").attr("aria-valuenow", "50").css('width', i+'%').html(""+i/10+" из 10");
+
 </script>
 </body>
 </html>
