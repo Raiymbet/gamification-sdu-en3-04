@@ -83,3 +83,10 @@
 .footer a{
     text-decoration: none;
 }
+.carousel-control.right{
+    background-image: none;
+}
+
+.carousel-control.left{
+    background-image: none;
+}
