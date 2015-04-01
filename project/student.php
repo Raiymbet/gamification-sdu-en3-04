@@ -6,9 +6,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Student page</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/stylish-portfolio.css" rel="stylesheet" media="screen">
     <link href="css/mystyle.css" rel="stylesheet" media="screen">
     <!-- Add custom CSS here -->
     <!--
@@ -323,9 +323,9 @@ require_once 'nav.php';
         </div>
     </div>
 </div>
-        <script src="../../project/js/jquery-1.10.2.js"></script>
-        <script src="../../project/js/bootstrap.js"></script>
-        <script type="text/javascript" src="../../project/js/flotr2.min.js"></script>
+        <script src="js/jquery-1.10.2.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/flotr2.min.js"></script>
         <script type="text/javascript" src="js/student_js.js"></script>
 </body>
 </html>
