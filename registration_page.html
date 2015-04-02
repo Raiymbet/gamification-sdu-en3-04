@@ -17,7 +17,6 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
                 <img alt="Brand" src="img/icon_white.png" class="img-header" align="left">
-
                 <p class="left navbar-text-style">BattleBrainsSDU</p>
             </a>
         </div>
@@ -40,13 +39,13 @@
                         <li style="width:250px">
                             <div class="row">
                                 <div class="col-10" style="margin-left: 20px;">
-                                    <form class="form-horizontal" method="post" action="authorization.php">
+                                    <form class="form-horizontal" method="post" action="authorization.php" onsubmit="">
                                         <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="E-mail" name="e_mail">
+                                            <input type="email" class="form-control" placeholder="E-mail" name="e_mail" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control" placeholder="Password"
-                                                   name="password">
+                                            <input type="password" class="form-control" placeholder="Пароль"
+                                                   name="password" required>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" name="submit" style="float: right;"
@@ -101,34 +100,33 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="teacher">
                     <div class="col-10 col-offset-1">
-                        <form class="form-teacher" method="post" action="">
+                        <form class="form-teacher" method="post" action="registration.php">
                             <!-- Teacher name -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Имя">
+                                    <input type="text" class="form-control" placeholder="Имя" name="name" id="teacher_name" required pattern="[A-Za-z\-]{3,50}" title="Напишите имя правильно">
                                 </div>
                             </div>
                             <!-- Teacher surname -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Фамилия">
+                                    <input type="text" class="form-control" placeholder="Фамилия" name="surname" id="teacher_surname" required pattern="[A-Z a-z\-]{3,50}" title="Напишите фамилию правильно">
                                 </div>
                             </div>
                             <!-- Teacher date birthday -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-                                    <input type="date" class="form-control" placeholder="Дата рождения">
+                                    <input type="date" class="form-control" placeholder="Дата рождения" name="birthday" id="teacher_date">
                                 </div>
                             </div>
                             <!-- Teacher gender -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-genderless"></span></div>
-                                    <select class="form-control" name="gender" title="Choose your gender"
-                                            required="required">
+                                    <select class="form-control" name="gender" id="teacher_gender" required="required">
                                         <option hidden="hidden">Выберите ваш пол</option>
                                         <option>Male</option>
                                         <option>Female</option>
@@ -139,26 +137,26 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">@</div>
-                                    <input type="email" class="form-control" placeholder="E-mail">
+                                    <input type="email" class="form-control" placeholder="E-mail" name="e_mail">
                                 </div>
                             </div>
                             <!-- Teacher telephone -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-phone"></span></div>
-                                    <input type="tel" class="form-control" placeholder="Телефон">
+                                    <input type="tel" class="form-control" placeholder="Телефон" name="telephone">
                                 </div>
                             </div>
                             <!-- Teacher password -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                                    <input type="text" class="form-control" placeholder="Пароль">
+                                    <input type="password" class="form-control" placeholder="Пароль" name="password">
                                 </div>
                             </div>
                             <!-- Teacher submit -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success submit">Отправить</button>
+                                <button type="submit" class="btn btn-success submit" name="teacher_submit">Отправить</button>
                             </div>
                         </form>
                     </div>
@@ -166,27 +164,27 @@
 
                 <div role="tabpanel" class="tab-pane fade" id="student">
                     <div class="col-10 col-offset-1">
-                        <form class="form-teacher" method="post" action="">
+                        <form class="form-teacher" method="post" action="registration.php">
                             <!-- Student name -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Name">
+                                    <input type="text" class="form-control" placeholder="Имя" name="name">
                                 </div>
                             </div>
                             <!-- Student surname -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Surname">
+                                    <input type="text" class="form-control" placeholder="Фамилия" name="surname">
                                 </div>
                             </div>
                             <!-- Student group -->
                             <div class="form-group" id="group_name">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-group"></span></div>
-                                    <select class="form-control" name="group_name" title="Choose your group">
-                                        <option hidden="hidden">Choose your group</option>
+                                    <select class="form-control" name="group" title="Choose your group">
+                                        <option hidden="hidden">Ваша группа</option>
                                         <option>EN1_A_03</option>
                                         <option>EN1_B_03</option>
                                         <option>EN1_A_04</option>
@@ -204,7 +202,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-                                    <input type="date" class="form-control" placeholder="Birthday">
+                                    <input type="date" class="form-control" placeholder="Дата рождения" name="birthday">
                                 </div>
                             </div>
                             <!-- Student gender -->
@@ -213,7 +211,7 @@
                                     <div class="input-group-addon"><span class="fa fa-genderless"></span></div>
                                     <select class="form-control" name="gender" title="Choose your gender"
                                             required="required">
-                                        <option hidden="hidden">Choose your gender</option>
+                                        <option hidden="hidden">Выберите ваш пол</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                     </select>
@@ -223,27 +221,27 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">@</div>
-                                    <input type="email" class="form-control" placeholder="E-mail">
+                                    <input type="email" class="form-control" placeholder="E-mail" name="e_mail">
                                 </div>
                             </div>
                             <!-- Student telephone -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-phone"></span></div>
-                                    <input type="tel" class="form-control" placeholder="Phone number">
+                                    <input type="tel" class="form-control" placeholder="Телефон" name="telephone">
                                 </div>
                             </div>
                             <!-- Student password -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                                    <input type="text" class="form-control" placeholder="Password">
+                                    <input type="password" class="form-control" placeholder="Пароль" name="password">
                                 </div>
                             </div>
 
                             <!-- Student submit -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success submit">Отправить</button>
+                                <button type="submit" class="btn btn-success submit" name="student_submit">Отправить</button>
                             </div>
                         </form>
                     </div>
@@ -251,25 +249,46 @@
 
                 <!-- Forgot password pane -->
                 <div role="tabpanel" class="tab-pane fade" id="forgot_password">
-                    <p>Если вы забыли пароль, то не зачем паниковать! Мы вам поможем. Заполните ниже сдедующие поля, и отправьте запрос, и отправим вам новый пароль на ваш регистрированный майл</p>
-                    <form class="form-teacher">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">@</div>
-                                <input type="email" class="form-control" placeholder="E-mail">
-                            </div>
+                    <div class="col-10 col-offset-1">
+                        <div class="container-fluid">
+                            <br>
+                            <img src="img/forgot_password.png" class="img-forgot-password">
+                            <br>
+                            <p>Если вы забыли пароль, не огорчайтесь! Мы вам поможем. Только заполните следующие поля,
+                                и отправьте запрос, мы вышлем вам инструкцию для восстановления.</p>
+                            <p>На заметку не забывайте пароли!</p>
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                                <input type="password" class="form-control" placeholder="Новый пароль">
+
+                        <form class="form-teacher">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">@</div>
+                                    <input type="email" class="form-control" placeholder="E-mail">
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><span class="fa fa-key"></span></div>
+                                    <input type="password" class="form-control" placeholder="Новый пароль">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success submit">Отправить</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
             </div>
         </div>
+    </div>
+
+    <div class="right container-purpose">
+        <h3 class="welcome-text">Добро пожаловать!</h3>
+        <p><img src="img/slide4.jpg" style="width: 192px; height: 192px; float: left;">
+            <span class="text-purpose">Наша цель дать студентам помощь в учебе, легко и четко обьяняя по концепцию игр. Студенты могут получать награды, играть против друг друга.
+            И конечно учителя могут создвать игры для студентов и таким образом увеличить интерес к учебе и улучшить свои знания.</span>
+        </p>
     </div>
 </div>
 <footer>
@@ -280,6 +299,7 @@
     </div>
 </footer>
 </body>
+
 <script>
     $(function () {
         $("#registration_tab a:last").tab('show');
@@ -288,6 +308,10 @@
             e.relatedTarget();
         });
     });
+
+    function validate_authorization_form() {
+
+    }
 </script>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.js"></script>

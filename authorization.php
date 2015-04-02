@@ -27,20 +27,17 @@ if (isset($_COOKIE['id'])) {
 }
 
 if (!isset($_POST['e_mail']) || empty($_POST['e_mail'])) {
-    exit("'e_mail' not found");
+    echo("'e_mail' not found");
 }
 if (!isset($_POST['password']) || empty($_POST['password'])) {
     exit("'password' not found");
 }
-if (!isset($_POST['remember_checkbox']) || empty($_POST['remember_checkbox'])) {
-    exit("'remember_checkbox' not found");
-}
+
 /* Соединение с базы */
 include_once 'connect.php';
 
 $e_mail = $_POST['e_mail'];
 $password = md5(md5($_POST['password']));
-$remember_checkbox = $_POST['remember_checkbox'];
 
 if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password= ? ")
 ) {
@@ -83,7 +80,7 @@ if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password
             $_COOKIE['photo_url'], "\n",
             $_COOKIE['time'];
         }
-        header("Location: main_page.html");
+        header("Location: main_page.html");//Должен перенаправляет на страницу пользователя
 
     }
     /* Close statement */

@@ -20,6 +20,21 @@
     text-align: center;
 }
 
+.img-forgot-password {
+    float: left;
+    width: 152px;
+    height: 152px
+}
+.welcome-text {
+    text-align: center;
+    font-size: 42px;
+    color: #ffffff;
+    font-family: sans-serif;
+}
+.text-purpose {
+    font-size: 18px;
+}
+
 /* Style of contents*/
 .navbar-inverse {
     background-color: #0099CC;
@@ -42,14 +57,22 @@
 .container-fluid-1-style {
     background-color: #33B5E5;
 }
-
+.container-purpose {
+    width: 500px;
+    height: 300px;
+    float: right;
+    margin-top: 90px;
+    margin-right: 5%;
+    color: #ffffff;
+}
 .panel-style {
     width: 50%;
     height: 520px;
-    border: solid 5px #5bc0de;
+    border: solid 8px #7fbbda;
     margin-top: 20px;
     margin-left: 5%;
     background-color: #ffffff;
+    float: left;
 }
 .form-teacher {
     margin-top: 25px;
@@ -57,3 +80,5 @@
 .submit {
     float: right;
 }
+
+/* 0099CC 33B5E5 FF8800 FFBB33 */
