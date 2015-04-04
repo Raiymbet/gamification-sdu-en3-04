@@ -8,7 +8,7 @@ if (!$con) {
     $error = mysqli_connect_error();
     $errno = mysqli_connect_errno();
     print "$errno: $error\n";
-    exit();
+    exit($errno.":".$error);
 }
 
 mysqli_query($con, 'set names utf8');

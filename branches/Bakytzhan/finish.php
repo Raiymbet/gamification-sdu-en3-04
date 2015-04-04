@@ -16,7 +16,7 @@
     <!--
     Цель: Создать окно для студента
     -->
-</head>
+    </head>
 <style>
     body {
         padding-top: 70px;
