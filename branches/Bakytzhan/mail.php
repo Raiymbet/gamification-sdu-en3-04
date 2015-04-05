@@ -29,10 +29,7 @@ if (isset($_POST['q'])) {
     }
     $subject = $_POST['subject'];
     $email = $_POST['e_mail'];
-    if (!preg_match("/^[a-zA-Z0-9]*$/", $subject)) {
-        echo 'Invalid subject format';
-        $text="Hello2";
-    }
+    $subject=preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-]/s', '', $subject);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "Invalid email format";
         return false;
