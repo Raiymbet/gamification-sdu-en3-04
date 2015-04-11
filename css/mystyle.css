@@ -3,7 +3,9 @@
     height: 250px;
     margin: 8px auto;
 }
-
+body{
+        padding-top: 70px;
+}
 /* * * * *Nagrada frame* * * * * */
 .nagrada {
     display: inline;
@@ -64,10 +66,9 @@ th {
 }
 
 .gold_text {
-    margin-top: 14px;
-    font-size: 32px;
+    font-size: 28px;
     color: gold;
-    font-weight: 900;
+    font-weight: 700;
     text-shadow: 1px 1px white;
 }
 
