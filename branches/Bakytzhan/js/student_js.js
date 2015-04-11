@@ -25,10 +25,9 @@ $("a[role=link]").click(function () {
 });
 activate = 0;
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-setInterval("basic()", 250);
-function basic() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+setInterval(function() {
     var element = document.getElementById("container");
     var d1 = [], i, graph;
 
@@ -44,4 +43,4 @@ function basic() {
             minorVerticalLines: false
         }
     });
-}
+}, 250);
