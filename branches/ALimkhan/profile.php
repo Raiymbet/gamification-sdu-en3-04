@@ -5,29 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap-->
     <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="css/font-awesome.css" rel="stylesheet">
-    <link href="user%20profile.css" rel="stylesheet">
+    <link href="../../project/css/font-awesome.css" rel="stylesheet">
+    <link href="../../project/css/user_profile.css" rel="stylesheet">
     <title></title>
 </head>
-
-<body style="background-color: #EEF3FA;margin-top: 70px">
-
+<body style="background-color: #EEF3FA">
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <img alt="Brand" src="../Bakytzhan/img/icon.png" style="width: 32px;height: 32px"> Страница Студента
+                    <img alt="Brand" src="img/icon.png" style="width: 32px;height: 32px"> Страница Студента
                 </a>
             </div>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><img src="../Bakytzhan/img/person.png"
-                                     style="width: 32px;height: 32px;margin-right: 8px;margin-top: -8px">Username</a>
+                <li><a href="profile.php"><img src="img/%s"
+                                               style="width: 32px;height: 32px;margin-right: 8px;margin-top: -8px">%s</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More
@@ -37,18 +34,18 @@
                         <li><a href="#">Help</a></li>
                         <li><a href="#">Contacts</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Log Out</a></li>
+                        <li><a href="logout.php">Log Out</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
+        <!-- /.navbar-collapse   -->
     </div>
     <!-- /.container-fluid -->
 </nav>
 <div class="container" style="margin-top: 30px;">
-    <div class="row " style="border: solid 1px">
-        <div class="col-10" style="background-color: #ffffff ; border: solid 1px ">
+    <div class="row ">
+        <div class="col-10" style="background-color: #ffffff">
             <div class="well-sm">
                 <fieldset>
                     <legend class="text-primary page-header text-center" style="font-size: xx-large">User profile
@@ -57,62 +54,64 @@
             </div>
         </div>
     </div>
-    <div class="row" style="border: solid 1px #b2fe0f">
+    <div class="row">
         <div class="col-10" style="background-color:#ffffff;">
             <div class="col-6">
-                <div class="row" style="border: solid 1px">
+                <div class="row">
                     <div class="col-1 col-offset-8">
                         <img class="delete_icon" name="delete" onclick="myFunction()" width="20" height="20">
                     </div>
                 </div>
-                <div class="row" style="border: solid 1px">
+                <div class="row">
                     <div class="col-10 col-offset-2">
                         <img id="alim" src="alim.jpg" class="img-circle img-thumbnail">
                     </div>
                 </div>
 
-                <div class="row" style="border: solid 1px red">
+                <div class="row">
                     <div class="col-9 col-offset-2">
                         <input id="imgInp" type="file" class="form-control" style="margin-top: 20px;width: 80%"
                                size="20">
                     </div>
                 </div>
-
             </div>
-            <div class="col-6" style="background-color:#ffffff;border: solid 1px #fff">
-                <div class="row" style="border: solid 1px">
-                    <div class="col-4" style="border: solid 1px">
+            <div class="col-6" style="background-color:#ffffff">
+                <div class="row">
+                    <div class="col-4">
                         <p class="text-primary" style="font-size: large; margin-top: 20px"><b>Personal info</b></p>
 
                     </div>
-                    <div class="col-4 col-offset-3" style="border: solid 1px">
-                        <p role="button" class="text-muted ch " id="edit" style="font-size: small"><i class="fa fa-pencil"></i> Edit
+                    <div class="col-4 col-offset-3">
+                        <p role="button" class="text-muted ch " id="edit" style="font-size: small"><i
+                                class="fa fa-pencil"></i> Edit
                         </p>
                     </div>
-                    <div class="col-5 col-offset-3" style="border: solid 1px">
+                    <div class="col-5 col-offset-3">
                         <!-- Button trigger modal -->
                         <p type="button" class="text-muted ch " data-toggle="modal" data-target="#myModal"><i
                                 class="fa fa-key"></i>Change password</p>
                     </div>
                 </div>
-                <div class="row" style="border: solid 1px">
+                <div class="row">
                     <div class="col-6">
                         <label class="left">First name:
-                            <input class="form-control" placeholder="Alimkhan"size="30" disabled>
+                            <input class="form-control" id="name" placeholder="Alimkhan" size="30" disabled>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label class="left">
-                            Last name:<input class="form-control" disabled placeholder="Dossymbetov" size="30">
+                            Last name:<input id="surname" class="form-control" disabled placeholder="Dossymbetov"
+                                             size="30">
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
                         <label class="left">
-                            Group name:<input class="form-control" placeholder="EN3_04(kz)" size="30" disabled>
+                            Group name:<input id="groupname" class="form-control" placeholder="EN3_04(kz)" size="30"
+                                              disabled>
                         </label>
                     </div>
                 </div>
@@ -125,8 +124,6 @@
                     </div>
                 </div>
                 <div class="row">
-
-
                     <div class="col-6">
                         <label class="left">
                             Phone number: <input id="phone" class="form-control" placeholder="+77788866826" size="30"
@@ -134,42 +131,61 @@
                         </label>
                     </div>
                 </div>
-                <div class="row" style="margin:10px ; border: solid 1px">
-                    <div class="col-10 col-offset-1" id="submit">
-                        <button class="btn btn-primary">Сохранить</button>
+                <div class="row" style="margin:10px">
+                    <div class=" col-10 col-offset-1">
+                        <button id="submit" class="btn btn-primary">Сохранить</button>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
 </div>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.js"></script>
 <script>
+    lastResponse = "";
+    $.ajax({
+        type: "POST",
+        url: "utils.php",
+        data: {q: 'getUserData()'},
+        cache: false,
+        success: function (response) {
+            $("#phone").val(response.telephone);
+            $("#email").val(response.email);
+            $("#name").val(response.name);
+            $("#surname").val(response.surname);
+            $("#groupname").val(response.group);
+            $("#alim").attr("src", "img/" + response.photo_url);
+            lastResponse = response;
+        }
+    });
+    editTurn = true;
     $("#edit").click(function () {
         $("input").each(function () {
             var id = $(this).attr("id");
             if (id != 'imgInp') {
+                editTurn = !$(this).attr("disabled");
                 $(this).attr({"disabled": !$(this).attr("disabled")});
             }
+            if (editTurn) {
+                $("#submit").css({"visibility": "hidden"});
+                $("#phone").val(lastResponse.telephone);
+                $("#email").val(lastResponse.email);
+                $("#name").val(lastResponse.name);
+                $("#surname").val(lastResponse.surname);
+                $("#groupname").val(lastResponse.group);
+            }
         });
-
         $("#submit").css({"visibility": "visible"});
     });
     $("#submit");
-    console.log($("#phone"));
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-
             reader.onload = function (e) {
                 $('#alim').attr('src', e.target.result);
                 //css({"width": "230px", "height": "230px"});
             };
-
             reader.readAsDataURL(input.files[0]);
             $(".delete_icon").css({"visibility": "visible"});
             $("#submit").css({"visibility": "visible"});
@@ -177,20 +193,22 @@
         }
     }
     function myFunction() {
-        alert("Delete photo");
+        $(".delete_icon").css({"visibility": "hidden"});
+        $("#submit").css({"visibility": "hidden"});
+        $('#alim').attr('src', lastResponse.photo_url);
+
     }
     $("#imgInp").change(function () {
         readURL(this);
     });
-function Changesave(){
-    alert("Save change")
-}
 
+    function Changesave() {
+        alert("Save change")
+    }
 </script>
-
-
 <!-- Modal -->
-<div class="modal fade  bs-example-modal-sm " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade  bs-example-modal-sm " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -203,38 +221,39 @@ function Changesave(){
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label class="col-offset-1">Current password:</label>
-                            <div class="input-group col-4 col-offset-1" >
+
+                            <div class="input-group col-4 col-offset-1">
                                 <span class="input-group-addon">
                                 <i class="fa fa-unlock"></i>
                                 </span>
-                               <input class="form-control" placeholder=" Give old address" size="30">
+                                <input class="form-control" placeholder=" Give old password" size="30">
                             </div>
                             <label class="col-offset-1">New password:</label>
+
                             <div class="input-group col-4 col-offset-1">
                                 <span class="input-group-addon">
                                     <i class="fa fa-unlock"></i>
                                 </span>
                                 <input class="form-control" placeholder="Give new password" size="30">
                             </div>
-                            <label class="col-offset-1">Kaitala password</label>
+                            <label class="col-offset-1">Comfirm password</label>
+
                             <div class="input-group col-4 col-offset-1">
                                 <span class="input-group-addon">
                                     <i class="fa fa-unlock"></i>
                                 </span>
-                                <input class="form-control" placeholder="Give kaitala password">
+                                <input class="form-control" placeholder="Repeat password">
                             </div>
                         </div>
                     </form>
-                   </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button onclick="Changesave()" type="button" class="btn btn-primary">Save changes</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button onclick="Changesave()" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
