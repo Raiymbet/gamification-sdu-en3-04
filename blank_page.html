@@ -8,7 +8,7 @@
     <title>Student page</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
+                     <link href="../../project/css/stylish-portfolio.css" rel="stylesheet" media="screen">
     <link href="css/mystyle.css" rel="stylesheet" media="screen">
     <!-- Add custom CSS here -->
     <!--
@@ -19,36 +19,6 @@
     body {
         padding-top: 70px;
     }
-    pie {
-        border-radius: 50%;
-        background-color: green;
-    }
-    .ten {
-        background-image:
-        /* 10% = 126deg = 90 + ( 360 * .1 ) */
-        linear-gradient(126deg, transparent 50%, white 50%),
-        linear-gradient(90deg, white 50%, transparent 50%);
-}
-        .circliful {
-            position: relative; 
-        }
-
-        .circle-text, .circle-info, .circle-text-half, .circle-info-half {
-            width: 100%;
-            position: absolute;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .circle-info, .circle-info-half {
-            color: #999;
-        }
-
-        .circliful .fa {
-            margin: -10px 3px 0 3px;
-            position: relative;
-            bottom: 4px;
-        }
 </style>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -81,33 +51,12 @@
                     </li>
                 </ul>
             </div>
-           
         </div>
-        <div id="circle"></div>
-        <script src="js/jquery-1.10.2.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="../../project/js/jquery-ui.js"></script>
-        <script src="js/lightweight.js"></script>
-        <script type="text/javascript">
-        
-var i=0.0;
-$('#circle').circleProgress({
-        value: i,
-        size: 50,lineCap: 'round',
-        fill: {
-            gradient: ['blue']
-        }
-    });
-last_i=i;
-setInterval(function(){
-   i+=0.01; 
-    $('#circle').circleProgress({animationStartValue: last_i,value:i});
-    last_i=i;
-},1000);
 
-</script>
+    </nav>
+</body>
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
 
-
-        </nav>
-    </body>
-    </html>
+</html>

@@ -12,7 +12,7 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="../ALimkhan/user_profile.php?id="><img src="img/%s"
+                <li><a href="../ALimkhan/profile.php?id="><img src="img/%s"
                                                 style="width: 32px;height: 32px;margin-right: 8px;margin-top: -8px">%s</a>
                 </li>
                 <li class="dropdown">
