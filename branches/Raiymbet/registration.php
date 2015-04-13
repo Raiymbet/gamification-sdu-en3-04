@@ -17,10 +17,31 @@ if (isset($_POST['teacher_submit'])) {
     $user = 'student';
 }
 
+//check all information
+/*if (!isset($_POST['name']) || empty($_POST['name']) || !preg_match('[a-zA-Z\-]{2,50}', $_POST['name'])) {
+    $err[] = "Неправильное имя";
+}if (!isset($_POST['surname']) || empty($_POST['surname']) || !preg_match('[a-zA-Z\-]{2,50}', $_POST['surname'])) {
+    $err[] = "Неправильное фамилия";
+}if(!isset($_POST['birthday']) || empty($_POST['birthday']) || !preg_match('/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/', $_POST['birthday'])){
+    $err[] = "Неправильное дата рождение";
+}if(!isset($_POST['gender']) || empty($_POST['gender'])){
+    $err[] = "Неопределено ваш пол";
+}if(!isset($_POST['e_mail']) || empty($_POST['e_mail'])){
+    $err[] = "Неопределен ваш email";
+}if(!isset($_POST['telephone']) || empty($_POST['telephone'])){
+    $err[] = "Неопределен ваш telephone";
+}
+//checking password
+if (!preg_match("/^[a-zA-Z0-9]+$/", $password)) {
+    $err[] = "Password shall consists of lower and upper case, numbers";
+} else if (strlen($password) < 6 or strlen($password) > 100) {
+    $err[] = "Password length shall be between 6-100";
+}*/
+
 if ($user=='student' || $user=='teacher') {
-    print "$user<br>";
+   // echo "$user<br>";
     $err = array();
-    //Принимаем данные форма черех пост
+    //Принимаем данные форма через пост
     $name = htmlspecialchars($_POST['name']);
     $surname = htmlspecialchars($_POST['surname']);
     $birthday = htmlspecialchars($_POST['birthday']);
@@ -30,17 +51,6 @@ if ($user=='student' || $user=='teacher') {
     $password = md5(md5(htmlspecialchars($_POST['password'])));
     if($user=='student'){
         $group = htmlspecialchars($_POST['group']);
-    }
-
-    //check all information
-    if (!isset($_POST['name']) || empty($_POST['name'])) {
-        $err[] = "Name has error";
-    }
-    //checking password
-    if (!preg_match("/^[a-zA-Z0-9]+$/", $password)) {
-        $err[] = "Password shall consists of lower and upper case, numbers";
-    } else if (strlen($password) < 8 or strlen($password) > 100) {
-        $err[] = "Password length shall be between 8-100";
     }
 
     //checking user on db
@@ -55,12 +65,11 @@ if ($user=='student' || $user=='teacher') {
         $err[] = "User already exists on database";
     }
     $row = null;
-
     //if no error we can register user
     if (count($err) == 0) {
         if ($user == 'student') {
             mysqli_query($con,
-                "INSERT INTO tb_student (name, surname, group_name, birthday, gender, email, phone_number, password, photo_url)
+                "INSERT INTO tb_student (name, surname, group_name, birthday, gender, email, phone_number, password)
             VALUES ('$name',
                     '$surname',
                     '$group',
@@ -68,30 +77,26 @@ if ($user=='student' || $user=='teacher') {
                     '$gender',
                     '$email',
                     '$tel',
-                    '$password',
-                    '')")
+                    '$password')")
             or die(mysqli_error($con));
 
         } else if ($user == 'teacher') {
-           mysqli_query($con, "INSERT INTO tb_teacher(name, surname, birthday, gender, email, phone_number, password, photo_url)
+           mysqli_query($con, "INSERT INTO tb_teacher(name, surname, birthday, gender, email, phone_number, password)
             VALUES('$name',
                    '$surname',
                    '$birthday',
                    '$gender',
                    '$email',
                    '$tel',
-                   '$password',
-                   '')")
+                   '$password')")
            or die(mysqli_error($con));
          }
         if($con==true)
-            print "<b>Регистрация прошла успешно</b>";
-        else
-            print $con;
+            echo "<b>Регистрация прошла успешно</b>";
     } else {
-        print "<b>При регистрации произошло ошибка</b><br>";
+        echo "<b>При регистрации произошло ошибка</b><br>";
         foreach ($err AS $error) {
-            print $error . "<br>";
+            echo $error . "<br>";
         }
     }
     mysqli_close($con);

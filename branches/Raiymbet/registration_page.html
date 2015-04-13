@@ -17,6 +17,7 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
                 <img alt="Brand" src="img/icon_white.png" class="img-header" align="left">
+
                 <p class="left navbar-text-style">BattleBrainsSDU</p>
             </a>
         </div>
@@ -39,13 +40,17 @@
                         <li style="width:250px">
                             <div class="row">
                                 <div class="col-10" style="margin-left: 20px;">
+                                    <!-- Форма авторизации -->
                                     <form class="form-horizontal" method="post" action="authorization.php" onsubmit="">
                                         <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="E-mail" name="e_mail" required>
+                                            <input type="email" class="form-control" placeholder="E-mail" name="e_mail"
+                                                   required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control" placeholder="Пароль"
-                                                   name="password" required>
+                                                   name="password" required
+                                                   pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,})"
+                                                   title="Пароль должен содержать большие буквы, маленькие буквы, цифры и длиной как минимум 6 символа">
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" name="submit" style="float: right;"
@@ -59,40 +64,25 @@
                     </ul>
                 </li>
             </ul>
-            <!--<form class="navbar-form navbar-right" style="margin-right: 60px; margin-top: 20px;">
-                <div class="form-group">
-                    <div class="input-group">
-
-                    </div>
-                    <input type="email" class="form-control navbar-form-input-style" placeholder="E-mail">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control navbar-form-input-style" placeholder="Пароль" >
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default navbar-form-input-style">Вход</button>
-                </div>
-            </form>-->
         </div>
     </div>
     <hr style="margin: 0px 0px;">
 </div>
 <div class="container-fluid container-fluid-1-style">
-    <!-- <div class="container-header container-text-header">
-        <h2>Создать новый аккаунт</h2>
-    </div>-->
     <div class="panel panel-style">
         <div role="tabpanel">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist" id="registration_tab">
-                <li role="presentation" class="active">
+                <li role="presentation" class="active" value="0">
                     <a href="#teacher" role="tab" data-toggle="tab" aria-controls="teacher">Учитель</a>
                 </li>
-                <li role="presentation">
-                    <a href="#student" role="tab" data-toggle="tab" aria-controls="student">Студент</a>
+                <li role="presentation" value="1">
+                    <a href="#student" name="student_tab" role="tab" data-toggle="tab"
+                       aria-controls="student">Студент</a>
                 </li>
-                <li role="presentation">
-                    <a href="#forgot_password" role="tab" data-toggle="tab" aria-controls="forgot_password">Забыли
+                <li role="presentation" value="2">
+                    <a href="#forgot_password" name="forgot_tab" role="tab" data-toggle="tab"
+                       aria-controls="forgot_password">Забыли
                         пароль?</a>
                 </li>
             </ul>
@@ -100,36 +90,42 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="teacher">
                     <div class="col-10 col-offset-1">
+                        <!-- Teacher form -->
                         <form class="form-teacher" method="post" action="registration.php">
                             <!-- Teacher name -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Имя" name="name" id="teacher_name" required pattern="[A-Za-z\-]{3,50}" title="Напишите имя правильно">
+                                    <input type="text" class="form-control" placeholder="Имя" name="name"
+                                           id="teacher_name" required pattern="[a-zA-Z\-]{2,50}"
+                                           title="Пожалуйста, напишите ваше реальное имя">
                                 </div>
                             </div>
                             <!-- Teacher surname -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Фамилия" name="surname" id="teacher_surname" required pattern="[A-Z a-z\-]{3,50}" title="Напишите фамилию правильно">
+                                    <input type="text" class="form-control" placeholder="Фамилия" name="surname"
+                                           id="teacher_surname" required pattern="[A-Za-z\-]{2,50}"
+                                           title="Пожалуйста, напишите свой реальный фамилию">
                                 </div>
                             </div>
                             <!-- Teacher date birthday -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-                                    <input type="date" class="form-control" placeholder="Дата рождения" name="birthday" id="teacher_date">
+                                    <input type="date" class="form-control" min="1931-01-01" max="2015-12-31"
+                                           name="birthday" id="teacher_date" required>
                                 </div>
                             </div>
                             <!-- Teacher gender -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-genderless"></span></div>
-                                    <select class="form-control" name="gender" id="teacher_gender" required="required">
-                                        <option hidden="hidden">Выберите ваш пол</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                    <select class="form-control" name="gender" id="teacher_gender" required>
+                                        <option value="0" selected disabled>Выберите ваш пол</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
                                     </select>
                                 </div>
                             </div>
@@ -137,26 +133,33 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">@</div>
-                                    <input type="email" class="form-control" placeholder="E-mail" name="e_mail">
+                                    <input type="email" class="form-control" placeholder="E-mail" name="e_mail"
+                                           required>
                                 </div>
                             </div>
                             <!-- Teacher telephone -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-phone"></span></div>
-                                    <input type="tel" class="form-control" placeholder="Телефон" name="telephone">
+                                    <input type="tel" class="form-control" placeholder="Телефон" name="telephone"
+                                           required pattern="[\+]\d{1}[\(]\d{3}[\)]\d{2}[\-]\d{2}[\-]\d{3}"
+                                           title="Формат телефона: +7(777)77-77-777">
                                 </div>
                             </div>
                             <!-- Teacher password -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                                    <input type="password" class="form-control" placeholder="Пароль" name="password">
+                                    <input type="password" class="form-control" placeholder="Пароль" name="password"
+                                           required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,})"
+                                           title="Пароль должен содержать большие буквы, маленькие буквы, цифры и длиной как минимум 6 символа">
                                 </div>
                             </div>
                             <!-- Teacher submit -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success submit" name="teacher_submit">Отправить</button>
+                                <button type="submit" class="btn btn-success submit" name="teacher_submit" onsubmit="">
+                                    Отправить
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -169,32 +172,36 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Имя" name="name">
+                                    <input type="text" class="form-control" placeholder="Имя" name="name" required
+                                           pattern="[a-zA-Z\-]{2,50}" title="Пожалуйста, напишите ваше реальное имя">
                                 </div>
                             </div>
                             <!-- Student surname -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                                    <input type="text" class="form-control" placeholder="Фамилия" name="surname">
+                                    <input type="text" class="form-control" placeholder="Фамилия" name="surname"
+                                           required pattern="[A-Za-z\-]{2,50}"
+                                           title="Пожалуйста, напишите свой реальный фамилию">
                                 </div>
                             </div>
                             <!-- Student group -->
                             <div class="form-group" id="group_name">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-group"></span></div>
-                                    <select class="form-control" name="group" title="Choose your group">
-                                        <option hidden="hidden">Ваша группа</option>
-                                        <option>EN1_A_03</option>
-                                        <option>EN1_B_03</option>
-                                        <option>EN1_A_04</option>
-                                        <option>EN1_B_04</option>
-                                        <option>EN1_C_04</option>
-                                        <option>EN1_D_04</option>
-                                        <option>EN1_E_04</option>
-                                        <option>EN1_F_04</option>
-                                        <option>EN1_03(kz)</option>
-                                        <option>EN1_04(kz)</option>
+                                    <select class="form-control" name="group" required id="student_group"
+                                            title="Choose your group">
+                                        <option selected disabled value="0">Ваша группа</option>
+                                        <option value="1">EN1_A_03</option>
+                                        <option value="2">EN1_B_03</option>
+                                        <option value="3">EN1_A_04</option>
+                                        <option value="4">EN1_B_04</option>
+                                        <option value="5">EN1_C_04</option>
+                                        <option value="6">EN1_D_04</option>
+                                        <option value="7">EN1_E_04</option>
+                                        <option value="8">EN1_F_04</option>
+                                        <option value="9">EN1_03(kz)</option>
+                                        <option value="10">EN1_04(kz)</option>
                                     </select>
                                 </div>
                             </div>
@@ -202,7 +209,8 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-calendar"></span></div>
-                                    <input type="date" class="form-control" placeholder="Дата рождения" name="birthday">
+                                    <input type="date" class="form-control" placeholder="Дата рождения" name="birthday"
+                                           required min="1991-01-01" max="2015-12-31">
                                 </div>
                             </div>
                             <!-- Student gender -->
@@ -210,10 +218,10 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-genderless"></span></div>
                                     <select class="form-control" name="gender" title="Choose your gender"
-                                            required="required">
-                                        <option hidden="hidden">Выберите ваш пол</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                            required id="student_gender">
+                                        <option disabled selected value="0">Выберите ваш пол</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
                                     </select>
                                 </div>
                             </div>
@@ -221,27 +229,33 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">@</div>
-                                    <input type="email" class="form-control" placeholder="E-mail" name="e_mail">
+                                    <input type="email" class="form-control" placeholder="E-mail" name="e_mail"
+                                           required>
                                 </div>
                             </div>
                             <!-- Student telephone -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-phone"></span></div>
-                                    <input type="tel" class="form-control" placeholder="Телефон" name="telephone">
+                                    <input type="tel" class="form-control" placeholder="Телефон" name="telephone"
+                                           required pattern="[\+]\d{1}[\(]\d{3}[\)]\d{2}[\-]\d{2}[\-]\d{3}"
+                                           title="Формат телефона: +7(777)77-77-777">
                                 </div>
                             </div>
                             <!-- Student password -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                                    <input type="password" class="form-control" placeholder="Пароль" name="password">
+                                    <input type="password" class="form-control" placeholder="Пароль" name="password"
+                                           required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,})"
+                                           title="Пароль должен содержать большие буквы, маленькие буквы, цифры и длиной как минимум 6 символа">
                                 </div>
                             </div>
 
                             <!-- Student submit -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success submit" name="student_submit">Отправить</button>
+                                <button type="submit" class="btn btn-success submit" name="student_submit">Отправить
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -254,8 +268,10 @@
                             <br>
                             <img src="img/forgot_password.png" class="img-forgot-password">
                             <br>
+
                             <p>Если вы забыли пароль, не огорчайтесь! Мы вам поможем. Только заполните следующие поля,
                                 и отправьте запрос, мы вышлем вам инструкцию для восстановления.</p>
+
                             <p>На заметку не забывайте пароли!</p>
                         </div>
 
@@ -284,11 +300,21 @@
     </div>
 
     <div class="right container-purpose">
-        <h3 class="welcome-text">Добро пожаловать!</h3>
-        <p><img src="img/slide4.jpg" style="width: 192px; height: 192px; float: left;">
-            <span class="text-purpose">Наша цель дать студентам помощь в учебе, легко и четко обьяняя по концепцию игр. Студенты могут получать награды, играть против друг друга.
-            И конечно учителя могут создвать игры для студентов и таким образом увеличить интерес к учебе и улучшить свои знания.</span>
-        </p>
+        <div>
+            <img src="img/creative_brain.png" style="width: 160px; height: 130px; float: left">
+        </div>
+        <div style="width: 100%; height: 130px;"><h2 class="welcome-text">Добро пожаловать!</h2></div>
+        <div>
+            <p class="text-purpose">
+                "Ваш мозг может все. Абсолютно все. Главное, убедить себя в этом. Руки не знают, что они не
+                умеют отжиматься, ноги не знают, что они слабые, живот не знает, что он сплошной жир.
+                Это знает ваш мозг. Убедив себя в том, что вы можете все, вы сможете действительно все."
+            </p>
+
+            <p style="text-align: right;">
+                © Роберт Кийосаки
+            </p>
+        </div>
     </div>
 </div>
 <footer>
@@ -298,21 +324,97 @@
             University</a></span>
     </div>
 </footer>
+
+<!-- Creating modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><span class="fa fa-close"></span></button>
+                <h4>Registration status</h4>
+            </div>
+            <div class="modal-body">
+                <p class="modal-body-text"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Войти</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
-<script>
-    $(function () {
-        $("#registration_tab a:last").tab('show');
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            e.target();
-            e.relatedTarget();
-        });
-    });
-
-    function validate_authorization_form() {
-
-    }
-</script>
 <script src="../../project/js/jquery-1.10.2.js"></script>
 <script src="../../project/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#registration_tab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        //Проверка select teacher gender
+        $("select[id=teacher_gender]").change(function () {
+            validate_select('teacher_gender');
+        }).change();
+        //Проверка select student group
+        $("select[id=student_group]").change(function () {
+            validate_select('student_group');
+        }).change();
+        //Проверка select student gender
+        $("select[id=student_gender]").change(function () {
+            validate_select('student_gender');
+        }).change();
+    });
+
+    function validate_select(select_id) {
+        $("select[id='" + select_id + "'] option:selected").each(function () {
+            if ($(this).val() == '0') {
+                $("select[id='" + select_id + "']").addClass('select_invalid');
+            } else {
+                $("select[id='" + select_id + "']").removeClass('select_invalid').addClass('select_valid');
+            }
+        });
+    }
+    function show_modal() {
+        $("#myModal").on('show.bs.modal', function (event) {
+            var modal = $(this);
+            modal.find('.modal-body-text').text("Hello ajax shall work");
+        });
+    }
+    function ajax_register() {
+        console.log("Hello AJAX");
+        var result;
+        if (window.XMLHttpRequest()) {
+            result = new XMLHttpRequest();
+        } else {
+            result = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        result.onreadystatechange = function () {
+            if (result.readyState == 4 && result.status == 200) {
+                $("text-purpose").innerText = result.responseText;
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "registration.php",
+            data: {id: ID, q: 'question'},
+            cache: false,
+            beforeSend: function () {
+                $('#myModal').modal('show');
+            },
+            success: function (response) {
+                setTimeout(function(){},200);
+                $('#myModal').modal('hide');
+                console.log("Response:" + response);
+                if (response == 'OK') {
+                    alert("Регистрация успешно завершена");
+                } else {
+                    alert("Произошло ошибка" + response);
+                }
+            }
+        });
+        result.open("POST", "registration.php", true);
+        result.send();
+    }
+</script>
 </html>

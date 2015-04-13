@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <title></title>
+    <style>
+        .correct {
+            border-color: green;
+        }
+        .incorrect {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="container-fluid">
+        <p id="p">
+            Hello
+        </p>
+        <button class="btn btn-success" onclick="check_answer()">Check answer</button>
+    </div>
+</div>
+</body>
+
+<script src="../../project/js/jquery-1.10.2.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
+<script src="../../project/js/bootstrap.js"></script>
+<script>
+    //
+    var question = "Window false true darken markmarkmarkmarkmark is the close often usually open door of classroom and have been students other";
+    var answer = ["false", "markmarkmarkmarkmark", "students"];
+
+    $(document).ready( function () {
+        convert_to_input(answer);
+    });
+    //Заменяет answer слова в input
+    function convert_to_input(answer_array){
+        console.log(answer_array);
+        var quest=question.split(" ");
+        //для каждого ответа найдем индекс и заменяем
+        for(var i=0; i<answer_array.length; i++){
+            $.each(quest,function(index, character){
+                if(answer_array[i]===character){
+                    quest[index]=create_input(character.length); //заменяем ответы на input field
+                }
+            });
+        }
+        $("p").empty().append(quest.join(' '));
+    }
+    //создаем input с длиной ответа
+    function create_input(size){
+        var input = "<input class='input-sm' type='text' name='inputs' size='"+size+"'>";
+        return input;
+    }
+    //Проверка ответа студента
+    function check_answer(){
+        var i=0;
+        $("input[name='inputs']").each(function () {
+            if($(this).val().toLowerCase().trim()==answer[i].toLowerCase().trim()){
+                console.log($(this).val()+" : correct");
+                $(this).addClass('correct');
+            }else{
+                console.log($(this).val()+" : incorrect");
+                $(this).addClass('incorrect');
+            }
+            i++;
+        });
+    }
+</script>
+</html>
