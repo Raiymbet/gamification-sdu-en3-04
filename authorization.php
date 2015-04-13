@@ -26,13 +26,6 @@ if (isset($_COOKIE['id'])) {
     }
 }
 
-if (!isset($_POST['e_mail']) || empty($_POST['e_mail'])) {
-    echo("'e_mail' not found");
-}
-if (!isset($_POST['password']) || empty($_POST['password'])) {
-    exit("'password' not found");
-}
-
 /* Соединение с базы */
 include_once 'connect.php';
 
@@ -80,7 +73,7 @@ if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password
             $_COOKIE['photo_url'], "\n",
             $_COOKIE['time'];
         }
-        header("Location: main_page.html");//Должен перенаправляет на страницу пользователя
+        header("Location: main_page.html");//Должен перенаправлять на страницу пользователя
 
     }
     /* Close statement */

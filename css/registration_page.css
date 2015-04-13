@@ -27,12 +27,14 @@
 }
 .welcome-text {
     text-align: center;
-    font-size: 42px;
+    padding: 10px 10px;
     color: #ffffff;
     font-family: sans-serif;
 }
 .text-purpose {
-    font-size: 18px;
+    text-indent: 20px;
+    text-align: justify;
+    font-size: 16px;
 }
 
 /* Style of contents*/
@@ -58,8 +60,8 @@
     background-color: #33B5E5;
 }
 .container-purpose {
-    width: 500px;
-    height: 300px;
+    width: 35%;
+    height: 100%;
     float: right;
     margin-top: 90px;
     margin-right: 5%;
@@ -81,4 +83,27 @@
     float: right;
 }
 
+.form-teacher ::-webkit-input-placeholder{
+    color: #555555;
+}
+input:focus:invalid {
+    background: #fff url(../img/invalid_icon.png) no-repeat 98% center;
+    box-shadow: 0 0 5px #d45252;
+    border-color: #b03535
+}
+input:required:valid {
+    background: #fff url(../img/valid_icon.png) no-repeat 98% center;
+    box-shadow: 0 0 5px #5cd053;
+    border-color: #28921f;
+}
+.select_valid, .select_valid:focus {
+    background: #fff url(../img/valid_icon.png) no-repeat 98% center;
+    box-shadow: 0 0 5px #5cd053;
+    border-color: #28921f;
+}
+.select_invalid:focus {
+    background: #fff url(../img/invalid_icon.png) no-repeat 98% center;
+    box-shadow: 0 0 5px #d45252;
+    border-color: #b03535
+}
 /* 0099CC 33B5E5 FF8800 FFBB33 */

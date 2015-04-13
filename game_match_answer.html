@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href="../../project/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <title></title>
+    <style>
+        .ul-question {
+            border: 1px solid #000000;
+            float: left;
+            width: 35%;
+            height: 100px;
+        }
+
+        .ul-spacer {
+            border: 1px solid #000000;
+            width: 30%;
+            height: 100px;
+            float: left;
+        }
+
+        .ul-answer {
+            border: 1px solid #000000;
+            float: left;
+            width: 35%;
+            height: 100px;
+        }
+
+        .li-question-answer-id {
+            width: 10%;
+            height: 100px;
+            font-size: 16px;
+            font-weight: bold;
+            left: 0;
+            text-align: center;
+            float: left;
+            background-color: #1b3b4c;
+        }
+        .li-class{
+            margin-bottom: 40px;
+            width: 100%;
+            height: 90%;
+            padding: 2px;
+        }
+        .li-question-answer-text {
+            width: 90%;
+            height: 100px;
+            border-left: 1px solid #dfe4e8;
+            padding: 5px;
+            background: #7fbbda;
+            font-size: 14px;
+            float: left;
+        }
+
+        .li-space {
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="border: 1px solid #000000;">
+    <div class="container-fluid" style="border: 1px solid #000000;"><!--  -->
+        <p id="p">
+            Match each letter with the correct answer:
+        </p>
+
+        <div class="container-fluid" style="border: 1px solid #000000;">
+            <ul class="ul-question list-unstyled">
+                <li class="li-class">
+                    <div class="li-question-answer-id"><p>A</p></div>
+                    <div class="li-question-answer-text"><p>Match 1</p></div>
+                </li>
+            </ul>
+            <ul class="ul-spacer list-unstyled">
+                <li></li>
+            </ul>
+            <ul class="ul-answer list-unstyled">
+                <li></li>
+            </ul>
+        </div>
+        <button class="btn btn-success" onclick="check_answer()">Check answer</button>
+    </div>
+</div>
+</body>
+
+<script src="../../project/js/jquery-1.10.2.js"></script>
+<script src="../../project/js/jquery-ui.js"></script>
+<script src="../../project/js/bootstrap.js"></script>
+<script>
+    var question = "Match1, Match2, Match3, Match4, Match5";
+    var answer = "Match1 answer, Match2 answer, Match3 answer, Match4 answer, Match5 answer";
+    function create_matches() {
+        var matches = question.split(", ");
+        var match_answer = answer.split(", ")
+
+    }
+
+    function check_answer() {
+
+    }
+</script>
+</html>
