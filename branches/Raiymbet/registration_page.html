@@ -329,10 +329,10 @@
 <!-- Creating modal -->
 <div class="modal fade" id="myModal" role="alert">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 400px; margin-left: 100px;">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal"><span class="fa fa-close"></span></button>
-                <h4>Registration status</h4>
+                <h4>Уведомление.</h4>
             </div>
             <div class="modal-body">
                 <p class="modal-body-text"></p>
@@ -370,13 +370,19 @@
             event.preventDefault();
             if (validate_select_ajax('teacher_gender')) {
                 console.log('Durys');
-                var jsondata = $(this).serializeArray();
-                jsondata.push({"user":"teacher"});
-                console.log(jsondata);
-                ajax_register(jsondata);
+                var data = {name:$("#form-teacher input[name='name']").val(),
+                            surname:$("#form-teacher input[name='surname']").val(),
+                            birthday:$("#form-teacher input[name='birthday']").val(),
+                            gender:$("#form-teacher select[name='gender']").val(),
+                            e_mail:$("#form-teacher input[name='e_mail']").val(),
+                            telephone:$("#form-teacher input[name='telephone']").val(),
+                            password:$("#form-teacher input[name='password']").val(),
+                            teacher_submit: true};
+                console.log(data);
+                ajax_register(data);
             }else{
                 $("#teacher_gender").focus();
-                console.log("Durys emes");
+                //егер гендер тандалмаған болса қызыл болады да сабмит орындалмайды
             }
         });
 
@@ -400,22 +406,21 @@
         }
     }
 
-    function ajax_register(jsondata) {
+    function ajax_register(data) {
         console.log("Hello Ajax");
         $.ajax({
             type: "POST",
-            dataType: JSON,
             url: "registration.php",
-            data: jsondata,
+            data: data,
             cache: false,
             beforeSend: function () {
                 $('#myModal').modal('show');
-                $("modal-body-text").append("<img src='img/loading.gif'>")
+                $(".modal-body-text").html("").append("<img src='img/loading.gif' name='load'>")
                 //show php returns information
             },
             success: function (response) {
                 console.log("Response:" + response);
-                $("myModal").find('.modal-body-text').text("Hello response");
+                $(".modal-body-text").html("").text(response);
             }
         });
     }

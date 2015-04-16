@@ -1,10 +1,10 @@
 #carousel-example-generic {
     width: 100%;
-    height: 500px;
+    height: 560px;
 }
 #images_carousel {
     width: 100%;
-    height: 500px;
+    height: 560px;
 }
 .my-nav-fixed{
     position: fixed;
@@ -14,9 +14,7 @@
 .border-left-solid {
     border-left: 1px solid #e4e4e4;
 }
-.carousel-control-fa-chevron {
-    margin-top: 220px;
-}
+
 .my-header {
     width: 100%;
     height: 10%;
@@ -44,14 +42,7 @@
     float: left;
     margin: 15px 15px 10px 10px;
 }
-.img-circle {
 
-}
-
-.img-circle:hover {
-    transition: .5s;
-    width: 500px;
-}
 /* Content tournament news */
 #content_news {
     width: 100%;
@@ -88,15 +79,63 @@
     width: 100%;
     padding-bottom: 8px;
     padding-top: 8px;
-    background-color: #bcbcd7;
+    background-color: #33B5E5;
 }
+/*Style of footer links*/
 .footer a{
+    color: #ffffff;
     text-decoration: none;
 }
+.footer a:hover{
+    color: #285e8e;
+}
+/*Style of carousel */
 .carousel-control.right{
     background-image: none;
 }
 
 .carousel-control.left{
     background-image: none;
+}
+
+.carousel-control-fa-chevron {
+    margin-top: 220px;
+}
+/*Style of navbar links menu*/
+.navbar-default .navbar-nav > li > a{
+    color: #ffffff;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+.navbar-default .navbar-nav > li > a:hover{
+    color: #5bc0de;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color: #33B5E5;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    background-color: #33B5E5;
+    color: #ffffff;
+}
+
+/*Style of contact us*/
+.header {
+    color: #36A0FF;
+    font-size: 27px;
+    padding: 10px;
+}
+
+.bigicon {
+
+    color: #36A0FF;
+}
+
+.container-top{
+    margin-top: 50px;
 }
