@@ -4,7 +4,7 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="student.php">
                     <img alt="Brand" src="img/icon.png" style="width: 32px;height: 32px"> Страница Студента
                 </a>
             </div>
@@ -12,7 +12,7 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="profile.php"><img src="img/%s"
+                <li><a href="profile.php"><img src="img/%s "
                                                 style="width: 32px;height: 32px;margin-right: 8px;margin-top: -8px">%s</a>
                 </li>
                 <li class="dropdown">

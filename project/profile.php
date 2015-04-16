@@ -14,23 +14,12 @@
 include_once 'utils.php';
 include_once 'connect.php';
 //Для пробный проверки достаточные эти данные
-$time = time() + 3600;
-setcookie("id", "1", time() + 3600);
-setcookie("name", "Raiymbet", time() + 3600);
-setcookie("email", "tukpetov@bk.ru", time() + 3600);
-setcookie("photo_url", "person_1.png", time() + 3600);
-setcookie("surname", "Tukpetov", $time);
-setcookie("birthday", "2015-03-01", $time);
-setcookie("gender", "F", $time);
-setcookie("telephone", "87755472936", $time);
-setcookie("group", "EN3_04KZ");
-setcookie("time", $time);
 if (check_user($con) == True) {
-    printf("<script>console.log('Пользователь найден ... OK')</script>");
+    printf("<script>console.log('Пользователь найден ... OK')</script>
+        ");
 } else {
     header("Location: main_page.html");
 }
-mysqli_close($con);
 require_once 'nav.php';
 ?>
 <div class="container" style="margin-top: 30px;">
@@ -185,13 +174,12 @@ require_once 'nav.php';
     function myFunction() {
         $(".delete_icon").css({"visibility": "hidden"});
         $("#submit").css({"visibility": "hidden"});
-        $('#alim').attr('src', lastResponse.photo_url);
+        $('#alim').attr('src', "img/"+lastResponse.photo_url);
 
     }
     $("#imgInp").change(function () {
         readURL(this);
     });
-
     function Changesave() {
         alert("Save change")
     }
