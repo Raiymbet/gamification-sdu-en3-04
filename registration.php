@@ -92,11 +92,11 @@ if ($user=='student' || $user=='teacher') {
            or die(mysqli_error($con));
          }
         if($con==true)
-            echo "<b>Регистрация прошла успешно</b>";
+            echo "Регистрация прошла успешно";
     } else {
-        echo "<b>При регистрации произошло ошибка</b><br>";
+        echo "<p>При регистрации произошло ошибка</p>";
         foreach ($err AS $error) {
-            echo $error . "<br>";
+            echo "<p>". $error . "</p>";
         }
     }
     mysqli_close($con);
