@@ -91,13 +91,13 @@
                 <div role="tabpanel" class="tab-pane fade in active" id="teacher">
                     <div class="col-10 col-offset-1">
                         <!-- Teacher form -->
-                        <form class="form-teacher" method="post" action="registration.php">
+                        <form class="form-teacher" id="form-teacher" method="post" action="registration.php">
                             <!-- Teacher name -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
                                     <input type="text" class="form-control" placeholder="Имя" name="name"
-                                           id="teacher_name" required pattern="[a-zA-Z\-]{2,50}"
+                                           id="teacher_name" required pattern="[а-яА-Яa-zA-Z \-]{2,50}"
                                            title="Пожалуйста, напишите ваше реальное имя">
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
                                     <input type="text" class="form-control" placeholder="Фамилия" name="surname"
-                                           id="teacher_surname" required pattern="[A-Za-z\-]{2,50}"
+                                           id="teacher_surname" required pattern="[а-яА-ЯA-Za-z \-]{2,50}"
                                            title="Пожалуйста, напишите свой реальный фамилию">
                                 </div>
                             </div>
@@ -124,8 +124,8 @@
                                     <div class="input-group-addon"><span class="fa fa-genderless"></span></div>
                                     <select class="form-control" name="gender" id="teacher_gender" required>
                                         <option value="0" selected disabled>Выберите ваш пол</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
+                                        <option value="Мужской">Мужской</option>
+                                        <option value="Женский">Женский</option>
                                     </select>
                                 </div>
                             </div>
@@ -151,13 +151,13 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-key"></span></div>
                                     <input type="password" class="form-control" placeholder="Пароль" name="password"
-                                           required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,})"
+                                           required pattern="((?=.*\d)(?=.*[a-zа-я])(?=.*[A-ZА-Я])[0-9a-zA-Z]{6,})"
                                            title="Пароль должен содержать большие буквы, маленькие буквы, цифры и длиной как минимум 6 символа">
                                 </div>
                             </div>
                             <!-- Teacher submit -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success submit" name="teacher_submit" onsubmit="">
+                                <button type="submit" class="btn btn-success submit" name="teacher_submit">
                                     Отправить
                                 </button>
                             </div>
@@ -167,7 +167,8 @@
 
                 <div role="tabpanel" class="tab-pane fade" id="student">
                     <div class="col-10 col-offset-1">
-                        <form class="form-teacher" method="post" action="registration.php">
+                        <!-- Форма студента -->
+                        <form class="form-teacher" id="form-student">
                             <!-- Student name -->
                             <div class="form-group">
                                 <div class="input-group">
@@ -254,7 +255,7 @@
 
                             <!-- Student submit -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success submit" name="student_submit">Отправить
+                                <button class="btn btn-success submit" name="student_submit">Отправить
                                 </button>
                             </div>
                         </form>
@@ -326,7 +327,7 @@
 </footer>
 
 <!-- Creating modal -->
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="myModal" role="alert">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -364,6 +365,21 @@
         $("select[id=student_gender]").change(function () {
             validate_select('student_gender');
         }).change();
+
+        $("#form-teacher").submit(function (event) {
+            event.preventDefault();
+            if (validate_select_ajax('teacher_gender')) {
+                console.log('Durys');
+                var jsondata = $(this).serializeArray();
+                jsondata.push({"user":"teacher"});
+                console.log(jsondata);
+                ajax_register(jsondata);
+            }else{
+                $("#teacher_gender").focus();
+                console.log("Durys emes");
+            }
+        });
+
     });
 
     function validate_select(select_id) {
@@ -375,46 +391,33 @@
             }
         });
     }
-    function show_modal() {
-        $("#myModal").on('show.bs.modal', function (event) {
-            var modal = $(this);
-            modal.find('.modal-body-text').text("Hello ajax shall work");
-        });
+
+    function validate_select_ajax(select_id){
+        if($("select[id='" + select_id + "'] option:selected").val()=='0'){
+            return false;
+        }else{
+            return true;
+        }
     }
-    function ajax_register() {
-        console.log("Hello AJAX");
-        var result;
-        if (window.XMLHttpRequest()) {
-            result = new XMLHttpRequest();
-        } else {
-            result = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        result.onreadystatechange = function () {
-            if (result.readyState == 4 && result.status == 200) {
-                $("text-purpose").innerText = result.responseText;
-            }
-        }
+
+    function ajax_register(jsondata) {
+        console.log("Hello Ajax");
         $.ajax({
             type: "POST",
+            dataType: JSON,
             url: "registration.php",
-            data: {id: ID, q: 'question'},
+            data: jsondata,
             cache: false,
             beforeSend: function () {
                 $('#myModal').modal('show');
+                $("modal-body-text").append("<img src='img/loading.gif'>")
+                //show php returns information
             },
             success: function (response) {
-                setTimeout(function(){},200);
-                $('#myModal').modal('hide');
                 console.log("Response:" + response);
-                if (response == 'OK') {
-                    alert("Регистрация успешно завершена");
-                } else {
-                    alert("Произошло ошибка" + response);
-                }
+                $("myModal").find('.modal-body-text').text("Hello response");
             }
         });
-        result.open("POST", "registration.php", true);
-        result.send();
     }
 </script>
 </html>
