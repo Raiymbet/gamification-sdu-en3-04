@@ -82,15 +82,15 @@
         }
     }
     function set_random_int(length_of_answer, array) {
-        array[0] = get_random();
+        array[0] = get_random(length_of_answer);
         for (var i = 1; i < length_of_answer; i++) {
-            a = get_random();
+            a = get_random(length_of_answer);
             if (!dont_have(a, array)) {
                 array.push(a);
             }else
                 i--;
         }
-        function get_random() {
+        function get_random(length_of_answer) {
             return Math.floor(Math.random() * length_of_answer);
         }
 
