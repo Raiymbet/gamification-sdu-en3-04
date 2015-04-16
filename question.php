@@ -38,7 +38,7 @@
         header("Location: main_page.html");
     }
     mysqli_close($con);
-    require_once 'nav.php';
+    -require_once 'nav.php';
     ?>
     <div class="col-2" style="margin-top:4%">
         <div class="row">

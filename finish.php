@@ -60,7 +60,7 @@
     echo empty('');
     $id_result=$_GET['id_result'];
     if(!isset($_GET['id_result']) && empty($_GET['id_result'])){
-     return 404;   
+     header("Location: error.php");
     }
     $query=mysqli_query($con,"SELECT 
         A.id as id,
