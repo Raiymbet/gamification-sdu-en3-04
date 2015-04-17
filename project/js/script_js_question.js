@@ -42,7 +42,7 @@ function finishResult() {
             url: 'calculateResult.php',
             data: {
                 command: 'cResult',
-                id_student: 1,
+                id_student: id_student,
                 id_tournament: id_tournament,
                 time_end: time_limit,
                 count_correct_answers: correct_answer,
@@ -214,6 +214,7 @@ $("#finish").click(function () {
         cmp = total_info.question[current_question++];
         nextQuestion(cmp);
     } else {
+        alert("FIRST REQUEST");
         finishResult();
     }
 });
@@ -251,14 +252,16 @@ function type_3_method_check_answer() {
             $(this).addClass('incorrect');
         }
         i++;
+        if(i==a3.length){
         setTimeout(function () {
             if (current_question < total_question) {
                 cmp = total_info.question[current_question++];
                 nextQuestion(cmp);
             } else {
+                alert("GAME FINISH");
                 finishResult();
             }
-        }, 3000);
+        }, 2000);}
     });
 }
 init();

@@ -105,6 +105,26 @@ if ($user == 'student' || $user == 'teacher') {
             setcookie("photo_url", "person_1.png", $time);
             setcookie('email', $email, $time);
             setcookie("time", $time, $time);
+            //Для регистрация студента в группу
+            $id_groups =1;
+            $status =1;
+            $id_student = $r['id'];
+            $approved = 1;
+            $query = "SELECT COUNT(*) as count FROM tb_group_students WHERE id_groups='$id_groups' and id_student='$id_student' ";
+            $result = mysqli_query($con, $query);
+            $row = mysqli_fetch_array($result);
+            $count = $row['count'];
+            $date_request = date("Y-m-d H:i:s");
+            $date_approved = date("Y-m-d H:i:s");
+            if ($count == 0) {
+                $query = "INSERT INTO tb_group_students(id_groups,id_student,approved,date_request,date_approved)
+        VALUES($id_groups,$id_student,'$approved','$date_request','$date_approved')";
+                mysqli_query($con, $query) or die('Error3' . mysqli_error($con));
+            } else {
+                $query = "UPDATE tb_group_students SET
+        approved='$approved' and date_approved='$date_approved'
+        WHERE id_groups='$id_groups' and id_student='$id_student')" or die('Error4' . mysqli_error($con));
+                mysqli_query($con, $query) or die('Error5' . mysqli_error($con));}
             header("Location: success.php?name=$name");
 
 

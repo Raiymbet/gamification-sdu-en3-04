@@ -91,16 +91,18 @@ require_once 'nav.php';
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <?php
+                        $id_student=$_COOKIE['id'];
+                        echo $id_student;
                         $query = mysqli_query($con, "SELECT A.id_student,
                             SUM(A.score) as SUM_SCORE,
                             SUM(A.time_end) as SUM_TIME,
                             SUM(A.correct_answers) as SUM_CORRECT
                             FROM tb_student_result A 
-                            where A.id_student=1") or die(mysqli_error($con));
+                            where A.id_student='$id_student' ") or die(mysqli_error($con));
                         $row = mysqli_fetch_array($query);
                         $query2 = mysqli_query($con, "SELECT COUNT(B.id) as COUNT
                             FROM tb_student_result A,tb_questions B 
-                            WHERE A.id_tournament=B.id_tournament and A.id_student=1;");
+                            WHERE A.id_tournament=B.id_tournament and A.id_student='$id_student';");
                         $row2 = mysqli_fetch_array($query2);
                         $COUNT = $row2['COUNT'];
                         $NEPRAVILNIE = $COUNT - $row['SUM_CORRECT'];

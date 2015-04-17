@@ -38,10 +38,10 @@ require_once 'nav.php';
     <div class="row">
         <div class="col-8 col-offset-2">
             <div style="background:rgb(230, 224, 224);border-radius: 20px">
-                <div class="row" style="margin:8px;padding: 8px">
+                <div class="row" style="padding: 20px">
                     <div class="col-3"><img src="img/error.png" height="128px" width="128px" alt="">
                     </div>
-                    <div class="col-9">
+                    <div class="col-9" style="margin-top:-5%">
                         <?php
                         if (isset($_GET['message'])) {
                             echo '<h3 style="margin-top:10%;margin-left:2%;">Критическая ошибка в системе</h3>
@@ -53,6 +53,10 @@ require_once 'nav.php';
                             набрали адресс</h4>';
                         }
                         ?>
+                        <div class="row">
+                            <div class="col-6"><a role="button" href="main_page.html" class="btn btn-default">Вернутся
+                                    на главною страницу</a></div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -83,7 +83,6 @@ function addStudentToGroup()
 {
         //Integer::id_student, Integer::id_teacher, Integer::id_groups,Integer::status
     include_once 'connect.php';
-    setcookie('id_student','1',3600*3600);
     if(!isset($_POST['id_tournament']) || empty($_POST['id_tournament']))
         exit('id_tournament');
     if(!isset($_POST['id_teacher'])  || empty($_POST['id_teacher']))
@@ -99,6 +98,7 @@ function addStudentToGroup()
     $id_teacher=$_POST['id_teacher'];
     $id_groups=$_POST['id_groups'];
     $status=$_POST['status'];
+    $id_student=$_POST['id_student'];
     $approved=$_POST['approved'];
     $query="SELECT COUNT(*) as COUNT FROM tb_groups_students WHERE id_groups='$id_groups' and id_student='$id_student' ";
     $result=mysqli_query($con,$query);
