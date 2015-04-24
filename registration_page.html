@@ -420,7 +420,7 @@
             },
             success: function (response) {
                 console.log("Response:" + response);
-                $(".modal-body-text").html("").text(response);
+                $(".modal-body-text").html("").append(response);
             }
         });
     }
