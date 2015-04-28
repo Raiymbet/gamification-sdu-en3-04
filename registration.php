@@ -62,7 +62,7 @@ if ($user=='student' || $user=='teacher') {
     }
     $row = mysqli_fetch_assoc($count_user);
     if ($row['COUNT'] > 0) {
-        $err[] = "User already exists on database";
+        $err[] = "Такой пользователь уже существует";
     }
     $row = null;
     //if no error we can register user
@@ -92,11 +92,11 @@ if ($user=='student' || $user=='teacher') {
            or die(mysqli_error($con));
          }
         if($con==true)
-            echo "Регистрация прошла успешно";
+            echo "<p class='text-success'><strong>Регистрация прошла успешно!</strong></p>";
     } else {
-        echo "<p>При регистрации произошло ошибка</p>";
+        echo "<p class='text-danger'><strong>При регистрации произошло ошибка!</strong></p>";
         foreach ($err AS $error) {
-            echo "<p>". $error . "</p>";
+            echo "<p class='text-danger'>". $error . "</p>";
         }
     }
     mysqli_close($con);

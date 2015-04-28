@@ -57,6 +57,7 @@
             font-size: 14px;
             float: left;
         }
+
         hr {
             height: 30px;
             width: 95%;
@@ -66,6 +67,7 @@
             border-radius: 20px;
             margin-top: 25%;
         }
+
         hr:before {
             display: block;
             content: "";
@@ -76,16 +78,28 @@
             border-width: 0 0 1px 0;
             border-radius: 20px;
         }
+
         .correct {
             border: solid 2px green;
         }
+
         .incorrect {
             border: solid 2px red;
+        }
+
+        .correct-id {
+            border: solid 2px green;
+            background-color: green;
+        }
+
+        .incorrect-id {
+            border: solid 2px red;
+            background-color: red;
         }
     </style>
 </head>
 <body>
-<div class="container" >
+<div class="container">
     <div class="container-fluid"><!--  -->
         <p id="p">
             Match each letter with the correct answer:
@@ -115,27 +129,31 @@
         create_matches();
         $('.ul-answer').sortable().disableSelection();
     });
-    var question = [ 'Match 1', 'Match 2', 'Match 3'];
-    var answer = [ 'Match 1 answer', 'Match 2 answer', 'Match 3 answer'];
+    var question = ['Match 1', 'Match 2', 'Match 3'];
+    var answer = ['Match 1 answer', 'Match 2 answer', 'Match 3 answer'];
     //Базадан алынған мәліметтер бойынша сұрақ-жауап құратын функция
     function create_matches() {
         var answer_mix_id = set_random_int(answer.length);
-        for(var i=0; i<question.length; i++){
-            $('.ul-question').append('<li class="li-class">'+'<div class="li-question-answer-id">'+String.fromCharCode(65+i)+'</div>' +
-            '<div class="li-question-answer-text"><p>'+question[i]+'</p></div></li>');
+        for (var i = 0; i < question.length; i++) {
+            $('.ul-question').append('<li class="li-class">' + '<div class="li-question-answer-id">' + String.fromCharCode(65 + i) + '</div>' +
+            '<div class="li-question-answer-text"><p>' + question[i] + '</p></div></li>');
             $('.ul-spacer').append("<li class='li-class'><hr align='center'></li>");
-            $('.ul-answer').append('<li class="li-class">'+'<div class="li-question-answer-id">'+(i+1)+'</div>' +
-            '<div class="li-question-answer-text"><p>'+answer[answer_mix_id[i]]+'</p></div></li>');
+            $('.ul-answer').append('<li class="li-class">' + '<div class="li-question-answer-id" id="answer-id">' + (i + 1) + '</div>' +
+            '<div class="li-question-answer-text" id="answer-text"><p>' + answer[answer_mix_id[i]] + '</p></div></li>');
         }
     }
     //Сұрақ жауаптарын тексеретін функция
     function check_answer() {
         console.log("I am checked");
-        $('.ul-answer .li-question-answer-text').each(function(i, text){
-            if(answer[i]==$(text).text()){
-                $(text).addClass('correct');
-            }else
-                $(text).addClass('incorrect');
+        $('.ul-answer .li-class').each(function (i, text) {
+            console.log($(text).find('.li-question-answer-text').text());
+            if (answer[i] == $(text).find('.li-question-answer-text').text()) {
+                $(text).find('.li-question-answer-text').addClass('correct');
+                $(text).find('.li-question-answer-id').addClass('correct-id');
+            } else{
+                $(text).find('.li-question-answer-text').addClass('incorrect');
+                $(text).find('.li-question-answer-id').addClass('incorrect-id');
+            }
         });
     }
     //Сұрақ жауаптарын рандомлы араластырып қоятын функция
@@ -146,7 +164,7 @@
             a = get_random();
             if (!dont_have(a, array)) {
                 array.push(a);
-            }else
+            } else
                 i--;
         }
         function get_random() {
@@ -162,6 +180,7 @@
             }
             return have;
         }
+
         return array;
     }
 </script>
