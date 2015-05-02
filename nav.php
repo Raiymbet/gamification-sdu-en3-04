@@ -5,7 +5,7 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <img alt="Brand" src="img/icon.png" style="width: 32px;height: 32px"> Страница Студента
+                    <img alt="Brand" src="img/icon.png" style="width: 32px;height: 32px"> BattleBrains
                 </a>
             </div>
         </div>
@@ -19,11 +19,11 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Contacts</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
+                        <li><span class="glyphicon glyphicon-question-sign"></span><a href="#">Help</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-book"></span>Contacts</a></li>
                         <li class="divider"></li>
-                        <li><a href="logout.php">Log Out</a></li>
+                        <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span>Log Out</a></li>
                     </ul>
                 </li>
             </ul>
