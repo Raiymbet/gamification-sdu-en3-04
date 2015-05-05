@@ -371,13 +371,13 @@
             if (validate_select_ajax('teacher_gender')) {
                 console.log('Durys');
                 var data = {name:$("#form-teacher input[name='name']").val(),
-                            surname:$("#form-teacher input[name='surname']").val(),
-                            birthday:$("#form-teacher input[name='birthday']").val(),
-                            gender:$("#form-teacher select[name='gender']").val(),
-                            e_mail:$("#form-teacher input[name='e_mail']").val(),
-                            telephone:$("#form-teacher input[name='telephone']").val(),
-                            password:$("#form-teacher input[name='password']").val(),
-                            teacher_submit: true};
+                        surname:$("#form-teacher input[name='surname']").val(),
+                        birthday:$("#form-teacher input[name='birthday']").val(),
+                        gender:$("#form-teacher select[name='gender']").val(),
+                        e_mail:$("#form-teacher input[name='e_mail']").val(),
+                        telephone:$("#form-teacher input[name='telephone']").val(),
+                        password:$("#form-teacher input[name='password']").val(),
+                        teacher_submit: true};
                 console.log(data);
                 ajax_register(data);
             }else{
