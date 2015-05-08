@@ -32,12 +32,12 @@ function calculateResult()
     or die(mysqli_error($con));
     if($query==True && mysqli_num_rows($query)>0){
         while($row=mysqli_fetch_array($query)){
-         $total_question=$row['count'];
-         $time_limit= $row['time_limit'];
-         $when_closed=$row['when_closed'];
+           $total_question=$row['count'];
+           $time_limit= $row['time_limit'];
+           $when_closed=$row['when_closed'];
                //when_closed; - >Если пользователь опоздал, то его данные не заноситься
-     }
- }else{
+       }
+   }else{
     exit("Error404!Tournament not found");
 }
 
@@ -68,11 +68,11 @@ if(!$row){
 }
 else if($count==0){
     $query=mysqli_query($con,"INSERT INTO tb_student_result(id_student,id_tournament,score,time_end,percent_correct,correct_answers,datetime)
-     VALUES('$id_student','$id_tournament','$score','$time_end','$percent_correct','$correct_answers','$datetime')") or die('Error1:'.mysqli_error($con));
- $query=mysqli_query($con,"SELECT id from tb_student_result WHERE id_student='$id_student' and id_tournament='$id_tournament'");
- $row=mysqli_fetch_array($query);
- header("Content-Type: application/json; charset=utf-8");
- exit('{ "OK" :'.$row['id'].'}');
+       VALUES('$id_student','$id_tournament','$score','$time_end','$percent_correct','$correct_answers','$datetime')") or die('Error1:'.mysqli_error($con));
+    $query=mysqli_query($con,"SELECT id from tb_student_result WHERE id_student='$id_student' and id_tournament='$id_tournament'");
+    $row=mysqli_fetch_array($query);
+    header("Content-Type: application/json; charset=utf-8");
+    exit('{ "OK" :'.$row['id'].'}');
 
 }
 else{
@@ -121,11 +121,11 @@ function createGroup(){
     include_once 'connect.php';
     //Integer::id_teacher,String::title,String::category
     if(!isset($_POST['id_teacher']) || empty($_POST['id_teacher']))
-        exit('id_teacher');
+        exit('1');
     if(!isset($_POST['title']) || empty($_POST['title']))
-        exit('title'); 
+        exit('3'); 
     if(!isset($_POST['category']) || empty($_POST['category']))
-        exit('category');
+        exit('4');
     $id_teacher=$_POST['id_teacher'];
     $title=$_POST['title'];
     $category=$_POST['category'];
@@ -163,7 +163,7 @@ function destroyGroup(){
         WHERE A.id_student=B.id AND A.id_groups='$id_groups'");
     $result=mysqli_query($con,$query) or die('Error6'.mysqli_error($con));
     if($result){
-     while($row=mysqli_fetch_array($result)){
+       while($row=mysqli_fetch_array($result)){
         $element=array('id'=>$row['id'],
             'name'=>$row['name'],
             'email'=>$row['email']);
@@ -250,8 +250,8 @@ function createTournaments(){
 }
 /*USEFUL FUNCTION*/  
 function random_secret_code($chars = 5) {
- $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
- return substr(str_shuffle($letters), 0, $chars);
+   $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+   return substr(str_shuffle($letters), 0, $chars);
 }
 function my_statistics(){
     include_once 'connect.php';
@@ -340,6 +340,26 @@ function show_students_raitings(){
     return $result;
 }
 }
+function getGroupListStudent(){
+
+    if(!isset($_POST['id_groups']) || empty($_POST['id_groups']))
+        exit('id_groups');
+    $id_groups=$_POST['id_groups'];
+    include_once 'connect.php';
+    $query=mysqli_query($con,"SELECT A.id_student as id_student,A.approved as approved,A.date_request as date_request,A.date_approved as date_approved,B.id,CONCAT(B.surname,' ',B.name) as fullname,B.photo_url as photo_url FROM tb_group_students A,tb_student B WHERE A.id_student=B.id AND A.id_groups=' $id_groups'");
+    if(mysqli_num_rows($query)>0){
+        $array=array();
+        header("Content-Type: application/json; charset=utf-8");
+        while($row=mysqli_fetch_array($query)){
+            array_push($array,(array('id_student'=>$row['id_student'],'approved'=>$row['approved'],'date_request'=>$row['date_request'],'date_approved'=>$row['date_approved'],'fullname'=>$row['fullname'],'photo_url'=>$row['photo_url'])));
+        }
+        exit(json_encode($array,JSON_UNESCAPED_UNICODE));
+
+    }else{
+        exit("-1");
+    }
+
+}
 function removeSpecialCharacters($str=''){
     mb_regex_encoding('UTF-8');
     $pattern = '/[^A-Za-z0-9А-Яа-я\- ]/';
@@ -350,17 +370,21 @@ if(isset($_POST['command']) && !empty($_POST['command'])){
     $command=$_POST['command'];
     if($command=='cResult')
         calculateResult();
-    else if($command=='cGroupAdd'){
+    else if($command=='cGroupGetListStudent')
+        getGroupListStudent();
+    else if($command=='cCreateGroup')
+        createGroup();
+    else if($command=='cGroupAdd')
         addStudentToGroup();
-    }else if($command=='cGroupDestroy'){
+    else if($command=='cGroupDestroy')
         destroyGroup();
-    }else if($command=='cCreateTournament'){
+    else if($command=='cCreateTournament')
         createTournaments();
-    }else if($command=='cRaintings'){
+    else if($command=='cRaintings')
         show_students_raitings();
-    }else{
+    else
         exit('Command not found');   
-    }
+    
 }else{
     exit('Command not found');
 }
