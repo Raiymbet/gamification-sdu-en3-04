@@ -1,6 +1,5 @@
 $("a[role=link]").click(function () {
     var name = $(this).attr("name");
-    console.clear();
     $("a[role=link]").each(function () {
         $(this).removeClass().removeClass().addClass("list-group-item");
         console.log("CON");
@@ -10,17 +9,28 @@ $("a[role=link]").click(function () {
         $("#main-frame").fadeIn("fast");
         $("#nagrada-frame").fadeOut("fast");
         $("#raiting-frame").fadeOut("fast");
+
+        $("#group-frame").fadeOut("fast");
         activate = 0;
     } else if (name == 'Profile') {
         $("#main-frame").fadeOut("fast");
         $("#nagrada-frame").fadeIn("fast");
         $("#raiting-frame").fadeOut("fast");
+
+        $("#group-frame").fadeOut("fast");
         activate = 1;
     } else if (name == 'Messages') {
         $("#nagrada-frame").fadeOut("fast");
         $("#main-frame").fadeOut("fast");
         $("#raiting-frame").fadeIn("fast");
+
+        $("#group-frame").fadeOut("fast");
         activate = 2;
+    }else if (name == 'group'){
+        $("#group-frame").fadeIn("fast");
+        $("#nagrada-frame").fadeOut("fast");
+        $("#main-frame").fadeOut("fast");
+        $("#raiting-frame").fadeOut("fast");
     }
 });
 activate = 0;
@@ -68,7 +78,7 @@ $(document).ready(function () {
     [2007, 148000], [2008, 114000], [2009, 133000], [2010, 161000], [2011, 173000]];
     var s2 = [[2002, 10200], [2003, 10800], [2004, 11200], [2005, 11800], [2006, 12400], 
     [2007, 12800], [2008, 13200], [2009, 12600], [2010, 13100]];
- 
+
     plot1 = $.jqplot("staticChart", [s2, s1], {
         // Turns on animatino for all series in this plot.
         animate: true,
@@ -81,14 +91,14 @@ $(document).ready(function () {
             showTooltip: false
         },
         series:[
-            {
-                pointLabels: {
-                    show: true
-                },
-                renderer: $.jqplot.BarRenderer,
-                showHighlight: false,
-                yaxis: 'y2axis',
-                rendererOptions: {
+        {
+            pointLabels: {
+                show: true
+            },
+            renderer: $.jqplot.BarRenderer,
+            showHighlight: false,
+            yaxis: 'y2axis',
+            rendererOptions: {
                     // Speed up the animation a little bit.
                     // This is a number of milliseconds.  
                     // Default for bar series is 3000.  
@@ -111,11 +121,11 @@ $(document).ready(function () {
                     }
                 }
             }
-        ],
-        axesDefaults: {
-            pad: 0
-        },
-        axes: {
+            ],
+            axesDefaults: {
+                pad: 0
+            },
+            axes: {
             // These options will set up the x axis like a category axis.
             xaxis: {
                 tickInterval: 1,
@@ -123,9 +133,9 @@ $(document).ready(function () {
                 drawMinorGridlines: true,
                 drawMajorTickMarks: false,
                 rendererOptions: {
-                tickInset: 0.5,
-                minorTicks: 1
-            }
+                    tickInset: 0.5,
+                    minorTicks: 1
+                }
             },
             yaxis: {
                 tickOptions: {
@@ -153,5 +163,20 @@ $(document).ready(function () {
             sizeAdjust: 7.5 , tooltipLocation : 'ne'
         }
     });
-   
+
+/*Teacher page JS*/
+/*Checkbox selectection*/
+var count_checked=0;
+$("input[type='checkbox']").click(function(event){
+    console.log('Hellow');
+    $("#result_popup").html($(this).val()); 
 });
+$("#s").click(function(){
+    alert("DDD");
+});
+
+$(".list-group-item").hover(function(){
+    $(".messsage_window").append("Console.log");
+});
+});
+

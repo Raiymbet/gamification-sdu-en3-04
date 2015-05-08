@@ -3,6 +3,18 @@
     height: 250px;
     margin: 8px auto;
 }
+#dsfghjkhgfds{
+    position: absolute;
+    left:0px;
+    right: 0px;
+    opacity: 0.5;
+    max-width: 100px;
+    min-width: 50px;
+    min-height: 100px;
+    overflow: auto;
+    max-height: 300px;
+    background-color: rgba(0,0,0,0.5);
+}
 body{
     padding-top: 70px;
     font-size: 14px;
@@ -83,7 +95,10 @@ th {
     margin-top: 20px;
     font-size: 18px
 }
-
+.btn-icon{
+    width: 18px;
+    height: 18px;
+}
 .question {
     font-size: 16px;
     color: #464646;
@@ -225,4 +240,10 @@ html > body #ul_for_answer li {
     top: 100px;
     border-radius: 5%;
     border: 1px solid black
+}
+
+.alert-info{
+    padding:0px;
+    margin: 0px;
+    width: 100%;
 }
