@@ -86,12 +86,18 @@
                                         <span class="glyphicon glyphicon-home"></span>
                                         Главная
                                     </a>
+                                    <!-- <a role="link" href="#" name="Messages" class="list-group-item">
+                                             <img src="img/chat_message.png" width="18" height="18" alt="no_photo">
+                                             Мой Сообщение
+                                         </a>
+                                     -->
                                     <a role="link" href="#" name="Messages" class="list-group-item">
                                         <span class="glyphicon glyphicon-stats"></span>
                                         Рейтинг студентов
                                     </a>
                                     <a role="link" href="#" name="group" class="list-group-item">
-                                        <img src="img/group_icon.png" style="margin-bottom:-1px;weight:18px;height:18px;">Группа</a>
+                                        <img src="img/group_icon.png" style="margin-bottom:-1px;weight:18px;height:18px;">Группа
+                                    </a>
                                         <a role="link" href="#" name="Messages" class="list-group-item">
                                             <span class="glyphicon glyphicon-stats"></span>
                                             Статистика
@@ -152,8 +158,8 @@
 }
 }
 ?>
-</div>
-</div>
+                                    </div>
+                                </div>
 <!-- Nagrada frame -->
 <div class="col-8  col-offset-3" id="nagrada-frame" style="display: none">
     <div class="well">
@@ -273,47 +279,46 @@
                 <div class="raiting_item">
                     <?php
                     $query = mysqli_query($con, "SELECT
-                        B.id as id_student,
-                        B.name as name,
-                        B.surname as surname,
-                        B.photo_url as photo_url,
-                        SUM(A.score) as total_score,
-                        C.id_groups as id_groups,
-                        D.title as group_name 
-                        FROM tb_student_result A,tb_student B,tb_group_students C,tb_groups D 
-                        where A.id_student=B.id and A.id_student=C.id_student and C.id_groups=D.id
-                        GROUP BY id_student,name,surname,photo_url,id_groups,group_name ORDER BY total_score DESC LIMIT 10") or die(mysqli_error($con));
+                                            B.id as id_student,
+                                            B.name as name,
+                                            B.surname as surname,
+                                            B.photo_url as photo_url,
+                                            SUM(A.score) as total_score,
+                                            C.id_groups as id_groups,
+                                            D.title as group_name
+                                            FROM tb_student_result A,tb_student B,tb_group_students C,tb_groups D
+                                            where A.id_student=B.id and A.id_student=C.id_student and C.id_groups=D.id
+                                            GROUP BY id_student,name,surname,photo_url,id_groups,group_name ORDER BY total_score DESC LIMIT 10") or die(mysqli_error($con));
                     $i = 1;
                     if (!$query || mysqli_num_rows($query) >
                         0
-                        ) {
+                    ) {
                         while ($row = mysqli_fetch_array($query)) {
-                            printf('
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="col-1">
-                                            <h2>%s</h2>
-                                        </div>
-                                        <div class="col-1">
-                                            <img src="img/%s"></div>
-                                            <div class="col-5">
-                                                <h4>
-                                                    <a href="profile.php?id=%s">%s</a>
-                                                </h4>
-                                                <h4>%s</h4>
-                                            </div>
-                                            <div class="col-1 pull-right" style="margin-right: 56px">
-                                                <h4 class="gold_text">%s</h4>
-                                            </div>
-                                        </div>
+                            printf('<div class="row">
+                                <div class="col-12">
+                                    <div class="col-1">
+                                        <h2>%s</h2>
                                     </div>
-                                    ', $i++, $row['photo_url'], $row['id_student'], $row['surname'] . ' ' . $row['name'], $row['group_name'], $row['total_score']);
-}
-}
-?>
-</div>
-</div>
-</div>
+                                    <div class="col-1">
+                                        <img src="img/%s">
+                                    </div>
+                                    <div class="col-5">
+                                        <h4>
+                                        <a href="profile.php?id=%s">%s</a>
+                                        </h4>
+                                        <h4>%s</h4>
+                                    </div>
+                                    <div class="col-1 pull-right" style="margin-right: 56px">
+                                        <h4 class="gold_text">%s</h4>
+                                    </div>
+                                </div>
+                            </div>', $i++, $row['photo_url'], $row['id_student'], $row['surname'] . ' ' . $row['name'], $row['group_name'], $row['total_score']);
+                        }
+                    }
+                    ?>
+                </div>
+            </div>
+    </div>
 </div>
 <!-- Group -->
 <div class="col-8 col-offset-3" id="group-frame">
@@ -330,6 +335,7 @@
             </div>
 
             <!-- Надо укоротить код -->
+        <!-- Modal Create New group -->
             <div class="panel-body" style="min-height:560px">
                 <div class="modal fade bs-example-modal-sm"  id="myModal" >
                     <div class="modal-dialog modal-sm" style="width:400px" >
@@ -367,61 +373,112 @@
                         <button type="button" class="btn btn-primary" id='groud_add_btn'>Создать группу</button>
                     </div>
                 </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
+                    </div>
+                </div>
+                <!-- /.modal-dialog -->
+                <!-- Modal Edit Group Name -->
+                <div class="modal fade bs-example-modal-sm" id="myModalEditGroupName">
+                    <div class="modal-dialog modal-sm" style="width:400px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Изменить имя группы</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="new_group_name" class="col-sm-2 control-label">Новое имя
+                                                    группы</label>
+
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" type="text" id="new_name_group"
+                                                           placeholder='Имя группы'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id='group_change_name'>Изменить имя
+                                    группы
+                                </button>
+                            </div>
         </div>
-        <div class="row">
-           <div class="col-3">
-               <ul class="nav nav-pills nav-stacked">
-                   <?php
+                        <!--  <div class="modal fade bs-example-modal-sm"  id="myModalDeleteFromGroup" >
+                              <div class="modal-dialog modal-sm" style="width:400px" >
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                      <h4 class="modal-title">Удалить из группы</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="row">
+                                         <div class="form-group">
+                                             <div class="row">
+                                                 <div class="col-12">
+                                                  <div class="col-sm-10" id="placeDeleteDiv">
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Нет, не удалять</button>
+                                  <button type="button" class="btn btn-primary" id='group_change_name'>Да, удалить из групп</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <ul class="nav nav-pills nav-stacked">
+                            <?php
 
-                   $query=mysqli_query($con,"SELECT * FROM tb_groups") or die(mysqli_error($con));
-                   if(mysqli_num_rows($query)>0){
-                    $first=true;
-                    while($row=mysqli_fetch_array($query)){
-                        printf("<li role='presentation' %s name='%s'><a href='#' onclick=\"get_groups('%s')\">%s</a></li>",($first)?'class=\'active\'':'',$row['id'],$row['id'],$row['title']);
-                        $first=false;
-                    }
-                }else{
+                            $query = mysqli_query($con, "SELECT * FROM tb_groups") or die(mysqli_error($con));
+                            if (mysqli_num_rows($query) > 0) {
+                                $first = true;
+                                while ($row = mysqli_fetch_array($query)) {
+                                    printf("<li role='presentation' %s name='%s'><a href='#' onclick=\"get_groups('%s')\">%s
+                    <span class='glyphicon glyphicon-remove pull-right' onclick='removeGroups(\"%s\")' style='margin-right:8px'>
+                    </span><span class='glyphicon glyphicon-pencil pull-right' onclick='editNameGroups(\"%s\",\"%s\")'></span>
+                </a>
+            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'], $row['id'], $row['id'], $row['title']);
+                                    $first = false;
+                                }
+                            } else {
 
-                }
-                ?>
-                <li role="presentation" name='addGroups' data-toggle="modal" data-target="#myModal"><a href="#"><span class="glyphicon glyphicon-plus-sign"></span>Создать группу</a></li>
-            </ul>
-        </div>
-        <div class="col-9">
-          <table class="table">
-            <thead>
-                <tr>
-                    <th width="100%"></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="tb_groups_table">
-                <tr><td><div class="row">
-                    <div class="col-2"><img src="img/person.png" height="32px" width="32px" alt="" class="img img-cirlce"></div>
-                    <div class="col-10">UserName Surname</div>
-                </div></td><td>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Action <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#"><img src="img/chat_message.png" width="18" height="18" alt="no_photo"> Отправить сообщение</a></li>
-                    <li><a href="#"><img src="img/user_remove.png"  width="18" height="18" alt="no_photo"> Удалить из группы</a></li>
-                    <li><a href="#"><img src="img/user.png" width="18" height="18" alt="no_photo"> Просмотреть профиль</a></li>
-                </ul>
-            </div></td>
-        </tr>
-    </tbody>
-</table>
-</div>
+                            }
+                            ?>
+                            <li role="presentation" name='addGroups' data-toggle="modal" data-target="#myModal"><a
+                                    href="#"><span class="glyphicon glyphicon-plus-sign"></span>Создать группу</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-9">
+                        <table class="table" style="overflow:auto;width:80%">
+                            <thead>
+                            <tr>
+                                <th width="100%"></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="tb_groups_table">
 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
+                        </div>
+                    </div>
 <div class="footer">
     <span class="text-info left">© 2015 Gamers Team.</span>
     <span class="text-info right" style="float:right">
