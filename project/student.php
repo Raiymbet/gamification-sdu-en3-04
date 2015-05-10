@@ -34,16 +34,17 @@ require_once 'nav.php';
     <div class="row">
         <div class="col-2" style="position:fixed">
             <div class="list-group">
-                <a role="link" href="#" name="Home" class="list-group-item active">Главная</a>
-                <a role="link" href="#" name="Profile" class="list-group-item">Награды</a>
-                <a role="link" href="#" name="Messages" class="list-group-item">Рейтинг</a>
+                <a role="link" href="#" name="Home" class="list-group-item active"><span class="glyphicon glyphicon-home"></span> Главная</a>
+                <a role="link" href="#" name="Profile" class="list-group-item"><span class="glyphicon glyphicon-gift"></span> Награды</a>
+                 <a role="link" href="#" name="Messages" class="list-group-item"><span class="glyphicon glyphicon-stats"></span> Статистика</a>
+
                 <a role="link" class="list-group-item">...</a>
             </div>
         </div>
         <div class="col-8 col-offset-3" id="main-frame">
             <div class="well" style="height:660px">
                 <?php
-                $query = mysqli_query($con, "SELECT A.id as id,A.title as title,A.id_teacher as teacher,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B WHERE B.id_tournament=A.id and A.public=1 and A.id_groups=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
+                $query = mysqli_query($con, "SELECT A.id as id,A.title as title,A.id_teacher as teacher,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B WHERE B.id_tournament=A.id and A.public=1 and A.id_groups=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
 
                 if ($query && mysqli_num_rows($query) >
                     0
@@ -53,24 +54,26 @@ require_once 'nav.php';
                         $mins = floor(($row['time_limit'] - ($hours * 3600)) / 60);
                         $secs = floor($row['time_limit'] % 60);
                         printf('
-                            <div class="panel panel-info">
+                           <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title">%s</h3>
+                                    <h3 class="panel-title">%s<small> Добавлен в %s</small></h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="col-2">
-                                        <img class="img-circle" src="img/sc1.png" style="width:50px;height: 50px"></div>
-                                        <div class="col-8">
-                                            <p>Время: %s:%s</p>
-                                            <p>500 Очко</p>
-                                            <p>%s вопросов</p>
+                                    <div class="col-1">
+                                        <img class="img-circle" src="img/sc1.png" style="width:36px;height: 36px"></div>
+                                        <div class="col-3">
+                                            <span>Время: %s:%s</span><br>
+                                            <span>500 Очков</span><br>
+                                            <span>%s вопросов</span>
                                         </div>
-                                        <div class="col-1">
-                                            <a href="question.php?id=%s" class="btn btn-danger btn-lg">Play</a>
+                                        <div class="col-2 pull-right">
+                                        <div class="btn-group" role="group" aria-label="...">
+                                                  <a href="question.php?id="  type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-play"></span>Start Game</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                ', $row['title'], ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs, $row['tQuestion'], $row['id']);
+                                ', $row['title'],$row['datetime_added'], ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs, $row['tQuestion'], $row['id']);
 }
 }
 ?>
@@ -217,13 +220,13 @@ require_once 'nav.php';
                                         </div>
                                         <div class="col-1">
                                             <img src="img/%s"></div>
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <h4>
                                                     <a href="profile.php?id=%s">%s</a>
                                                 </h4>
                                                 <h4>%s</h4>
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-2 pull-right">
                                                 <h4 class="gold_text">%s</h4>
                                             </div>
                                         </div>
