@@ -79,6 +79,23 @@ else{
     exit('<span>Record already have</span>');
 }
 }
+
+function findGroup()
+{
+    include_once 'connect.php';
+    header("Content-Type: application/json; charset=utf-8");
+    if (!isset($_POST['str_field']) && empty($_POST['str_field']))
+        exit('str_field');
+    $str = removeSpecialCharacters($_POST['str_field']);
+    $str = strtoupper(substr($str, 0, 5));
+    $q = mysqli_query($con, "SELECT count(A.id) as count,A.id as id,A.title as title,A.secret_code as secret_code,CONCAT(B.surname,' ',B.name) as fullname,B.id as id_teacher,B.photo_url as photo_url FROM tb_groups A,tb_teacher B WHERE A.teacher_id=B.id and A.secret_code='$str'");
+    $row = mysqli_fetch_array($q);
+    if ($row['count'] == 0) {
+        exit("-1");
+    } else {
+        exit(json_encode(array('id' => $row['id'], 'title' => $row['title'], 'secret_code' => $row['secret_code'], 'fullname' => $row['fullname'], 'id_teacher' => $row['id_teacher'], 'photo_url' => $row['photo_url']), JSON_UNESCAPED_UNICODE));
+    }
+}
 function addStudentToGroup()
 {
         //Integer::id_student, Integer::id_teacher, Integer::id_groups,Integer::status
@@ -93,7 +110,6 @@ function addStudentToGroup()
     $id_student=$_POST['id_student'];
     $id_groups=$_POST['id_groups'];
     $approved=$_POST['approved'];
-    echo $approved;
     $query="SELECT COUNT(*) as COUNT FROM tb_group_students WHERE id_groups='$id_groups' and id_student='$id_student' ";
     $result=mysqli_query($con,$query);
     $row=mysqli_fetch_array($result);
@@ -101,16 +117,15 @@ function addStudentToGroup()
     $date_request=date("Y-m-d H:i:s");
     $date_approved=date("Y-m-d H:i:s");
     if($count==0){
-        $query="INSERT INTO tb_group_students(id_groups,id_student,approved,data_request,data_approved)
-        VALUES($id_groups,$id_student,'$approved','$date_request',$date_approved)";
+        $query = "INSERT INTO tb_group_students(id_groups,id_student,approved,date_request,date_approved)
+        VALUES('$id_groups','$id_student','0','$date_request','$date_approved')";
         mysqli_query($con,$query) or die('Error3'.mysqli_error($con));
+        exit("0");
     }else{
-        echo "UPDATE tb_group_students SET  
-            approved='$approved',date_approved='$date_approved' 
-            WHERE id_groups='$id_groups' and id_student='$id_student'";
         $q=mysqli_query($con,"UPDATE tb_group_students SET  
             approved='$approved',date_approved='$date_approved' 
             WHERE id_groups='$id_groups' and id_student='$id_student'") or die('Error5'.mysqli_error($con));
+        exit("0");
     }
 }
 function createGroup(){
@@ -467,6 +482,8 @@ if(isset($_POST['command']) && !empty($_POST['command'])){
         editGroupName();
     else if($command=='cDeleteStudentFromGroups')
         deleteFromGroups();
+    else if ($command == 'cFindGroupWithKey')
+        findGroup();
     else if($command=='cCreateTournament')
         createTournaments();
     else if($command=='cRaintings')

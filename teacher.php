@@ -408,7 +408,24 @@
                                 </button>
                             </div>
         </div>
-                        <!--  <div class="modal fade bs-example-modal-sm"  id="myModalDeleteFromGroup" >
+
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalQrCode">
+                    <div class="modal-dialog modal-sm" style="width:350px">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <img id="qrCodeIMG" src="">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div> <!--  <div class="modal fade bs-example-modal-sm"  id="myModalDeleteFromGroup" >
                               <div class="modal-dialog modal-sm" style="width:400px" >
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -434,22 +451,21 @@
                           </div>
                       </div>
                   </div>-->
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <ul class="nav nav-pills nav-stacked">
                             <?php
-
-                            $query = mysqli_query($con, "SELECT * FROM tb_groups") or die(mysqli_error($con));
+//DONT FORGET ADD TEACHER
+                            $query = mysqli_query($con, "SELECT A.id as id,A.title as title,A.secret_code as secret_code FROM tb_groups A") or die(mysqli_error($con));
                             if (mysqli_num_rows($query) > 0) {
                                 $first = true;
                                 while ($row = mysqli_fetch_array($query)) {
                                     printf("<li role='presentation' %s name='%s'><a href='#' onclick=\"get_groups('%s')\">%s
+                      <span class='glyphicon glyphicon-qrcode pull-right qr-code' name='%s'>
                     <span class='glyphicon glyphicon-remove pull-right' onclick='removeGroups(\"%s\")' style='margin-right:8px'>
                     </span><span class='glyphicon glyphicon-pencil pull-right' onclick='editNameGroups(\"%s\",\"%s\")'></span>
                 </a>
-            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'], $row['id'], $row['id'], $row['title']);
+            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'],'Group: '.$row['title'].'Secret Code: '.$row['secret_code'] ,$row['id'], $row['id'], $row['title']);
                                     $first = false;
                                 }
                             } else {
@@ -460,7 +476,7 @@
                                     href="#"><span class="glyphicon glyphicon-plus-sign"></span>Создать группу</a></li>
                         </ul>
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                         <table class="table" style="overflow:auto;width:80%">
                             <thead>
                             <tr>
