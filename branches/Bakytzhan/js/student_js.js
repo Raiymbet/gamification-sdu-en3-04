@@ -9,21 +9,18 @@ $("a[role=link]").click(function () {
         $("#main-frame").fadeIn("fast");
         $("#nagrada-frame").fadeOut("fast");
         $("#raiting-frame").fadeOut("fast");
-
         $("#group-frame").fadeOut("fast");
         activate = 0;
     } else if (name == 'Profile') {
         $("#main-frame").fadeOut("fast");
         $("#nagrada-frame").fadeIn("fast");
         $("#raiting-frame").fadeOut("fast");
-
         $("#group-frame").fadeOut("fast");
         activate = 1;
     } else if (name == 'Messages') {
         $("#nagrada-frame").fadeOut("fast");
         $("#main-frame").fadeOut("fast");
         $("#raiting-frame").fadeIn("fast");
-
         $("#group-frame").fadeOut("fast");
         activate = 2;
     }else if (name == 'group'){
@@ -34,9 +31,64 @@ $("a[role=link]").click(function () {
     }
 });
 activate = 0;
+id_student = 1;
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    $(".qr-code").click(function(){
+        val=$(this).attr("name");
+        console.log("qrCode");
+        $("#qrCodeIMG").attr("src","http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl="+val);
+        $("#myModalQrCode").modal('show');
+    });
 });
+$("#btnFindGroupSecretKey").click(function () {
+    str = $("#group_name_field").val();
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {command: 'cFindGroupWithKey', str_field: str},
+        success: function (msg) {
+            if (msg != '-1') {
+                str = '<div class="col-7">' +
+                ' <h3>' + msg.title + '</h3>' +
+                '<p><img src="img/' + msg.photo_url + '" width="48px" height="48px">' + msg.fullname + '</p></div>' +
+                '<div class="col-5" style="margin-top:15%">' +
+                '<button class="btn btn-default" onclick="addStudentToGroup(\'' + id_student + '\',\'' + msg.id + '\')">Добавить в группу</button>' +
+                '</div>';
+                $("#findGroupField").html(str);
+            } else {
+                $("#findGroupField").html('<div class="col-12"> <h3 class="text-center">Группа не найдена!<br> <small>Код неправильный или нет такого!</small></h3> </div>');
+            }
+        }
+    });
+});
+function addStudentToGroup(id_student, id_groups) {
+    //Find bug in PHP:
+    //empty('0') == false, but its zero not empty!
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {command: 'cGroupAdd', id_groups: id_groups, id_student: id_student, 'approved': '1'},
+        success: function (msg) {
+            if (msg != '0') {
+                alert("Произошло ошибка: " + msg);
+            } else {
+                window.open("student.php", "_self");
+            }
+        }
+    });
+}
+function deleteFromGroups(id_student, id_groups) {
+    //Студент выходить из группы
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {command: 'cDeleteStudentFromGroups', id_groups: id_groups, id_student: id_student},
+        success: function (msg) {
+            window.open("student.php", "_self");
+        }
+    });
+}
 $(".nagrada").children('img').each(function(){
     $(this).mouseenter(function(){
         var pos=$(this).position();
@@ -178,5 +230,6 @@ $("#s").click(function(){
 $(".list-group-item").hover(function(){
     $(".messsage_window").append("Console.log");
 });
+
 });
 
