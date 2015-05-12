@@ -28,7 +28,6 @@
         }
 
         .question_number_btn_list li {
-            background-color: #33B5E5;
             margin-top: 5px;
             width: 30px;
             height: 30px;
@@ -38,6 +37,7 @@
             line-height: 1.428571429;
             border-radius: 500px;
             margin-left: -3em;
+            background-color: #33B5E5;
             border: 1px solid #0099CC;
         }
 
@@ -49,6 +49,16 @@
         .question_number_btn_list li span {
             color: #ffffff;
             cursor: default;
+        }
+
+        .question_number_btn_list .btn_have_question {
+            background-color: orange;
+            border: solid 1px #ffff00;
+        }
+
+        .question_number_btn_list .btn_have_question_list_active {
+            background-color: #449d44;
+            border: solid 1px #7fbbda;
         }
 
         /* switch on or off style */
@@ -187,16 +197,16 @@
                         <li class="btn_list_active">
                             <span>1</span>
                         </li>
-                        <li>
+                        <li class="">
                             <span>2</span>
                         </li>
-                        <li>
+                        <li class="">
                             <span>3</span>
                         </li>
-                        <li>
+                        <li class="">
                             <span>4</span>
                         </li>
-                        <li>
+                        <li class="">
                             <span>5</span>
                         </li>
                     </ul>
@@ -235,40 +245,80 @@
             </div>
         </div>
         <!-- Content right-->
-        <div class="solid-border" style="width: 25%;float: right; padding: 5px">
-            <div style="width: 100%; height: 10%;">
+        <div class="solid-border" style="width: 25%;float: right;">
+            <div style="width: 100%;">
                 <div class="form-group">
-                    <select class="form-control" name="time_limit">
-                        <option selected disabled>Limit time in second</option>
-                        <option>60</option>
-                        <option>120</option>
-                        <option>300</option>
-                    </select>
-                    <select class="form-control margin-top-5" name="question_point">
-                        <option selected disabled>Point question</option>
-                        <option>60</option>
-                        <option>100</option>
-                        <option>200</option>
-                    </select>
-
-                    <div class="btn-group btn-group-justified margin-top-5" role="group" aria-label="...">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default" name="btn_level">Easy</button>
+                    <div class="col-12 margin-top-5">
+                        <div class="col-3">
+                            <span>Point:</span>
                         </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default active" name="btn_level">Norm</button>
-                        </div>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-default" name="btn_level">Hard</button>
+                        <div class="col-9">
+                            <select class="form-control" name="time_limit">
+                                <option selected>60</option>
+                                <option>120</option>
+                                <option>300</option>
+                            </select>
                         </div>
                     </div>
+
+                    <div class="col-12 margin-top-5">
+                        <div class="col-3">
+                            <span>Time:</span>
+                        </div>
+                        <div class="col-9">
+                            <select class="form-control margin-top-5" name="question_point">
+                                <option selected>60</option>
+                                <option>100</option>
+                                <option>200</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 margin-top-5">
+                        <div class="btn-group btn-group-justified margin-top-5" id="btn_level_group" role="group"
+                             aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" name="btn_level">Easy</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default active" name="btn_level">Norm</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" name="btn_level">Hard</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+        <div class="panel solid-border" style="width: 100%; float: left;">
+            <button class="btn btn-warning" style="float: right; margin-right: 25%" onclick="check_question_for_save()">
+                Next question>>>
+            </button>
+        </div>
         <div class="panel-footer" style="float: left; width: 100%">
             <button class="btn btn-primary " style="margin-right: 0%; float: right; width: 10%">Cancel</button>
-            <button class="btn btn-primary " style="margin-right: 1%; float: right; width: 10%" onclick="save()">Save
+            <button class="btn btn-primary " style="margin-right: 1%; float: right; width: 10%"
+                    onclick="save_tournament()">Save
             </button>
+        </div>
+    </div>
+</div>
+<!-- Modal messages -->
+<div class="modal fade" id="message_modal" role="alert">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 400px; margin-left: 100px;">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><span class="fa fa-close"></span></button>
+                <h4>Уведомление.</h4>
+            </div>
+            <div class="modal-body">
+                <p class="modal-body-text"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Назад</button>
+            </div>
         </div>
     </div>
 </div>
@@ -278,53 +328,84 @@
 <script>
     var content_simple_game =
         '<div class="col-12">' +
-        '<textarea class="form-control"style="width: 100%; height: 100px; margin-top: 1%"placeholder="Please enter your question..."></textarea> ' +
+        '<textarea class="form-control" name="question_area" style="width: 100%; height: 100px; margin-top: 1%"placeholder="Please enter your question..."></textarea> ' +
         '</div>' +
-        '<div class="form-group" id="content_answer_input" style="float: left" id="simple_game">' +
-        '<div class="col-12 margin-top-5"> ' +
-        '<div class="col-9" style="padding: 0px"> ' +
-        '<input class="form-control" style="width: 100%" type="text" placeholder="Answer 1">' +
+        '<div class="form-group" id="content_answer_input" style="float: left;">' +
+        '<div class="col-9 margin-top-5">' +
+        '<div class="col-12" style="padding: 0px"> ' +
+        '<input class="form-control margin-top-5" name="answer" style="width: 100%;" type="text" placeholder="Answer 1">' +
         '</div>' +
+        '<div class="col-12" style="padding: 0px">' +
+        '<input class="form-control margin-top-5" name="answer" style="width: 100%" type="text" placeholder="Answer 2">' +
+        '</div>' +
+        '<div class="col-12" style="padding: 0px">' +
+        '<input class="form-control margin-top-5" name="answer" style="width: 100%" type="text" placeholder="Answer 3">' +
+        '</div>' +
+        '<div class="col-12" style="padding: 0px">' +
+        '<input class="form-control margin-top-5" name="answer" style="width: 100%" type="text" placeholder="Answer 4">' +
+        '</div>' +
+        '</div>' +
+        '<div class="col-3 margin-top-5">' +
+        '<ul class="col-12" style="padding: 0px" id="list-btn-correct-incorrect">' +
+        '<li class="btn btn-danger pull-right btn-correct-incorrect margin-top-5" name="correct_incorrect">Incorrect</li>' +
+        '<li class="btn btn-danger pull-right btn-correct-incorrect margin-top-5" name="correct_incorrect">Incorrect</li>' +
+        '<li class="btn btn-danger pull-right btn-correct-incorrect margin-top-5" name="correct_incorrect">Incorrect</li>' +
+        '<li class="btn btn-danger pull-right btn-correct-incorrect margin-top-5" name="correct_incorrect">Incorrect</li>' +
+        '</ul>' +
+        '</div>' +
+        '</div>';
+    var content_true_false_game =
+        '<div class="col-12" >' +
+        '<textarea class="form-control" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
+        '</div>' +
+        '<div class="form-group col-12" id="content_answer_input" style="float: left">' +
+        '<div class="col-12 margin-top-5" style="padding: 0px;">' +
         '<div class="col-3" style="padding: 0px">' +
+        '<input class="form-control" readonly style="width: 100%;" name="answer" type="text" value="True">' +
+        '</div>' +
+        '<div class="col-2" style="padding: 0px">' +
         '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button>' +
         '</div>' +
+        '<div class="col-3 col-offset-2" style="padding: 0px">' +
+        '<input class="form-control" style="width: 100%;" name="answer" readonly type="text" value="False">' +
         '</div>' +
-        '<div class="col-12 margin-top-5">' +
-        '<div class="col-9" style="padding: 0px">' +
-        '<input class="form-control" style="width: 100%" type="text" placeholder="Answer 2">' +
-        '</div>' +
-        '<div class="col-3" style="padding: 0px">' +
-        '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button>' +
-        '</div>' +
-        '</div>' +
-        '<div class="col-12 margin-top-5">' +
-        '<div class="col-9" style="padding: 0px">' +
-        '<input class="form-control" style="width: 100%" type="text" placeholder="Answer 3">' +
-        '</div>' +
-        '<div class="col-3" style="padding: 0px">' +
-        '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button>' +
-        '</div>' +
-        '</div>' +
-        '<div class="col-12 margin-top-5">' +
-        '<div class="col-9" style="padding: 0px">' +
-        '<input class="form-control" style="width: 100%" type="text" placeholder="Answer 4">' +
-        '</div>' +
-        '<div class="col-3" style="padding: 0px">' +
+        '<div class="col-2" style="padding: 0px">' +
         '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button>' +
         '</div>' +
         '</div>' +
         '</div>';
-    var content_true_false_game = '<div class="col-12" ><textarea class="form-control" placeholder="Please enter your question..."' +
-        'style="width: 100%; height: 100px;"></textarea></div>' +
-        '<div class="form-group col-12" id="content_answer_input" style="float: left" id="simple_game">' +
-        '<div class="col-12 margin-top-5" style="padding: 0px;"><div class="col-3" style="padding: 0px">' +
-        '<input class="form-control" readonly style="width: 100%;" type="text" value="True"></div><div class="col-2" style="padding: 0px">' +
-        '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button></div><div class="col-3 col-offset-2" style="padding: 0px">' +
-        '<input class="form-control" style="width: 100%;" readonly type="text" value="False"></div><div class="col-2" style="padding: 0px">' +
-        '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button></div></div></div>';
-    var content_input_game = '';
+    var content_input_game =
+        '<div class="col-12" >' +
+        '<textarea class="form-control" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
+        '</div>' +
+        '<div class="form-group col-12" id="content_answer_input" style="float: left">' +
+        '<div class="col-12 margin-top-5" style="padding: 0px;" >' +
+        '<input class="form-control" style="width: 100%;" name="answer" type="text" placeholder="Input 1">' +
+        '</div>' +
+        '<div class="col-12 margin-top-5" style="padding: 0px">' +
+        '<button class="btn fa fa-plus-circle" name="input_answer_plus"></button>' +
+        '<button class="btn fa fa-minus-circle" id="input_answer_minus"></button>' +
+        '</div>' +
+        '</div>';
     var content_polechudes_game = '';
     var content_match_game = '';
+    var tournament_info = {
+        "about_tournament": {
+            "name": '',
+            "description": '',
+            "opened": '',
+            "closed": '',
+            "public": ''
+        },
+        "questions": []
+    }; //munda tournament informaciasy jane suraktarymen birge saktaidy
+    /* tournament_info = {about_tournament{name, description, opened, closed, public},
+     questions{game_type, limit_time, point, level, question, answers, corect_answer_id}}*/
+    var question_li_size = 5; //bastapky mani bes bolatyn, jane artady birak 5 kem bolmaidy bul surak sanyn korsetedi
+    var correct_answer_index = null; // bul kai jauap durys sol jauaptyn indexin korsetedi
+    var active_li_index = 1;
+    var all_questions_is_giving = false;
+
     $(document).ready(function () {
         //when change select game type change content
         $("#select_game_types").change(function () {
@@ -335,11 +416,11 @@
             } else if ($(this).val() == 'True-false') {
                 $("#content_game_type").html(content_true_false_game).load(answer_correct_incorrect());
             } else if ($(this).val() == 'Input') {
-                $("#content_game_type").html(content_input_game).load(answer_correct_incorrect());
+                $("#content_game_type").html(content_input_game);
             } else if ($(this).val() == 'Pole chudes') {
-                $("#content_game_type").html(content_polechudes_game).load(answer_correct_incorrect());
+                $("#content_game_type").html(content_polechudes_game);
             } else if ($(this).val() == 'Match') {
-                $("#content_game_type").html(content_match_game).load(answer_correct_incorrect());
+                $("#content_game_type").html(content_match_game);
             }
         }).change();
 
@@ -348,14 +429,19 @@
             $("ul.switch li").removeClass("on");
             $(this).addClass("on");
         });
+        //change question level
         $(".btn[name='btn_level']").click(function () {
             $(".btn[name='btn_level']").removeClass("active");
             $(this).addClass("active");
         });
         //Change active question number list
-        btn_list_active_change();
-        question_next();
-        question_previous();
+        //btn_list_active_change();
+        $("#btn-question-next").click(function () {
+            question_next();
+        });
+        $("#btn-question-back").click(function () {
+            question_previous();
+        });
         //add new question
         $("#btn-question-plus").click(function () {
             question_plus();
@@ -367,62 +453,144 @@
     });
 
     function question_next() {
-        $("#btn-question-next").click(function () {
-            var active_li_index = $("ul.question_number_btn_list li").index('.btn_list_active');
-            $("ul.question_number_btn_list li").removeClass("btn_list_active");
-            active_li_index = active_li_index + 1;
-            $("ul.question_number_btn_list li:nth-child(" + active_li_index + ")").addClass("btn_list_active");
-            console.log(active_li_index);
-        });
+        if (tournament_info.questions.length < active_li_index ) {
+            //console.log("Zapolnite vopros");
+            $("#message_modal").modal('show');
+            $("#message_modal .modal-body-text").html("").append("<p class='text-warning'>Сперва заполните этот вопрос!</p>");
+        } else {
+            $(".question_number_btn_list li").each(function () {
+                if ($(this).hasClass("btn_list_active")) {
+                    active_li_index = $(this).index();
+                    $(this).removeClass("btn_list_active");
+                } else if ($(this).hasClass("btn_have_question_list_active")) {
+                    active_li_index = $(this).index();
+                    $(this).removeClass("btn_have_question_list_active").addClass("btn_have_question");
+                }
+            });
+
+            if (question_li_size > active_li_index) {
+                if (active_li_index != question_li_size - 1) {
+                    active_li_index += 2;
+                } else {
+                    active_li_index += 1;
+                }
+            }
+
+            if ($(".question_number_btn_list > li:nth-child(" + active_li_index + ")").hasClass("btn_have_question")) {
+                $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_have_question").addClass("btn_have_question_list_active");
+                if(tournament_info.questions[active_li_index-1].game_type=='Simple'){
+                    $("#select_game_types").select();
+                    $("#content_game_type").html("").append(content_simple_game);
+                    $("#content_game_type textarea[name='question_area']").text(""+tournament_info.questions[active_li_index-1].question);
+                    $("#content_answer_input input[name='answer']").each(function(index){
+                        $(this).val(""+tournament_info.questions[active_li_index-1].answers[index]);
+                    });
+                    $("#list-btn-correct-incorrect li[name='correct_incorrect']").each(function(index){
+                        if(index==tournament_info.questions[active_li_index-1].correct_answer_id){
+                            $(this).removeClass("btn-danger").addClass("btn-success").text("Correct").load(answer_correct_incorrect());
+                            correct_answer_index=tournament_info.questions[active_li_index-1].correct_answer_id;
+                        }
+                    });
+                }
+            } else {
+                $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_list_active");
+                $("#content_game_type").html(content_simple_game).load(answer_correct_incorrect());
+            }
+            //console.log("Next question: "+active_index);
+        }
     }
+
     function question_previous() {
-        $("#btn-question-back").click(function () {
-
+        $(".question_number_btn_list li").each(function () {
+            if ($(this).hasClass("btn_list_active")) {
+                active_li_index = $(this).index();
+                $(this).removeClass("btn_list_active");
+            } else if ($(this).hasClass("btn_have_question_list_active")) {
+                active_li_index = $(this).index();
+                $(this).removeClass("btn_have_question_list_active").addClass("btn_have_question");
+            }
         });
+        if (active_li_index <= 0) {
+            active_li_index = 1;
+        }
+        if ($(".question_number_btn_list > li:nth-child(" + active_li_index + ")").hasClass("btn_have_question")) {
+            $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_have_question").addClass("btn_have_question_list_active");
+
+            if(tournament_info.questions[active_li_index-1].game_type=='Simple'){
+                $("#content_game_type").html("").append(content_simple_game);
+                $("#content_game_type textarea[name='question_area']").text(""+tournament_info.questions[active_li_index-1].question);
+                $("#content_answer_input input[name='answer']").each(function(index){
+                    $(this).val(""+tournament_info.questions[active_li_index-1].answers[index]);
+                });
+                $("#list-btn-correct-incorrect li[name='correct_incorrect']").each(function(index){
+                    if(index==tournament_info.questions[active_li_index-1].correct_answer_id){
+                        $(this).removeClass("btn-danger").addClass("btn-success").text("Correct").load(answer_correct_incorrect());
+                        correct_answer_index=tournament_info.questions[active_li_index-1].correct_answer_id;
+                    }
+                });
+            }
+        } else {
+            $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_list_active");
+            $("#content_game_type").html(content_simple_game).load(answer_correct_incorrect());
+        }
+        //console.log("Previous question: "+active_index);
     }
+
     function cancel() {
-
-    }
-    function save() {
-        check_about_tournament();
-        check_question_for_save();
+        //Не сохраняя ничего возвращается на учительскую страницу
     }
 
-    var new_li_index = 5;
     function question_plus() {
-        new_li_index++;
-        if (new_li_index > 5) {
+        question_li_size++;
+        if (question_li_size > 5) {
             $("#btn-question-minus").removeClass("disabled");
         }
-        $(".question_number_btn_list").append('<li class=""><span>' + new_li_index + '</span></li>').load(btn_list_active_change());
+        $(".question_number_btn_list").append('<li class=""><span>' + question_li_size + '</span></li>');
     }
+
     function question_minus() {
-        new_li_index--;
-        $(".question_number_btn_list").children().last().remove();
-        if (new_li_index == 5) {
+        question_li_size--;
+        if ($(".question_number_btn_list").children().last().hasClass("btn_list_active")) {
+            $(".question_number_btn_list").children().last().remove();
+            if($(".question_number_btn_list li:last-child").hasClass("btn_have_question")){
+                $(".question_number_btn_list li:last-child").removeClass("btn_have_question").addClass("btn_have_question_list_active");
+            }
+        } else {
+            $(".question_number_btn_list").children().last().remove();
+        }
+        if (question_li_size == 5) {
             $("#btn-question-minus").addClass("disabled");
         }
     }
-    function btn_list_active_change() {
+
+    /*function btn_list_active_change() {
         $("ul.question_number_btn_list li").click(function () {
-            $("ul.question_number_btn_list li").removeClass("btn_list_active");
-            $(this).addClass("btn_list_active");
-            console.log($(this).children().text());
+            //console.log($(this).index() + " " + tournament_info.questions.length);
+            if (tournament_info.questions.length >= $(this).index()) {
+                $("ul.question_number_btn_list li").removeClass("btn_list_active");
+                $(this).addClass("btn_list_active");
+            } else {
+                //console.log("Zapolnite predydushie voprosy");
+                $("#message_modal").modal('show');
+                $("#message_modal .modal-body-text").html("").append("<p class='text-warning'>Сперва заполните этот вопрос!</p>");
+            }
+            //console.log($(this).children().text());
         });
-    }
+    }*/
     function answer_correct_incorrect() {
         $(".btn[name='correct_incorrect']").click(function () {
             if ($(this).hasClass("btn-success")) {
                 $(this).removeClass("btn-success").addClass("btn-danger").text("Incorrect");
+                correct_answer_index = null;
             } else if ($(this).hasClass("btn-danger")) {
                 $("#content_game_type .btn-success").removeClass("btn-success").addClass("btn-danger").text("Incorrect");
                 $(this).removeClass("btn-danger").addClass("btn-success").text("Correct");
+                correct_answer_index = $(this).index();
+                //console.log(correct_answer_index);
             }
-            console.log("Btn click");
         });
     }
-    //Создание json object содержащий всю инфу о туре и его вопросы
-    var tournament_info = {};
+    //Проверка и заполнение json object содержащий всю инфу о туре
     function check_about_tournament() {
         var name_tournament = $("#name_tournament").val(),
             description_tournament = $("#description_tournament").val(),
@@ -432,45 +600,93 @@
         var valid = false;
         var errors = [];
         if (name_tournament == "") {
-            errors[errors.length] = "Invalid name";
+            errors[errors.length] = "Пожлуйста, заполните поле имя тура.";
         }
         if (description_tournament == "") {
-            errors[errors.length] = "Invalid description";
+            errors[errors.length] = "Пожлуйста, заполните поле описания тура.";
         }
         if (open_datetime == "") {
-            errors[errors.length] = "Invalid open date time";
+            errors[errors.length] = "Пожлуйста, выберите день открытия тура.";
         }
         if (close_datetime == "") {
-            errors[errors.length] = "Invalid close date time"
+            errors[errors.length] = "Пожлуйста, выберите день закрытия тура."
         }
         if (errors.length == 0) {
-            tournament_info = {
-                "about_tournament": {
-                    "name": name_tournament,
-                    "description": description_tournament,
-                    "opened": open_datetime,
-                    "closed": close_datetime,
-                    "public": public_status
-                }
-            };
             valid = true;
         }
 
         if (valid) {
-            console.log(tournament_info);
+            tournament_info.about_tournament.name = name_tournament;
+            tournament_info.about_tournament.description = description_tournament;
+            tournament_info.about_tournament.opened = open_datetime;
+            tournament_info.about_tournament.closed = close_datetime;
+            tournament_info.about_tournament.public = public_status;
+            return valid;
         } else {
-            console.log(errors);
+            //console.log(errors);
+            return errors;
         }
     }
 
+    //Проверяет все данные касающиеся вопросы.
     function check_question_for_save() {
         var game_type = $("select[name='game_type']").val(),
             time_limit = $("select[name='time_limit']").val(),
             question_point = $("select[name='question_point']").val(),
-            question_level = $(".btn[name='btn_level'] .active").val();
+            question_level = $("#btn_level_group button.active").text(),
+            question = "",
+            answers = [],
+            errors = [], valid = false;
 
         if (game_type == 'Simple') {
-
+            question = $("textarea[name='question_area']").val();
+            $("#content_answer_input input[name='answer']").each(function (index) {
+                answers[index] = $(this).val();
+            });
+            if (question == "") {
+                errors[errors.length] = "Пожалуйста, заполните поле вопрос.";
+            }
+            for (var i = 0; i < answers.length; i++) {
+                if (answers[i] == "") {
+                    errors[errors.length] = "Пожалуйста, заполните поле ответы и не оставляте пустым";
+                    break;
+                }
+            }
+            if (correct_answer_index == null) {
+                errors[errors.length] = "Выберите один правильный ответ";
+            }
+            if (errors.length == 0) {
+                valid = true;
+            }
+            if (valid) {
+                tournament_info.questions[active_li_index-1]={
+                    "game_type": game_type,
+                    "time_limit": time_limit,
+                    "point": question_point,
+                    "level": question_level,
+                    "question": question,
+                    "answers": answers,
+                    "correct_answer_id": correct_answer_index};
+                if(question_li_size==active_li_index){
+                    $("#message_modal").modal('show');
+                    $("#message_modal .modal-body-text").html("").append("<p class='text-success'>Все вопросы были заданы</p>");
+                    all_questions_is_giving = true;
+                    $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_list_active").addClass("btn_have_question_list_active");
+                }else{
+                    $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_have_question");
+                    question_next();
+                    $("#content_game_type").html(content_simple_game).load(answer_correct_incorrect());
+                }
+                correct_answer_index = null;
+                //console.log(tournament_info);
+            } else {
+                //console.log(errors);
+                $("#message_modal").modal('show');
+                $("#message_modal .modal-body-text").html("");
+                $.each(errors, function (index, value) {
+                    $("#message_modal .modal-body-text").append("<p class='text-danger'>" + value + "</p>");
+                });
+            }
         } else if (game_type == 'True-false') {
 
         } else if (game_type == 'Input') {
@@ -479,6 +695,32 @@
 
         } else if (game_type == 'Match') {
 
+        }
+    }
+
+    function save_tournament() {
+        //Проверяет все данные касающиеся туру и его вопросы. Вопросы должны быть минимум пять. Если все правильно сохроняет на базу данных и напрвляет на страницу учителя
+        var valid = check_about_tournament();
+        if (valid == true && all_questions_is_giving) {
+            console.log(tournament_info);
+            $.ajax({
+                type: "POST",
+                url: "save_tournament.php",
+                data: tournament_info,
+                beforeSend: function(){
+                    $("#message_modal").modal('show');
+                    $(".modal-body-text").html("").append("<img src='img/loading.gif' name='load'>")
+                },
+                success: function(response){
+                    $(".modal-body-text").html("").append(response);
+                }
+            });
+        } else {
+            $("#message_modal").modal('show');
+            $("#message_modal .modal-body-text").html("");
+            $.each(valid, function (index, value) {
+                $("#message_modal .modal-body-text").append("<p class='text-danger'>" + value + "</p>");
+            });
         }
     }
 </script>
