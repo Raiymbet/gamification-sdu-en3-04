@@ -419,6 +419,7 @@
                                         aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
+                                <h4 id="sh1"></h4>
                                 <img id="qrCodeIMG" src="">
                             </div>
 
@@ -465,7 +466,7 @@
                     <span class='glyphicon glyphicon-remove pull-right' onclick='removeGroups(\"%s\")' style='margin-right:8px'>
                     </span><span class='glyphicon glyphicon-pencil pull-right' onclick='editNameGroups(\"%s\",\"%s\")'></span>
                 </a>
-            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'],'Group: '.$row['title'].'Secret Code: '.$row['secret_code'] ,$row['id'], $row['id'], $row['title']);
+            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'],'Group: '.$row['title'].' Secret Code: '.$row['secret_code'] ,$row['id'], $row['id'], $row['title']);
                                     $first = false;
                                 }
                             } else {

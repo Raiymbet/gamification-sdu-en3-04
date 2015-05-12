@@ -43,7 +43,7 @@ require_once 'nav.php';
                 </div>
                 <div class="row">
                     <div class="col-10 col-offset-2">
-                        <img id="alim" src="alim.jpg" class="img-circle img-thumbnail">
+                        <img id="alim" src="img/no_photo_available.jpg" class="img-circle img-thumbnail">
                     </div>
                 </div>
 

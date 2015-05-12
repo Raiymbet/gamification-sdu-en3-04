@@ -1,6 +1,5 @@
 $("a[role=link]").click(function () {
     var name = $(this).attr("name");
-    console.clear();
     $("a[role=link]").each(function () {
         $(this).removeClass().removeClass().addClass("list-group-item");
         console.log("CON");
@@ -10,23 +9,115 @@ $("a[role=link]").click(function () {
         $("#main-frame").fadeIn("fast");
         $("#nagrada-frame").fadeOut("fast");
         $("#raiting-frame").fadeOut("fast");
+        $("#group-frame").fadeOut("fast");
         activate = 0;
     } else if (name == 'Profile') {
         $("#main-frame").fadeOut("fast");
         $("#nagrada-frame").fadeIn("fast");
         $("#raiting-frame").fadeOut("fast");
+        $("#group-frame").fadeOut("fast");
         activate = 1;
     } else if (name == 'Messages') {
         $("#nagrada-frame").fadeOut("fast");
         $("#main-frame").fadeOut("fast");
         $("#raiting-frame").fadeIn("fast");
+        $("#group-frame").fadeOut("fast");
         activate = 2;
+    }else if (name == 'group'){
+        $("#group-frame").fadeIn("fast");
+        $("#nagrada-frame").fadeOut("fast");
+        $("#main-frame").fadeOut("fast");
+        $("#raiting-frame").fadeOut("fast");
     }
 });
 activate = 0;
+id_student = 1;
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    $(".qr-code").click(function(){
+        val=$(this).attr("name");
+        console.log("qrCode");
+        $("#qrCodeIMG").attr("src","http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl="+val);
+        $("#myModalQrCode").modal('show');
+    });
 });
+$("#btnFindGroupSecretKey").click(function () {
+    str = $("#group_name_field").val();
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {command: 'cFindGroupWithKey', str_field: str},
+        success: function (msg) {
+            if (msg != '-1') {
+                str = '<div class="col-7">' +
+                ' <h3>' + msg.title + '</h3>' +
+                '<p><img src="img/' + msg.photo_url + '" width="48px" height="48px">' + msg.fullname + '</p></div>' +
+                '<div class="col-5" style="margin-top:15%">' +
+                '<button class="btn btn-default" onclick="addStudentToGroup(\'' + id_student + '\',\'' + msg.id + '\')">Добавить в группу</button>' +
+                '</div>';
+                $("#findGroupField").html(str);
+            } else {
+                $("#findGroupField").html('<div class="col-12"> <h3 class="text-center">Группа не найдена!<br> <small>Код неправильный или нет такого!</small></h3> </div>');
+            }
+        }
+    });
+});
+function addStudentToGroup(id_student, id_groups) {
+    //Find bug in PHP:
+    //empty('0') == false, but its zero not empty!
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {command: 'cGroupAdd', id_groups: id_groups, id_student: id_student, 'approved': '1'},
+        success: function (msg) {
+            if (msg != '0') {
+                alert("Произошло ошибка: " + msg);
+            } else {
+                window.open("student.php", "_self");
+            }
+        }
+    });
+}
+function deleteFromGroups(id_student, id_groups) {
+    //Студент выходить из группы
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {command: 'cDeleteStudentFromGroups', id_groups: id_groups, id_student: id_student},
+        success: function (msg) {
+            window.open("student.php", "_self");
+        }
+    });
+}
+
+function get_groups(input) {
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {'command': 'cGroupGetListStudent', 'id_groups': input},
+        success: function (msg) {
+            $("#tb_groups_table").html("");
+            if (msg != '-1') {
+                for (i = 0; i < msg.length; i++) {
+                    console.log(msg[i].approved);
+                    s = '<tr'+((msg[i].approved==1)?'':'')+'><td><div class="row">' +
+                    '<div class="col-2"><img src="img/' + msg[i].photo_url + '" height="32px" width="32px" alt="" class="img img-cirlce"></div><div class="col-10">' + msg[i].fullname + '</div>' +
+                    '  </div></td><td>' +
+                    ' <div class="btn-group">' +
+                    '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+                    '   Action <span class="caret"></span></button>' +
+                    '<ul class="dropdown-menu" role="menu">' +
+                    '  <li><a href="#"><img src="img/chat_message.png" width="18" height="18" alt="no_photo"> Отправить сообщение</a></li>' +
+
+                    ' <li><a href="../../project/profile.php?id=' + msg[i].id_student + '"><img src="img/user.png" width="18" height="18" alt="no_photo"> Просмотреть профиль</a></li>' +
+                    '</ul></div></td> </tr>';
+                    $("#tb_groups_table").append(s);
+                }
+
+            }
+        }
+    });
+}
 $(".nagrada").children('img').each(function(){
     $(this).mouseenter(function(){
         var pos=$(this).position();
@@ -68,7 +159,7 @@ $(document).ready(function () {
     [2007, 148000], [2008, 114000], [2009, 133000], [2010, 161000], [2011, 173000]];
     var s2 = [[2002, 10200], [2003, 10800], [2004, 11200], [2005, 11800], [2006, 12400], 
     [2007, 12800], [2008, 13200], [2009, 12600], [2010, 13100]];
- 
+
     plot1 = $.jqplot("staticChart", [s2, s1], {
         // Turns on animatino for all series in this plot.
         animate: true,
@@ -81,14 +172,14 @@ $(document).ready(function () {
             showTooltip: false
         },
         series:[
-            {
-                pointLabels: {
-                    show: true
-                },
-                renderer: $.jqplot.BarRenderer,
-                showHighlight: false,
-                yaxis: 'y2axis',
-                rendererOptions: {
+        {
+            pointLabels: {
+                show: true
+            },
+            renderer: $.jqplot.BarRenderer,
+            showHighlight: false,
+            yaxis: 'y2axis',
+            rendererOptions: {
                     // Speed up the animation a little bit.
                     // This is a number of milliseconds.  
                     // Default for bar series is 3000.  
@@ -111,11 +202,11 @@ $(document).ready(function () {
                     }
                 }
             }
-        ],
-        axesDefaults: {
-            pad: 0
-        },
-        axes: {
+            ],
+            axesDefaults: {
+                pad: 0
+            },
+            axes: {
             // These options will set up the x axis like a category axis.
             xaxis: {
                 tickInterval: 1,
@@ -123,9 +214,9 @@ $(document).ready(function () {
                 drawMinorGridlines: true,
                 drawMajorTickMarks: false,
                 rendererOptions: {
-                tickInset: 0.5,
-                minorTicks: 1
-            }
+                    tickInset: 0.5,
+                    minorTicks: 1
+                }
             },
             yaxis: {
                 tickOptions: {
@@ -153,5 +244,21 @@ $(document).ready(function () {
             sizeAdjust: 7.5 , tooltipLocation : 'ne'
         }
     });
-   
+
+/*Teacher page JS*/
+/*Checkbox selectection*/
+var count_checked=0;
+$("input[type='checkbox']").click(function(event){
+    console.log('Hellow');
+    $("#result_popup").html($(this).val()); 
 });
+$("#s").click(function(){
+    alert("DDD");
+});
+
+$(".list-group-item").hover(function(){
+    $(".messsage_window").append("Console.log");
+});
+
+});
+

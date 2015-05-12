@@ -139,3 +139,29 @@
 .container-top{
     margin-top: 50px;
 }
+
+.div-block-hidden-text {
+    opacity: 0;
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    z-index: 5;
+    position: absolute;
+    left: 50px;
+    top: 0px;
+    background-color: rgba(255,255, 255, 1);
+    transition:.5s;
+}
+.div-block-hidden-text:hover{
+    opacity:1;
+    transition:.5s;
+}
+
+.div-block-hidden-text p {
+    margin-top: 20px;
+    padding: 30px;
+    color:black;
+}
+.div-block-hidden-text button{
+    margin-top:-20px;
+}
