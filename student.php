@@ -86,7 +86,7 @@ require_once 'nav.php';
             <div class="col-8 col-offset-3" id="main-frame">
                 <div class="well" style="height:660px">
                     <?php
-                    $query = mysqli_query($con, "SELECT A.id as id,A.title as title,A.id_teacher as teacher,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B WHERE B.id_tournament=A.id and A.public=1 and A.id_groups=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
+                    $query = mysqli_query($con, "SELECT A.id as id,A.id_groups,A.title as title,D.title as title_groups,A.id_teacher as teacher,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B ,tb_group_students C,tb_groups D WHERE A.id_groups=C.id_groups and C.id_groups=D.id and B.id_tournament=A.id and C.id_student=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
 
                     if ($query && mysqli_num_rows($query) >
                         0
@@ -105,7 +105,7 @@ require_once 'nav.php';
                                         <img class="img-circle" src="img/sc1.png" style="width:36px;height: 36px"></div>
                                         <div class="col-3">
                                             <span>Время: %s:%s</span><br>
-                                            <span>500 Очков</span><br>
+                                            <span>Группа: %s</span><br>
                                             <span>%s вопросов</span>
                                         </div>
                                         <div class="col-2 pull-right">
@@ -115,7 +115,7 @@ require_once 'nav.php';
                                         </div>
                                     </div>
                                 </div>
-                                ', $row['title'], $row['datetime_added'], ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs, $row['tQuestion'], $row['id']);
+                                ', $row['title'], $row['datetime_added'], ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs,$row['title_groups'], $row['tQuestion'], $row['id']);
                         }
                     }
                     ?>

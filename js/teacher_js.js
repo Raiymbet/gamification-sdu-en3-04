@@ -152,6 +152,7 @@ function say(input) {
 $(document).ready(function () {
     $(".qr-code").click(function(){
         val=$(this).attr("name");
+        $("#sh1").html(val);
         $("#qrCodeIMG").attr("src","http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl="+val);
         $("#myModalQrCode").modal('show');
     });

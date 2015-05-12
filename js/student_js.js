@@ -89,6 +89,35 @@ function deleteFromGroups(id_student, id_groups) {
         }
     });
 }
+
+function get_groups(input) {
+    $.ajax({
+        method: 'POST',
+        url: 'calculateResult.php',
+        data: {'command': 'cGroupGetListStudent', 'id_groups': input},
+        success: function (msg) {
+            $("#tb_groups_table").html("");
+            if (msg != '-1') {
+                for (i = 0; i < msg.length; i++) {
+                    console.log(msg[i].approved);
+                    s = '<tr'+((msg[i].approved==1)?'':'')+'><td><div class="row">' +
+                    '<div class="col-2"><img src="img/' + msg[i].photo_url + '" height="32px" width="32px" alt="" class="img img-cirlce"></div><div class="col-10">' + msg[i].fullname + '</div>' +
+                    '  </div></td><td>' +
+                    ' <div class="btn-group">' +
+                    '  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+                    '   Action <span class="caret"></span></button>' +
+                    '<ul class="dropdown-menu" role="menu">' +
+                    '  <li><a href="#"><img src="img/chat_message.png" width="18" height="18" alt="no_photo"> Отправить сообщение</a></li>' +
+
+                    ' <li><a href="../../project/profile.php?id=' + msg[i].id_student + '"><img src="img/user.png" width="18" height="18" alt="no_photo"> Просмотреть профиль</a></li>' +
+                    '</ul></div></td> </tr>';
+                    $("#tb_groups_table").append(s);
+                }
+
+            }
+        }
+    });
+}
 $(".nagrada").children('img').each(function(){
     $(this).mouseenter(function(){
         var pos=$(this).position();
