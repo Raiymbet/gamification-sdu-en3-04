@@ -171,6 +171,7 @@ require_once 'nav.php';
 
         }
     }
+
     function myFunction() {
         $(".delete_icon").css({"visibility": "hidden"});
         $("#submit").css({"visibility": "hidden"});

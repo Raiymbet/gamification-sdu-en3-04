@@ -40,7 +40,7 @@ if (isset($_POST['q'])) {
     if (empty($_POST["message"])) {
         $nameErr = "Name is required";
     }
-    $query = mysqli_query($con, "INSERT INTO mail(`email`, `subject`, `message`, `ip_address`, `DATE_SEND`) VALUES ('$email','$subject',$message,'$ip_address_client','$today')");
+    $query = mysqli_query($con, "INSERT INTO mail(email, subject, message, ip_address, DATE_SEND) VALUES ('$email','$subject',$message,'$ip_address_client','$today')");
     $message = "Date:" . $today . "\r\n";
     $message .= "E-MAIL: " . $_POST['e_mail'] . "\r\n";
     $message .= "IP-Address: " . $ip_address_client;
