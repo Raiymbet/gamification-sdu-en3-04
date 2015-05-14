@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <title>Регистрация нового аккаунта</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -9,7 +9,7 @@
     <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="css/font-awesome.css" rel="stylesheet">
     <link href="css/registration_page.css" rel="stylesheet">
-
+    <title></title>
 </head>
 <body>
 <div class="nav navbar-inverse navbar-static-top">
@@ -168,13 +168,13 @@
                 <div role="tabpanel" class="tab-pane fade" id="student">
                     <div class="col-10 col-offset-1">
                         <!-- Форма студента -->
-                        <form class="form-teacher" id="form-student" method="post" action="registration.php">
+                        <form class="form-teacher" id="form-student">
                             <!-- Student name -->
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
                                     <input type="text" class="form-control" placeholder="Имя" name="name" required
-                                           pattern="[А-Яа-яa-zA-Z\-]{2,50}" title="Пожалуйста, напишите ваше реальное имя">
+                                           pattern="[a-zA-Z\-]{2,50}" title="Пожалуйста, напишите ваше реальное имя">
                                 </div>
                             </div>
                             <!-- Student surname -->
@@ -182,7 +182,7 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-user"></span></div>
                                     <input type="text" class="form-control" placeholder="Фамилия" name="surname"
-                                           required pattern="[А-Яа-яA-Za-z\-]{2,50}"
+                                           required pattern="[A-Za-z\-]{2,50}"
                                            title="Пожалуйста, напишите свой реальный фамилию">
                                 </div>
                             </div>
@@ -221,8 +221,8 @@
                                     <select class="form-control" name="gender" title="Choose your gender"
                                             required id="student_gender">
                                         <option disabled selected value="0">Выберите ваш пол</option>
-                                        <option value="1">Мужчина</option>
-                                        <option value="2">Женщина</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
                                     </select>
                                 </div>
                             </div>
@@ -329,16 +329,16 @@
 <!-- Creating modal -->
 <div class="modal fade" id="myModal" role="alert">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 400px; margin-left: 100px;">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal"><span class="fa fa-close"></span></button>
-                <h4>Registration status</h4>
+                <h4>Уведомление.</h4>
             </div>
             <div class="modal-body">
                 <p class="modal-body-text"></p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary">Войти</button>
+                <a class="btn btn-primary" role="button" href="authorization.php">Войти</a>
             </div>
         </div>
     </div>
@@ -366,19 +366,25 @@
             validate_select('student_gender');
         }).change();
 
-     /*   $("#form-teacher").submit(function (event) {
+        $("#form-teacher").submit(function (event) {
             event.preventDefault();
             if (validate_select_ajax('teacher_gender')) {
                 console.log('Durys');
-                var jsondata = $(this).serializeArray();
-                jsondata.push({"user":"teacher"});
-                console.log(jsondata);
-
+                var data = {name:$("#form-teacher input[name='name']").val(),
+                        surname:$("#form-teacher input[name='surname']").val(),
+                        birthday:$("#form-teacher input[name='birthday']").val(),
+                        gender:$("#form-teacher select[name='gender']").val(),
+                        e_mail:$("#form-teacher input[name='e_mail']").val(),
+                        telephone:$("#form-teacher input[name='telephone']").val(),
+                        password:$("#form-teacher input[name='password']").val(),
+                        teacher_submit: true};
+                console.log(data);
+                ajax_register(data);
             }else{
                 $("#teacher_gender").focus();
-                console.log("Durys emes");
+                //егер гендер тандалмаған болса қызыл болады да сабмит орындалмайды
             }
-        });*/
+        });
 
     });
 
@@ -400,22 +406,21 @@
         }
     }
 
-    function ajax_register(jsondata) {
+    function ajax_register(data) {
         console.log("Hello Ajax");
         $.ajax({
             type: "POST",
-            dataType: JSON,
             url: "registration.php",
-            data: jsondata,
+            data: data,
             cache: false,
             beforeSend: function () {
                 $('#myModal').modal('show');
-                $("modal-body-text").append("<img src='img/loading.gif'>")
+                $(".modal-body-text").html("").append("<img src='img/loading.gif' name='load'>")
                 //show php returns information
             },
             success: function (response) {
                 console.log("Response:" + response);
-                $("myModal").find('.modal-body-text').text("Hello response");
+                $(".modal-body-text").html("").append(response);
             }
         });
     }

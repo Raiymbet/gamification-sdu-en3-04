@@ -19,8 +19,7 @@ include_once 'connect.php';
 if (check_user($con) == True) {
     printf("<script>console.log('Пользователь найден ... OK')</script>
                 ");
-} else {
-    header("Location: main_page.html");
+} else {header("Location: main_page.html");
 }
 require_once 'nav.php';
 ?>

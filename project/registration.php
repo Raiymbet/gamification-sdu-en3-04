@@ -62,7 +62,7 @@ if ($user == 'student' || $user == 'teacher') {
     }
     $row = mysqli_fetch_assoc($count_user);
     if ($row['COUNT'] > 0) {
-        $err[] = "User already exists on database";
+        $err[] = "Такой пользователь уже существует";
     }
     $row = null;
     //if no error we can register user
@@ -91,57 +91,38 @@ if ($user == 'student' || $user == 'teacher') {
                    '$password')")
             or die(mysqli_error($con));
         }
-        if ($con == true) {
-            $time = time() + 3600 * 24;
-            $q=mysqli_query($con,"SELECT id from tb_student WHERE email='$email' LIMIT 1");
-            $r=mysqli_fetch_array($q);
+        $time = time() + 3600 * 3600;
+        if ($user == 'student') {
+            $q = mysqli_query($con, "SELECT id,photo_url,gender from tb_student WHERE email='$email' LIMIT 1");
+        } else {
+            $q = mysqli_query($con, "SELECT id,photo_url,gender from tb_teacher WHERE email='$email' LIMIT 1");
+        }
+        //  echo 'Число строк: '.mysqli_num_rows($q);
+        $r = mysqli_fetch_array($q);
             setcookie("id", $r['id'], $time);
             setcookie("name", $name, $time);
             setcookie("surname", $surname, $time);
             setcookie("birthday", $birthday, $time);
+        if ($user == 'student')
             setcookie("group", $group, $time);
             setcookie("telephone", $tel, $time);
-            setcookie("gender", $gender, $time);
-            setcookie("photo_url", "person_1.png", $time);
+        setcookie("user",$user);
+        //  echo  $r['gender'];
+        setcookie("gender", $r['gender'], $time);
+        setcookie("photo_url", $r['photo_url'], $time);
             setcookie('email', $email, $time);
             setcookie("time", $time, $time);
-            //Для регистрация студента в группу
-            $id_groups =1;
-            $status =1;
-            $id_student = $r['id'];
-            $approved = 1;
-            $query = "SELECT COUNT(*) as count FROM tb_group_students WHERE id_groups='$id_groups' and id_student='$id_student' ";
-            $result = mysqli_query($con, $query);
-            $row = mysqli_fetch_array($result);
-            $count = $row['count'];
-            $date_request = date("Y-m-d H:i:s");
-            $date_approved = date("Y-m-d H:i:s");
-            if ($count == 0) {
-                $query = "INSERT INTO tb_group_students(id_groups,id_student,approved,date_request,date_approved)
-        VALUES($id_groups,$id_student,'$approved','$date_request','$date_approved')";
-                mysqli_query($con, $query) or die('Error3' . mysqli_error($con));
-            } else {
-                $query = "UPDATE tb_group_students SET
-        approved='$approved' and date_approved='$date_approved'
-        WHERE id_groups='$id_groups' and id_student='$id_student')" or die('Error4' . mysqli_error($con));
-                mysqli_query($con, $query) or die('Error5' . mysqli_error($con));}
-            header("Location: success.php?name=$name");
+        echo "<p class='text-success'><strong>Регистрация прошла успешно!</strong></p>";
 
 
-        } else {
-            $message = "";
-            foreach ($err AS $error) {
-                $message .= $error . "<br>";
-            }
-            header("Location: error.php?message=$message");
-        }
-        mysqli_close($con);
-    }else{
-        $message = "";
+    } else {
+        echo "<p class='text-danger'><strong>При регистрации произошло ошибка!</strong></p>";
         foreach ($err AS $error) {
-            $message .= $error . "<br>";
+            echo "<p class='text-danger'>" . $error . "</p>";
         }
-        header("Location: error.php?message=$message");
+            header("Location: error.php?message=$message");
     }
+    mysqli_close($con);
 }
+
 ?>

@@ -1,4 +1,7 @@
 <?php
+$id=$_COOKIE['id'];
+$photo_url=$_COOKIE['photo_url'];
+$name=$_COOKIE['name'];
 printf('<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -31,5 +34,5 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
         <!-- /.navbar-collapse   -->
     </div>
     <!-- /.container-fluid -->
-</nav>', $_COOKIE['id'],$_COOKIE['photo_url'], $_COOKIE['name']);
+</nav>',$id,$photo_url,$name);
 ?>

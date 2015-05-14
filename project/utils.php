@@ -7,11 +7,19 @@ function check_user($con)
         return false;
     } else if (!isset($_COOKIE['name']) || empty($_COOKIE['name'])) {
         return false;
+    } else if (!isset($_COOKIE['user']) || empty($_COOKIE['user'])) {
+        return false;
     } else {
         $id = $_COOKIE['id'];
         $email = $_COOKIE['email'];
         $name = $_COOKIE['name'];
-        $query = "SELECT id,email,name FROM tb_student WHERE id = ? && email = ? && name = ?";
+        $user = $_COOKIE['user'];
+        $query="";
+        if ($user == 'student') {
+            $query = "SELECT id,email,name FROM tb_student WHERE id = ? && email = ? && name = ?";
+        } else {
+            $query = "SELECT id,email,name FROM tb_teacher WHERE id = ? && email = ? && name = ?";
+        }
         if ($stmt = $con->prepare($query)) {
             /* Execute it */
             $stmt->bind_param("sss", $id, $email, $name);
@@ -19,14 +27,15 @@ function check_user($con)
             $id_stmt = NULL;
             $email_stmt = NULL;
             $name_stmt = NULL;
-            $stmt->bind_result($id_stmt, $id_stmt, $email_stmt);
+            $stmt->bind_result($id_stmt, $email_stmt, $name_stmt);
             /* Bind results */
             $stmt->fetch();
+            mysqli_stmt_close($stmt);
             if ($id_stmt != NULL) {
-                mysqli_stmt_close($stmt);
+                echo 'GOOD'.$id_stmt;
                 return true;
             } else {
-                mysqli_stmt_close($stmt);
+                echo 'BAD';
                 return false;
             }
         }

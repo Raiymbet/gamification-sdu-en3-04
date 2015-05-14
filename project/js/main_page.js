@@ -70,12 +70,12 @@ $(function () {
         var v3 = $("#email").val();
         var v4 = $("#phone").val();
         var v5 = $("#message").val();
-        console.log({q:'1',name: v1, surname: v2, e_mail: v3, phone: v4, message: v5});
+        console.log({q:'1',name: v1, subject: v2, e_mail: v3, phone: v4, message: v5});
         $.ajax({
             url: "mail.php",
             type: "POST",
             cache: false,
-            data: {q:'1',name: v1, surname: v2, email: v3, phone: v4, message: v5},
+            data: {q:'1',name: v1, subject: v2, e_mail: v3, phone: v4, message: v5},
             success: function (msg) {
                 alert(msg);
             }
