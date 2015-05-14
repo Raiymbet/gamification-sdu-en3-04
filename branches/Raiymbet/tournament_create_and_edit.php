@@ -118,24 +118,25 @@
     </style>
 </head>
 <body>
+<?php
+include_once 'connect.php';
+?>
 <div class="container solid-border" style="margin-top: 50px;">
     <div class="container-fluid solid-border">
         <!-- Content tournament header-->
         <div class="solid-border col-12" style="">
             <!-- Name of tournament -->
             <div class="col-8" style="padding-right: 10px; padding-left: 10px">
-                <div class="form-group col-12">
+                <div class="col-12">
                     <label class="col-2 control-label" for="name_tournament">Название: </label>
-
                     <div class="col-10">
                         <input class="form-control" id="name_tournament" type="text" style="width: 100%;"
                                placeholder="Enter tournament name">
                     </div>
                 </div>
                 <!-- Description of tournament -->
-                <div class="form-group col-12">
+                <div class=" margin-top-5 col-12">
                     <label class="col-2 control-label" for="description_tournament">Описание: </label>
-
                     <div class="col-10" style="">
                     <textarea class="form-control margin-top-5" id="description_tournament"
                               style="width: 100%; height: 100px;"
@@ -144,7 +145,7 @@
                 </div>
             </div>
             <div class="col-4" style="padding-right: 10px; padding-left: 10px">
-                <div class="form-group" style="width: 100%; height: 34px">
+                <div class="margin-top-5" style="width: 100%; height: 34px">
                     <div class="col-4">
                         <span class="control-label">Open date:</span>
                     </div>
@@ -153,7 +154,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="width: 100%; height: 34px;">
+                <div class="margin-top-5" style="width: 100%; height: 34px;">
                     <div class="col-4">
                         <span class="control-label">Close date:</span>
                     </div>
@@ -162,7 +163,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" style="width: 100%; height: 34px;">
+                <div class="margin-top-5" style="width: 100%; height: 34px;">
                     <div class="col-4">
                         <span class="control-label">Public:</span>
                     </div>
@@ -171,6 +172,19 @@
                             <li class="on"><span>OFF</span></li>
                             <li><span>ON</span></li>
                         </ul>
+                    </div>
+                </div>
+                <div class="margin-top-5" id="teacher_groups">
+                    <div class="col-12">
+                        <select class="form-control">
+                            <?php
+                            $id_teacher =
+                            $teacher_groups = mysqli_query($con, "SELECT title as groups FROM tb_groups WHERE teacher_id=1");
+                            while($row_groups = mysqli_fetch_array($teacher_groups)){
+                                echo '<option>'. $row_groups['groups']. '</option>';
+                            };
+                            ?>
+                        </select>
                     </div>
 
                 </div>
@@ -192,8 +206,8 @@
             </div>
 
             <div style="float: inherit; width: 100%">
-                <div class="center-block" style="width: 15%" id="question_number_tab">
-                    <ul class="question_number_btn_list">
+                <div class="center-block" style="width: 15%;" id="question_number_tab">
+                    <ul class="question_number_btn_list" style="overflow: auto;height: 345px;width:70px;">
                         <li class="btn_list_active">
                             <span>1</span>
                         </li>
@@ -226,11 +240,11 @@
             <div class="form-group col-12" style="padding: 0px;">
                 <div class="col-6">
                     <select class="form-control" name="game_type" id="select_game_types">
-                        <option selected>Simple</option>
-                        <option>True-false</option>
-                        <option>Input</option>
-                        <option>Pole chudes</option>
-                        <option>Match</option>
+                        <option selected value="Simple">Simple</option>
+                        <option value="True-false">True-false</option>
+                        <option value="Input">Input</option>
+                        <option value="Polechudes">Pole chudes</option>
+                        <option value="Match">Match</option>
                     </select>
                 </div>
             </div>
@@ -294,7 +308,7 @@
         </div>
         <div class="panel solid-border" style="width: 100%; float: left;">
             <button class="btn btn-warning" style="float: right; margin-right: 25%" onclick="check_question_for_save()">
-                Next question>>>
+                Ok
             </button>
         </div>
         <div class="panel-footer" style="float: left; width: 100%">
@@ -330,7 +344,7 @@
         '<div class="col-12">' +
         '<textarea class="form-control" name="question_area" style="width: 100%; height: 100px; margin-top: 1%"placeholder="Please enter your question..."></textarea> ' +
         '</div>' +
-        '<div class="form-group" id="content_answer_input" style="float: left;">' +
+        '<div class="form-group" id="content_answer_input" style="float: left;height: 180px; overflow-y: scroll">' +
         '<div class="col-9 margin-top-5">' +
         '<div class="col-12" style="padding: 0px"> ' +
         '<input class="form-control margin-top-5" name="answer" style="width: 100%;" type="text" placeholder="Answer 1">' +
@@ -355,47 +369,80 @@
         '</div>' +
         '</div>';
     var content_true_false_game =
-        '<div class="col-12" >' +
-        '<textarea class="form-control" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
+        '<div class="col-12">' +
+        '<textarea class="form-control" name="question_area" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
         '</div>' +
-        '<div class="form-group col-12" id="content_answer_input" style="float: left">' +
+        '<div class="form-group col-12" id="content_answer_input" style="float: left; height: 180px; overflow-y: scroll">' +
         '<div class="col-12 margin-top-5" style="padding: 0px;">' +
-        '<div class="col-3" style="padding: 0px">' +
+        '<div class="col-2" style="padding: 0px">' +
         '<input class="form-control" readonly style="width: 100%;" name="answer" type="text" value="True">' +
         '</div>' +
-        '<div class="col-2" style="padding: 0px">' +
+        '<div class="col-3" style="padding: 0px">' +
         '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button>' +
         '</div>' +
-        '<div class="col-3 col-offset-2" style="padding: 0px">' +
+        '<div class="col-2 col-offset-2" style="padding: 0px">' +
         '<input class="form-control" style="width: 100%;" name="answer" readonly type="text" value="False">' +
         '</div>' +
-        '<div class="col-2" style="padding: 0px">' +
+        '<div class="col-3" style="padding: 0px">' +
         '<button class="btn btn-danger pull-right btn-correct-incorrect" name="correct_incorrect">Incorrect</button>' +
         '</div>' +
         '</div>' +
         '</div>';
     var content_input_game =
-        '<div class="col-12" >' +
+        '<div class="col-12">' +
         '<textarea class="form-control" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
         '</div>' +
-        '<div class="form-group col-12" id="content_answer_input" style="float: left">' +
+        '<div  class="col-12" style=" float: left; height: 180px; overflow-y: scroll">' +
+        '<div class="" id="content_answer_input" style="">' +
         '<div class="col-12 margin-top-5" style="padding: 0px;" >' +
         '<input class="form-control" style="width: 100%;" name="answer" type="text" placeholder="Input 1">' +
         '</div>' +
+        '</div>' +
         '<div class="col-12 margin-top-5" style="padding: 0px">' +
-        '<button class="btn fa fa-plus-circle" name="input_answer_plus"></button>' +
-        '<button class="btn fa fa-minus-circle" id="input_answer_minus"></button>' +
+        '<button class="btn btn-primary fa fa-minus-circle" style="float: right;" name="input_answer_minus"></button>' +
+        '<button class="btn btn-primary fa fa-plus-circle" style="float: right; margin-right: 5px" name="input_answer_plus"></button>' +
+        '</div>'
+    '</div>';
+    var content_polechudes_game =
+        '<div class="col-12">' +
+        '<textarea class="form-control" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
+        '</div>' +
+        '<div class="form-group col-12" id="content_answer_input" style="float: left; height: 180px; overflow-y: scroll">' +
+        '<div class="col-12 margin-top-5" style="padding: 0px;" >' +
+        '<input class="form-control" style="width: 100%;" name="answer" type="text" placeholder="Input 1">' +
+        '</div>';
+    var content_match_game =
+        '<div class="col-12">' +
+        '<textarea class="form-control" placeholder="Please enter your question..." style="width: 100%; height: 100px;"></textarea>' +
+        '</div>' +
+        '<div class="col-12" style="float: left; height: 180px; overflow-y: scroll">' +
+        '<div class="form-group" id="content_answer_input">' +
+        '<div class="col-5 margin-top-5" style="padding: 0px;" >' +
+        '<textarea class="form-control" style="width: 100%; height: 150px" name="answer"  placeholder="Match 1"></textarea>' +
+        '</div>' +
+        '<div class="col-5 col-offset-2 margin-top-5" style="padding: 0px;" >' +
+        '<textarea class="form-control" style="width: 100%; height: 150px" name="answer" placeholder="Match answer 1"></textarea>' +
+        '</div>' +
+        '<div class="col-5 margin-top-5" style="padding: 0px;" >' +
+        '<textarea class="form-control" style="width: 100%; height: 150px" name="answer"  placeholder="Match 2"></textarea>' +
+        '</div>' +
+        '<div class="col-5 col-offset-2 margin-top-5" style="padding: 0px;" >' +
+        '<textarea class="form-control" style="width: 100%; height: 150px" name="answer" placeholder="Match answer 2"></textarea>' +
+        '</div>' +
+        '</div>' +
+        '<div class="col-12 margin-top-5" style="padding: 0px">' +
+        '<button class="btn btn-primary fa fa-minus-circle" style="float: right;" name="input_answer_minus"></button>' +
+        '<button class="btn btn-primary fa fa-plus-circle" style="float: right; margin-right: 5px" name="input_answer_plus"></button>' +
         '</div>' +
         '</div>';
-    var content_polechudes_game = '';
-    var content_match_game = '';
     var tournament_info = {
         "about_tournament": {
             "name": '',
             "description": '',
             "opened": '',
             "closed": '',
-            "public": ''
+            "public": '',
+            "status": ''
         },
         "questions": []
     }; //munda tournament informaciasy jane suraktarymen birge saktaidy
@@ -416,11 +463,11 @@
             } else if ($(this).val() == 'True-false') {
                 $("#content_game_type").html(content_true_false_game).load(answer_correct_incorrect());
             } else if ($(this).val() == 'Input') {
-                $("#content_game_type").html(content_input_game);
-            } else if ($(this).val() == 'Pole chudes') {
+                $("#content_game_type").html(content_input_game).load(input_answer_plus(), input_answer_minus());
+            } else if ($(this).val() == 'Polechudes') {
                 $("#content_game_type").html(content_polechudes_game);
             } else if ($(this).val() == 'Match') {
-                $("#content_game_type").html(content_match_game);
+                $("#content_game_type").html(content_match_game).load(input_answer_minus(), input_answer_plus());
             }
         }).change();
 
@@ -450,11 +497,12 @@
         $("#btn-question-minus").click(function () {
             question_minus();
         });
+
+        $("#teacher_groups").append();
     });
 
     function question_next() {
-        if (tournament_info.questions.length < active_li_index ) {
-            //console.log("Zapolnite vopros");
+        if (tournament_info.questions.length < active_li_index) {
             $("#message_modal").modal('show');
             $("#message_modal .modal-body-text").html("").append("<p class='text-warning'>Сперва заполните этот вопрос!</p>");
         } else {
@@ -478,23 +526,24 @@
 
             if ($(".question_number_btn_list > li:nth-child(" + active_li_index + ")").hasClass("btn_have_question")) {
                 $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_have_question").addClass("btn_have_question_list_active");
-                if(tournament_info.questions[active_li_index-1].game_type=='Simple'){
-                    $("#select_game_types").select();
+
+                if (tournament_info.questions[active_li_index - 1].game_type == 'Simple') {
                     $("#content_game_type").html("").append(content_simple_game);
-                    $("#content_game_type textarea[name='question_area']").text(""+tournament_info.questions[active_li_index-1].question);
-                    $("#content_answer_input input[name='answer']").each(function(index){
-                        $(this).val(""+tournament_info.questions[active_li_index-1].answers[index]);
+                    $("#content_game_type textarea[name='question_area']").text("" + tournament_info.questions[active_li_index - 1].question);
+                    $("#content_answer_input input[name='answer']").each(function (index) {
+                        $(this).val("" + tournament_info.questions[active_li_index - 1].answers[index]);
                     });
-                    $("#list-btn-correct-incorrect li[name='correct_incorrect']").each(function(index){
-                        if(index==tournament_info.questions[active_li_index-1].correct_answer_id){
+                    $("#list-btn-correct-incorrect li[name='correct_incorrect']").each(function (index) {
+                        if (index == tournament_info.questions[active_li_index - 1].correct_answer_id) {
                             $(this).removeClass("btn-danger").addClass("btn-success").text("Correct").load(answer_correct_incorrect());
-                            correct_answer_index=tournament_info.questions[active_li_index-1].correct_answer_id;
+                            correct_answer_index = tournament_info.questions[active_li_index - 1].correct_answer_id;
                         }
                     });
                 }
             } else {
                 $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_list_active");
                 $("#content_game_type").html(content_simple_game).load(answer_correct_incorrect());
+                correct_answer_index = null;
             }
             //console.log("Next question: "+active_index);
         }
@@ -516,16 +565,16 @@
         if ($(".question_number_btn_list > li:nth-child(" + active_li_index + ")").hasClass("btn_have_question")) {
             $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_have_question").addClass("btn_have_question_list_active");
 
-            if(tournament_info.questions[active_li_index-1].game_type=='Simple'){
+            if (tournament_info.questions[active_li_index - 1].game_type == 'Simple') {
                 $("#content_game_type").html("").append(content_simple_game);
-                $("#content_game_type textarea[name='question_area']").text(""+tournament_info.questions[active_li_index-1].question);
-                $("#content_answer_input input[name='answer']").each(function(index){
-                    $(this).val(""+tournament_info.questions[active_li_index-1].answers[index]);
+                $("#content_game_type textarea[name='question_area']").text("" + tournament_info.questions[active_li_index - 1].question);
+                $("#content_answer_input input[name='answer']").each(function (index) {
+                    $(this).val("" + tournament_info.questions[active_li_index - 1].answers[index]);
                 });
-                $("#list-btn-correct-incorrect li[name='correct_incorrect']").each(function(index){
-                    if(index==tournament_info.questions[active_li_index-1].correct_answer_id){
+                $("#list-btn-correct-incorrect li[name='correct_incorrect']").each(function (index) {
+                    if (index == tournament_info.questions[active_li_index - 1].correct_answer_id) {
                         $(this).removeClass("btn-danger").addClass("btn-success").text("Correct").load(answer_correct_incorrect());
-                        correct_answer_index=tournament_info.questions[active_li_index-1].correct_answer_id;
+                        correct_answer_index = tournament_info.questions[active_li_index - 1].correct_answer_id;
                     }
                 });
             }
@@ -552,7 +601,7 @@
         question_li_size--;
         if ($(".question_number_btn_list").children().last().hasClass("btn_list_active")) {
             $(".question_number_btn_list").children().last().remove();
-            if($(".question_number_btn_list li:last-child").hasClass("btn_have_question")){
+            if ($(".question_number_btn_list li:last-child").hasClass("btn_have_question")) {
                 $(".question_number_btn_list li:last-child").removeClass("btn_have_question").addClass("btn_have_question_list_active");
             }
         } else {
@@ -564,19 +613,45 @@
     }
 
     /*function btn_list_active_change() {
-        $("ul.question_number_btn_list li").click(function () {
-            //console.log($(this).index() + " " + tournament_info.questions.length);
-            if (tournament_info.questions.length >= $(this).index()) {
-                $("ul.question_number_btn_list li").removeClass("btn_list_active");
-                $(this).addClass("btn_list_active");
-            } else {
-                //console.log("Zapolnite predydushie voprosy");
-                $("#message_modal").modal('show');
-                $("#message_modal .modal-body-text").html("").append("<p class='text-warning'>Сперва заполните этот вопрос!</p>");
+     $("ul.question_number_btn_list li").click(function () {
+     //console.log($(this).index() + " " + tournament_info.questions.length);
+     if (tournament_info.questions.length >= $(this).index()) {
+     $("ul.question_number_btn_list li").removeClass("btn_list_active");
+     $(this).addClass("btn_list_active");
+     } else {
+     //console.log("Zapolnite predydushie voprosy");
+     $("#message_modal").modal('show');
+     $("#message_modal .modal-body-text").html("").append("<p class='text-warning'>Сперва заполните этот вопрос!</p>");
+     }
+     //console.log($(this).children().text());
+     });
+     }*/
+    function input_answer_plus() {
+        $(".btn[name='input_answer_plus']").click(function () {
+            if ($("#select_game_types").val() == 'Input') {
+                $("#content_answer_input").append('<div class="col-12 margin-top-5" style="padding: 0px;" ><input class="form-control" style="width: 100%;" name="answer" type="text" placeholder="Input 1"></div>');
+            } else if ($("#select_game_types").val() == 'Match') {
+                var matches = '<div class="col-5 margin-top-5" style="padding: 0px;" >' +
+                    '<textarea class="form-control" style="width: 100%; height: 150px" name="answer"  placeholder="Match"></textarea>' +
+                    '</div>' +
+                    '<div class="col-5 col-offset-2 margin-top-5" style="padding: 0px;" >' +
+                    '<textarea class="form-control" style="width: 100%; height: 150px" name="answer" placeholder="Match answer"></textarea>' +
+                    '</div>';
+                $("#content_answer_input").append(matches);
             }
-            //console.log($(this).children().text());
         });
-    }*/
+    }
+    function input_answer_minus() {
+        $(".btn[name='input_answer_minus']").click(function () {
+            if ($("#select_game_types").val() == 'Input') {
+                $("#content_answer_input").children().last().remove();
+            } else if ($("#select_game_types").val() == 'Match') {
+                $("#content_answer_input").children().last().remove();
+                $("#content_answer_input").children().last().remove();
+            }
+        });
+    }
+
     function answer_correct_incorrect() {
         $(".btn[name='correct_incorrect']").click(function () {
             if ($(this).hasClass("btn-success")) {
@@ -586,7 +661,6 @@
                 $("#content_game_type .btn-success").removeClass("btn-success").addClass("btn-danger").text("Incorrect");
                 $(this).removeClass("btn-danger").addClass("btn-success").text("Correct");
                 correct_answer_index = $(this).index();
-                //console.log(correct_answer_index);
             }
         });
     }
@@ -596,7 +670,8 @@
             description_tournament = $("#description_tournament").val(),
             open_datetime = $("input[name='open_datetime']").val(),
             close_datetime = $("input[name='close_datetime']").val(),
-            public_status = $(".switch .on").text();
+            public_status = $(".switch .on").text(),
+            status = 'yes';
         var valid = false;
         var errors = [];
         if (name_tournament == "") {
@@ -621,6 +696,7 @@
             tournament_info.about_tournament.opened = open_datetime;
             tournament_info.about_tournament.closed = close_datetime;
             tournament_info.about_tournament.public = public_status;
+            tournament_info.status = status;
             return valid;
         } else {
             //console.log(errors);
@@ -634,6 +710,7 @@
             time_limit = $("select[name='time_limit']").val(),
             question_point = $("select[name='question_point']").val(),
             question_level = $("#btn_level_group button.active").text(),
+
             question = "",
             answers = [],
             errors = [], valid = false;
@@ -659,28 +736,16 @@
                 valid = true;
             }
             if (valid) {
-                tournament_info.questions[active_li_index-1]={
+                tournament_info.questions[active_li_index - 1] = {
                     "game_type": game_type,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
                     "question": question,
                     "answers": answers,
-                    "correct_answer_id": correct_answer_index};
-                if(question_li_size==active_li_index){
-                    $("#message_modal").modal('show');
-                    $("#message_modal .modal-body-text").html("").append("<p class='text-success'>Все вопросы были заданы</p>");
-                    all_questions_is_giving = true;
-                    $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_list_active").addClass("btn_have_question_list_active");
-                }else{
-                    $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_have_question");
-                    question_next();
-                    $("#content_game_type").html(content_simple_game).load(answer_correct_incorrect());
-                }
-                correct_answer_index = null;
-                //console.log(tournament_info);
+                    "correct_answer_id": correct_answer_index
+                };
             } else {
-                //console.log(errors);
                 $("#message_modal").modal('show');
                 $("#message_modal .modal-body-text").html("");
                 $.each(errors, function (index, value) {
@@ -691,11 +756,22 @@
 
         } else if (game_type == 'Input') {
 
-        } else if (game_type == 'Pole chudes') {
+        } else if (game_type == 'Polechudes') {
 
         } else if (game_type == 'Match') {
 
         }
+        console.log(tournament_info);
+        if (question_li_size == active_li_index) {
+            $("#message_modal").modal('show');
+            $("#message_modal .modal-body-text").html("").append("<p class='text-success'>Все вопросы были заданы</p>");
+            all_questions_is_giving = true;
+            $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_list_active").addClass("btn_have_question_list_active");
+        } else if(valid){
+            $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_have_question");
+            question_next();
+        }
+        correct_answer_index = null;
     }
 
     function save_tournament() {
@@ -703,15 +779,17 @@
         var valid = check_about_tournament();
         if (valid == true && all_questions_is_giving) {
             console.log(tournament_info);
+            var json = JSON.stringify(tournament_info);
+            console.log(json);
             $.ajax({
                 type: "POST",
                 url: "save_tournament.php",
-                data: tournament_info,
-                beforeSend: function(){
+                data: {dannie: json},
+                beforeSend: function () {
                     $("#message_modal").modal('show');
                     $(".modal-body-text").html("").append("<img src='img/loading.gif' name='load'>")
                 },
-                success: function(response){
+                success: function (response) {
                     $(".modal-body-text").html("").append(response);
                 }
             });
