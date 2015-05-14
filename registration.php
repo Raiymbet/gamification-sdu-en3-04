@@ -91,8 +91,22 @@ if ($user=='student' || $user=='teacher') {
                    '$password')")
            or die(mysqli_error($con));
          }
-        if($con==true)
+        if ($con == true) {
+            $time = time() + 3600 * 3600;
+            $q = mysqli_query($con, "SELECT id,photo_url from tb_student WHERE email='$email' LIMIT 1");
+            $r = mysqli_fetch_array($q);
+            setcookie("id", $r['id'], $time);
+            setcookie("name", $name, $time);
+            setcookie("surname", $surname, $time);
+            setcookie("birthday", $birthday, $time);
+            setcookie("group", $group, $time);
+            setcookie("telephone", $tel, $time);
+            setcookie("gender", $gender, $time);
+            setcookie("photo_url", $r['photo_url'], $time);
+            setcookie('email', $email, $time);
+            setcookie("time", $time, $time);
             echo "<p class='text-success'><strong>Регистрация прошла успешно!</strong></p>";
+    }
     } else {
         echo "<p class='text-danger'><strong>При регистрации произошло ошибка!</strong></p>";
         foreach ($err AS $error) {
@@ -101,4 +115,5 @@ if ($user=='student' || $user=='teacher') {
     }
     mysqli_close($con);
 }
+
 ?>
