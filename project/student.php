@@ -24,8 +24,10 @@ include_once 'utils.php';
 include_once 'connect.php';
 //Для пробный проверки достаточные эти данные
 if (check_user($con) == True) {
-    printf("<script>console.log('Пользователь найден ... OK')</script>
-        ");
+    printf("<script>console.log('Пользователь найден ... OK')</script>");
+    if($_COOKIE['user']=='teacher'){
+        header("Location: teacher.php");
+    }
 } else {
     header("Location: main_page.html");
 }

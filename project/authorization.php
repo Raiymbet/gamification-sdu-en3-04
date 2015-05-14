@@ -44,7 +44,7 @@ $r1 = mysqli_fetch_array($q1);
 $r2 = mysqli_fetch_array($q2);
 if ($r1['COUNT'] > 0) {
     //$r1 -- > student
-if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password= ? ")
+if ($stmt = $con->prepare("SELECT id,name,surname,password,birthday,gender,email,photo_url,phone_number,group_name FROM tb_student WHERE email= ?  AND password= ? ")
 ) {
     /* Bind parameters
        s - string, b - blob, i - int, etc */
@@ -54,8 +54,6 @@ if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password
     /* Bind results */
 
     $stmt->bind_result($id, $name, $surname, $password, $birthday, $gender, $email, $photo, $phone_number, $group_name);
-
-
     $stmt->fetch();
     if ($id == null) {
         mysqli_close($con);
@@ -98,7 +96,7 @@ if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password
 }
 } else if ($r2['COUNT'] > 0) {
     //r2 -- > teacher
-    if ($stmt = $con->prepare("SELECT * FROM tb_teacher WHERE email= ?  AND password= ? ")
+    if ($stmt = $con->prepare("SELECT id,name,surname,password,birthday,gender,email,photo_url,phone_number FROM tb_teacher WHERE email= ?  AND password= ? ")
     ) {
         /* Bind parameters
            s - string, b - blob, i - int, etc */
@@ -107,7 +105,7 @@ if ($stmt = $con->prepare("SELECT * FROM tb_student WHERE email= ?  AND password
         $stmt->execute();
         /* Bind results */
 
-        $stmt->bind_result($id, $name, $surname, $password, $birthday, $gender, $email, $photo, $phone_number, $group_name);
+        $stmt->bind_result($id, $name, $surname, $password, $birthday, $gender, $email, $photo, $phone_number);
 
 
         $stmt->fetch();

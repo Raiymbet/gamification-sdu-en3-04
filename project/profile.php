@@ -21,6 +21,8 @@ if (check_user($con) == True) {
     header("Location: main_page.html");
 }
 require_once 'nav.php';
+$q=mysqli_query($con,"SELECT A.id,A.name,A.surname,A.birthday,A.email,A.phone_number,A.photo_url FROM tb_teacher A WHERE A.id='".$_COOKIE['id']."'");
+$r=mysqli_fetch_array($q);
 ?>
 <div class="container" style="margin-top: 30px;">
     <div class="row ">
@@ -74,7 +76,7 @@ require_once 'nav.php';
                 <div class="row">
                     <div class="col-6">
                         <label class="left">First name:
-                            <input class="form-control" id="name" placeholder="Alimkhan" size="30" disabled>
+                            <input class="form-control" id="name" value=""size="30" disabled>
                         </label>
                     </div>
                 </div>
@@ -157,7 +159,18 @@ require_once 'nav.php';
         });
         $("#submit").css({"visibility": "visible"});
     });
-    $("#submit");
+    $("#submit").click(function(){
+        bj=(($("#groupname").val().toString()==("None"))?"teacher":"student");
+        object=({
+            "phone_number":$("#phone").val(),
+            "email":$("#email").val(),
+            "name":$("#name").val(),
+            "surname":$("#surname").val(),
+            "group_name":$("#groupname").val(),
+            "user":bj
+        });
+        console.log(object);
+    });
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -182,7 +195,7 @@ require_once 'nav.php';
         readURL(this);
     });
     function Changesave() {
-        alert("Save change")
+
     }
 </script>
 <!-- Modal -->

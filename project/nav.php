@@ -1,7 +1,4 @@
 <?php
-$id=$_COOKIE['id'];
-$photo_url=$_COOKIE['photo_url'];
-$name=$_COOKIE['name'];
 printf('<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,7 +20,7 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
-                        <li><span class="glyphicon glyphicon-question-sign"></span><a href="#">Help</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-question-sign"></span>Help</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-book"></span>Contacts</a></li>
                         <li class="divider"></li>
                         <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span>Log Out</a></li>
@@ -34,5 +31,5 @@ printf('<nav class="navbar navbar-default navbar-fixed-top">
         <!-- /.navbar-collapse   -->
     </div>
     <!-- /.container-fluid -->
-</nav>',$id,$photo_url,$name);
+</nav>', $_COOKIE['id'],$_COOKIE['photo_url'], $_COOKIE['name']);
 ?>

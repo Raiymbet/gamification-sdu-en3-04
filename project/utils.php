@@ -45,21 +45,23 @@ function check_user($con)
 
 function getUserData()
 {
-    session_start();
-
     header("Content-Type: application/json; charset=utf-8");
     if (isset($_COOKIE['id'])) {
-        $json = array('id' => $_COOKIE['id'], 'email' => $_COOKIE['email'], 'name' => $_COOKIE['name'], 'surname' => $_COOKIE['surname'], 'birthday' => $_COOKIE['birthday'], 'group' => $_COOKIE['group'], 'telephone' => $_COOKIE['telephone'], 'gender' => $_COOKIE['gender'], 'photo_url' => $_COOKIE['photo_url'], 'time' => $_COOKIE['time']);
-        echo json_encode($json, JSON_UNESCAPED_UNICODE);
-    } else if (isset($_SESSION['id'])) {
-        $json = array('id' => $_SESSION['id'], 'name' => $_SESSION['name'], 'surname' => $_SESSION['surname'], 'birthday' => $_SESSION['birthday'], 'group' => $_SESSION['group'], 'telephone' => $_SESSION['telephone'], 'gender' => $_SESSION['gender'], 'photo_url' => $_SESSION['photo_url'], 'time' => $_SESSION['time']);
-        echo json_encode($json, JSON_UNESCAPED_UNICODE);
+        if($_COOKIE['user']=='student') {
+            $json = array('id' => $_COOKIE['id'], 'email' => $_COOKIE['email'], 'name' => $_COOKIE['name'], 'surname' => $_COOKIE['surname'], 'birthday' => $_COOKIE['birthday'], 'group' => $_COOKIE['group'], 'telephone' => $_COOKIE['telephone'], 'gender' => $_COOKIE['gender'], 'photo_url' => $_COOKIE['photo_url'], 'time' => $_COOKIE['time']);
+            echo json_encode($json, JSON_UNESCAPED_UNICODE);
+        }else if($_COOKIE['user']=='teacher') {
+            $json = array('id' => $_COOKIE['id'], 'email' => $_COOKIE['email'], 'group'=>'NONE','name' => $_COOKIE['name'], 'surname' => $_COOKIE['surname'], 'birthday' => $_COOKIE['birthday'], 'telephone' => $_COOKIE['telephone'], 'gender' => $_COOKIE['gender'], 'photo_url' => $_COOKIE['photo_url'], 'time' => $_COOKIE['time']);
+            echo json_encode($json, JSON_UNESCAPED_UNICODE);
+        }else{
+            header("Location: main_page.html?problems=auth");
+        }
     } else {
         header("Location: main_page.html?problems=auth");
     }
 }
 
-if (isset($_POST['q']) && $_POST['q'] == 'getUserData()') {
+if (isset($_POST['q'])) {
     getUserData();
 }
 ?>
