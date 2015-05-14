@@ -54,15 +54,38 @@
         </div>
 
     </nav>
+    <select class="form-control" name="game_type" id="select_game_types">
+        <option selected value="Simple">Simple</option>
+        <option value="True-false">True-false</option>
+        <option value="Input">Input</option>
+        <option value="Pole chudes">Pole chudes</option>
+        <option value="Match">Match</option>
+    </select>
+    <button id="next">Next</button>
+    <button id="prev">Nazad</button>
 </body>
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="../../project/js/jquery-ui.js"></script>
 <script type="text/javascript">
+    h="";
     limit=[1,2,23,4,5,6,7,8,9];
     limitArray();
     function limitArray(){
         console.log(limit.slice(0,4));
     }
+    fd=['Simple','True-false','Input','Pole chudes','Match'];
+    index=0;
+    $("#next").click(function(){
+index++;
+        $("#select_game_types option").removeAttr("selected");
+        $("#select_game_types option[value='"+fd[index]+"']").attr("selected",'selected');
+    });
+    $("#select_game_types").change(function(){
+        var sele=$(this).find("option:selected");
+        var getValue=sele.val();
+        var text=sele.text();
+        alert(getValue+"///"+text);
+    });
 </script>
 </html>
