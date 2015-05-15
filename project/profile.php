@@ -194,9 +194,7 @@ $r=mysqli_fetch_array($q);
     $("#imgInp").change(function () {
         readURL(this);
     });
-    function Changesave() {
-
-    }
+    function Changesave() {}
 </script>
 <!-- Modal -->
 <div class="modal fade  bs-example-modal-sm " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

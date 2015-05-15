@@ -95,30 +95,30 @@ if ($query && mysqli_num_rows($query) > 0) {
 ?>
 <div class="container" style="margin-top:70px">
     <div class="row">
-        <div class="col-9 col-offset-1 nagrada-finish">
+        <div class="col-6 col-offset-3 nagrada-finish">
             <div class="panel panel-info">
                 <div class="panel-heading">
                         <div class="row">
                             <div class="col-2">
                                 <h3 class="nagrada-finish">Поздравляю</h3></div>
-                            <div class="col-2 col-offset-3">
+                            <div class="col-2 col-offset-4">
                                 <img class="img-thumbnail img-circle"
                                      src="img/<?php echo $data['player']['photo_url'] ?>"
                                      style="width: 64px;height: 64px;margin-left: 40px">
                                 <span class="player_name"><? echo $data['player']['name']; ?></span>
                             </div>
-                            <div class="col-2 col-offset-2">
+                       <!--     <div class="col-2 col-offset-2">
                                 <img class="img-thumbnail img-circle"
                                      src="img/<?php echo $data['player']['photo_url'] ?>"
                                      style="width: 64px;height: 64px;margin-left: 40px">
                                 <span class="player_name"><? echo $data['player']['name']; ?></span>
-                            </div>
+                            </div> -->
                             </div>
                         </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="row">
-                            <div class="col-4 col-offset-1">
+                            <div class="col-4 col-offset-2">
                                 <p class="fd_text">Осталось времени</p>
                             </div>
                             <div class="col-3">
@@ -129,28 +129,28 @@ if ($query && mysqli_num_rows($query) > 0) {
                                             printf("%s:%s", ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs);
                                             ?></span>
                             </div>
-                            <div class="col-3  col-offset-1">
+                            <!--<div class="col-3  col-offset-2">
                                             <span id="time_2"><?
                                                 $hours = floor($data['player']['time_end'] / 3600);
                                                 $mins = floor(($data['player']['time_end'] - ($hours * 3600)) / 60);
                                                 $secs = floor($data['player']['time_end'] % 60);
                                                 printf("%s:%s", ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs);
                                                 ?></span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
-                            <div class="col-4 col-offset-1">
+                            <div class="col-4 col-offset-2">
                                 <p class="fd_text">Правильные ответы</p>
                             </div>
                             <div class="col-3">
                                 <span id="corr_1"><?php echo $data['player']['correct_answers']; ?></span>
                             </div>
-                            <div class="col-3 col-offset-1">
+                           <!-- <div class="col-3 col-offset-2">
                                 <span id="corr_2"><?php echo $data['player']['correct_answers']; ?></span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
-                            <div class="col-4 col-offset-1">
+                            <div class="col-4 col-offset-2">
                                 <p class="fd_text">Выигранные награды</p>
                             </div>
                             <div class="col-3">
@@ -160,16 +160,16 @@ if ($query && mysqli_num_rows($query) > 0) {
                                 <img class="nagrada-finish" src="img/icon_award%20(6).png">
                                 <img class="nagrada-finish" src="img/icon_award%20(5).png">
                             </div>
-                            <div class="col-3 col-offset-1">
+                       <!--     <div class="col-3 col-offset-2">
                                 <img class="nagrada-finish" src="img/icon_award%20(1).png">
                                 <img class="nagrada-finish" src="img/icon_award%20(2).png">
                                 <img class="nagrada-finish" src="img/icon_award%20(4).png">
                                 <img class="nagrada-finish" src="img/icon_award%20(6).png">
-                            </div>
+                            </div> -->
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-4 col-offset-1"><p class="fd_text">Общий счет</p></div>
+                            <div class="col-4 col-offset-2"><p class="fd_text">Общий счет</p></div>
                             <div class="col-3 col">
                                 <p class="text-center gold_text" id="total_1">
                                     <?php echo $player1_score > $player2_score ? '
@@ -177,12 +177,12 @@ if ($query && mysqli_num_rows($query) > 0) {
                                     echo $player1_score;
                                     ?></p>
                             </div>
-                            <div class="col-3  col-offset-1">
+                         <!--   <div class="col-3  col-offset-2">
                                 <p class="text-center gold_text" id="total_2">
                                     <?php echo $player2_score > $player1_score ? '
                                                         <img class="nagrada-finish" style="margin:4px;width:36px;height:36px" src="img/cup.png">' : '';
                                     echo $player2_score; ?></p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

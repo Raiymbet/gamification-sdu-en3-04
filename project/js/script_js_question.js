@@ -53,7 +53,9 @@ function finishResult() {
             success: function (response) {
                 if (response == "<span>Record already have</span>") {
                     window.open("error.php?message=" +response, "_self");
-                } else {
+                } else if(response == "late"){
+                    window.open("error.php?message='<span>Извините, вы опоздали! Этот турнир закрылся</span>'","_self");
+                }else {
                     window.open("finish.php?id_result=" + response.OK, "_self");
                 }
             }

@@ -32,10 +32,8 @@ function check_user($con)
             $stmt->fetch();
             mysqli_stmt_close($stmt);
             if ($id_stmt != NULL) {
-                echo 'GOOD'.$id_stmt;
                 return true;
             } else {
-                echo 'BAD';
                 return false;
             }
         }

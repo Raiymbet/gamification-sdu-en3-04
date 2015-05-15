@@ -78,7 +78,7 @@ require_once 'nav.php';
                                         </div>
                                         <div class="col-2 pull-right">
                                         <div class="btn-group" role="group" aria-label="...">
-                                                  <a href="question.php?id="  type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-play"></span>Start Game</a>
+                                                  <a href="question.php?id=%s"  type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-play"></span>Start Game</a>
                                             </div>
                                         </div>
                                     </div>

@@ -5,7 +5,6 @@ function calculateResult()
     //ID,id_student,id_tournament,score,time_end,percent_correct,datetime
     //Заметка:total_question,time_end - > забери из база данных
     include_once 'connect.php';
-    setcookie('id_student','1',3600*3600);
     if(!isset($_POST['id_tournament'])){
         exit('id_tournament');
     }
@@ -48,7 +47,7 @@ $count_correct_answers = (double)$_POST['count_correct_answers'];
     $correct_answers=$_POST['correct_answers'];
     $datetime=date("Y-m-d H:i:s");
     if($datetime>$when_closed){
-        exit('<span>You are late. Tournament is closed</span>');
+        exit('late');
     }
     if(!is_numeric($id_student) 
         || !is_numeric($id_tournament) 

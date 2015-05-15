@@ -19,10 +19,10 @@
 <body>
     <?php
     if(isset($_GET['id'])){
-        printf('<script type="text/javascript">var id_tournament=%s, id_student=%s;
+        printf('<script type="text/javascript">var id_tournament="%s", id_student="%s";
     </script>',$_GET['id'],$_COOKIE['id']);}
         else{
-           printf('<script type="text/javascript">window.open("error.php","_self");
+           printf('<script type="text/javascript">window.open("error.php?message=\'Страница недоступна или не существует\'","_self");
        </script>');
        }
        include_once 'utils.php';
