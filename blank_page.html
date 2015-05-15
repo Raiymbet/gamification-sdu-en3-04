@@ -77,7 +77,7 @@
     fd=['Simple','True-false','Input','Pole chudes','Match'];
     index=0;
     $("#next").click(function(){
-index++;
+        index++;
         $("#select_game_types option").removeAttr("selected");
         $("#select_game_types option[value='"+fd[index]+"']").attr("selected",'selected');
     });
