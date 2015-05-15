@@ -32,13 +32,11 @@ if (isset($_POST['dannie'])) {
     $public = $json_array['about_tournament']['public'];
     $id_group = $json_array['about_tournament']['id_groups'];
     $id_teacher = $json_array['about_tournament']['id_teacher'];
-    echo "INSERT INTO tb_tournaments(title, id_groups, id_teacher, datetime_added, status, when_opened, when_closed, public, description)
-                        VALUES ('$title', '$id_group', '$id_teacher', '$datetime_added', '$status', '$when_opened', '$when_closed', '$public', '$description')";
+
     mysqli_query($con, "INSERT INTO tb_tournaments(title, id_groups, id_teacher, datetime_added, status, when_opened, when_closed, public, description)
                         VALUES ('$title', '$id_group', '$id_teacher', '$datetime_added', '$status', '$when_opened', '$when_closed', '$public', '$description')")
                         or die(mysqli_error($con));
     for ($i = 0; $i < count($json_array['questions']); $i++) {
-        echo $i;
         //Данные для tb_questions нет id_tournament
         $question = $json_array['questions'][$i]['question'];
         $type_question = $json_array['questions'][$i]['game_type'];
@@ -66,7 +64,7 @@ if (isset($_POST['dannie'])) {
                 $rq_id = mysqli_query($con, "SELECT id FROM tb_questions WHERE id_tournament='$id_sa' and question='$question'");
                 $row_q = mysqli_fetch_array($rq_id);
                 $id_sa_q=$row_q['id'];
-                echo $id_sa_q;
+                //echo $id_sa_q;
                 mysqli_query($con, "INSERT INTO tb_variants(id_question, correct, text)
                         VALUES ('$id_sa_q','$correct', '$text')")
                 or die(mysqli_error($con));
@@ -74,13 +72,22 @@ if (isset($_POST['dannie'])) {
             }
         }else{
             $correct = $json_array['questions'][$i]['correct'];
-            for ($j = 0; $j < count($json_array['questions']['answers']); $j++) {
+            for ($j = 0; $j < count($json_array['questions'][$i]['answers']); $j++) {
                 $text = $json_array['questions'][$i]['answers'][$j];
+
+                $rq_id = mysqli_query($con, "SELECT id FROM tb_questions WHERE question='$question'");
+                $row_q = mysqli_fetch_array($rq_id);
+                $id_sa_q=$row_q['id'];
+
                 mysqli_query($con, "INSERT INTO tb_variants(id_question, correct, text)
-                        VALUES ((SELECT id FROM tb_questions WHERE question='$question'),'$correct', '$text')")
+                        VALUES ('$id_sa_q','$correct', '$text')")
                 or die(mysqli_error($con));
             }
         }
+    }
+    if($con){
+        echo "<p>Tournament is successfully saved</p>";
+        mysqli_close($con);
     }
 }
 ?>

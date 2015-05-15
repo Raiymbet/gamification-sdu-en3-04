@@ -310,7 +310,7 @@ include_once 'connect.php';
             </div>
         </div>
         <div class="panel solid-border" style="width: 100%; float: left;">
-            <button class="btn btn-warning" style="float: right; margin-right: 25%" onclick="check_question_for_save()">
+            <button class="btn btn-success" style="float: right; width: 6%; margin-right: 25%" onclick="check_question_for_save()">
                 Ok
             </button>
         </div>
