@@ -5,6 +5,7 @@ function calculateResult()
     //ID,id_student,id_tournament,score,time_end,percent_correct,datetime
     //Заметка:total_question,time_end - > забери из база данных
     include_once 'connect.php';
+    setcookie('id_student','1',3600*3600);
     if(!isset($_POST['id_tournament'])){
         exit('id_tournament');
     }
@@ -31,12 +32,12 @@ function calculateResult()
     or die(mysqli_error($con));
     if($query==True && mysqli_num_rows($query)>0){
         while($row=mysqli_fetch_array($query)){
-         $total_question=$row['count'];
-         $time_limit= $row['time_limit'];
-         $when_closed=$row['when_closed'];
+           $total_question=$row['count'];
+           $time_limit= $row['time_limit'];
+           $when_closed=$row['when_closed'];
                //when_closed; - >Если пользователь опоздал, то его данные не заноситься
-     }
- }else{
+       }
+   }else{
     exit("Error404!Tournament not found");
 }
 
@@ -47,7 +48,7 @@ $count_correct_answers = (double)$_POST['count_correct_answers'];
     $correct_answers=$_POST['correct_answers'];
     $datetime=date("Y-m-d H:i:s");
     if($datetime>$when_closed){
-        exit('late');
+        exit('<span>You are late. Tournament is closed</span>');
     }
     if(!is_numeric($id_student) 
         || !is_numeric($id_tournament) 
@@ -67,88 +68,140 @@ if(!$row){
 }
 else if($count==0){
     $query=mysqli_query($con,"INSERT INTO tb_student_result(id_student,id_tournament,score,time_end,percent_correct,correct_answers,datetime)
-     VALUES('$id_student','$id_tournament','$score','$time_end','$percent_correct','$correct_answers','$datetime')") or die('Error1:'.mysqli_error($con));
- $query=mysqli_query($con,"SELECT id from tb_student_result WHERE id_student='$id_student' and id_tournament='$id_tournament'");
- $row=mysqli_fetch_array($query);
- header("Content-Type: application/json; charset=utf-8");
- exit('{ "OK" :'.$row['id'].'}');
+       VALUES('$id_student','$id_tournament','$score','$time_end','$percent_correct','$correct_answers','$datetime')") or die('Error1:'.mysqli_error($con));
+    $query=mysqli_query($con,"SELECT id from tb_student_result WHERE id_student='$id_student' and id_tournament='$id_tournament'");
+    $row=mysqli_fetch_array($query);
+    header("Content-Type: application/json; charset=utf-8");
+    exit('{ "OK" :'.$row['id'].'}');
 
 }
 else{
     exit('<span>Record already have</span>');
 }
 }
+
+function findGroup()
+{
+    include_once 'connect.php';
+    header("Content-Type: application/json; charset=utf-8");
+    if (!isset($_POST['str_field']) && empty($_POST['str_field']))
+        exit('str_field');
+    $str = removeSpecialCharacters($_POST['str_field']);
+    $str = strtoupper(substr($str, 0, 5));
+    $q = mysqli_query($con, "SELECT count(A.id) as count,A.id as id,A.title as title,A.secret_code as secret_code,CONCAT(B.surname,' ',B.name) as fullname,B.id as id_teacher,B.photo_url as photo_url FROM tb_groups A,tb_teacher B WHERE A.teacher_id=B.id and A.secret_code='$str'");
+    $row = mysqli_fetch_array($q);
+    if ($row['count'] == 0) {
+        exit("-1");
+    } else {
+        exit(json_encode(array('id' => $row['id'], 'title' => $row['title'], 'secret_code' => $row['secret_code'], 'fullname' => $row['fullname'], 'id_teacher' => $row['id_teacher'], 'photo_url' => $row['photo_url']), JSON_UNESCAPED_UNICODE));
+    }
+}
 function addStudentToGroup()
 {
         //Integer::id_student, Integer::id_teacher, Integer::id_groups,Integer::status
     include_once 'connect.php';
-    if(!isset($_POST['id_tournament']) || empty($_POST['id_tournament']))
-        exit('id_tournament');
-    if(!isset($_POST['id_teacher'])  || empty($_POST['id_teacher']))
-        exit('id_teacher');
+    setcookie('id_student','1',3600*3600);
+    if(!isset($_POST['id_student']) ||  empty($_POST['id_student']))
+        exit('id_student');
     if(!isset($_POST['id_groups']) ||  empty($_POST['id_groups']))
         exit('id_groups');
-    if(!isset($_POST['status']) || empty($_POST['status']))
-        exit('status');
     if(!isset($_POST['approved']) || empty($_POST['approved']))
         exit('approved');
-
-    $id_tournament=$_POST['id_tournament'];
-    $id_teacher=$_POST['id_teacher'];
-    $id_groups=$_POST['id_groups'];
-    $status=$_POST['status'];
     $id_student=$_POST['id_student'];
+    $id_groups=$_POST['id_groups'];
     $approved=$_POST['approved'];
-    $query="SELECT COUNT(*) as COUNT FROM tb_groups_students WHERE id_groups='$id_groups' and id_student='$id_student' ";
+    $query="SELECT COUNT(*) as COUNT FROM tb_group_students WHERE id_groups='$id_groups' and id_student='$id_student' ";
     $result=mysqli_query($con,$query);
     $row=mysqli_fetch_array($result);
-    $count=$row['count'];
+    $count=$row['COUNT'];
     $date_request=date("Y-m-d H:i:s");
     $date_approved=date("Y-m-d H:i:s");
     if($count==0){
-        $query="INSERT INTO tb_groups_students(id_groups,id_student,approved,data_request,data_approved)
-        VALUES($id_groups,$id_student,'$approved','$date_request',$date_approved)" or die('Error2'.mysqli_error($con));
+        $query = "INSERT INTO tb_group_students(id_groups,id_student,approved,date_request,date_approved)
+        VALUES('$id_groups','$id_student','0','$date_request','$date_approved')";
         mysqli_query($con,$query) or die('Error3'.mysqli_error($con));
+        exit("0");
     }else{
-        $query="UPDATE tb_groups_students SET  
-        approved='$approved' and date_approved='$date_approved' 
-        WHERE id_groups='$id_groups' and id_student='$id_student')" or die('Error4'.mysqli_error($con));
-mysqli_query($con,$query) or die('Error5'.mysqli_error($con));
-}
+        $q=mysqli_query($con,"UPDATE tb_group_students SET  
+            approved='$approved',date_approved='$date_approved' 
+            WHERE id_groups='$id_groups' and id_student='$id_student'") or die('Error5'.mysqli_error($con));
+        exit("0");
+    }
 }
 function createGroup(){
     include_once 'connect.php';
     //Integer::id_teacher,String::title,String::category
     if(!isset($_POST['id_teacher']) || empty($_POST['id_teacher']))
-        exit('id_teacher');
+        exit('1');
     if(!isset($_POST['title']) || empty($_POST['title']))
-        exit('title'); 
+        exit('3'); 
     if(!isset($_POST['category']) || empty($_POST['category']))
-        exit('category');
+        exit('4');
     $id_teacher=$_POST['id_teacher'];
     $title=$_POST['title'];
     $category=$_POST['category'];
     $secret_code=random_secret_code(5);
-    if($stmt = $con->prepare("INSERT INTO tb_groups(title,teacher_id,secret_code,category) VALUES( ?, ?, ?, ?)")){
-        $stmt->bind_param("siss", $title,$id_teacher,$category);
-        $stmt->execute();
-    }else{
-        exit("Fail:  Something wrong".mysqli_error($con));
+    $query=mysqli_query($con,"INSERT INTO tb_groups(title,teacher_id,secret_code,category) VALUES( '$title', '$id_teacher', '$secret_code', '$category')");
+    if(!$query){exit("Fail:  Something wrong".mysqli_error($con));}else{
+        exit("0");
     }
+}
+function deleteFromGroups(){
+    include_once 'connect.php';
+    if(!isset($_POST['id_groups']) || empty($_POST['id_groups']))
+        exit('id_groups');
+    if(!isset($_POST['id_student']) || empty($_POST['id_student']))
+        exit('id_student');
+    $id_student=$_POST['id_student'];
+    $id_groups=$_POST['id_groups'];
+    $q=mysqli_query($con,"SELECT id FROM tb_group_students  WHERE id_student='$id_student' AND id_groups='$id_groups'");
+    if(mysqli_num_rows($q)>=1){
+        $q=mysqli_query($con,"DELETE FROM tb_group_students WHERE id_student='$id_student' AND id_groups='$id_groups'");
+        $q=mysqli_query($con,"SELECT id FROM tb_group_students  WHERE id_student='$id_student' AND id_groups='$id_groups'");
+        //CHECKING DELETE
+        if(mysqli_num_rows($q)>=1){
+            exit("Ошибка!Студент не быль удален!Сообщите об проблеме администрацию");
+        }else{
+            exit("Студент успешно удален из группы");
+            $q=mysqli_query($con,"SELECT id,email,CONCAT(surname,' ',name) as fullname FROM tb_student WHERE id='$id_student'");
+            $row=mysqli_fetch_array($q);
+            $q2=mysqli_query($con,"SELECT id,title FROM tb_groups WHERE id_groups='$id_groups'");
+            $row2=mysqli_fetch_array($q2);
+            $to=$row['email'];
+            $subject='Удаление из группы';
+            $message_mail='Здраствуйте,'.$row['fullname'].'\n';
+            $message_mail.='Вы удалены из группы: '.$row2['title'].' в '.date("F j, Y, g:i a").' \n';
+            $message_mail.='C уважением Администрация\n';
+            $message_mail .= str_replace("\n.", "\n..",$message_mail);
+            $headers = "From: system@bb.com <system@bb.com>\r\n" .
+            "MIME-Version: 1.0" . "\r\n" .
+            "Content-type: text/html; charset=UTF-8" . "\r\n";
+            $message_mail = wordwrap($message_mail, 70, "\r\n") . "\r\n";
+            $status=mail($to, $subject, $message_mail, $headers);
+            if($status){
+                echo 'Сообщение было отправлено'.$row['email'].'\n'; 
+            }else{
+                echo 'Сообщение не было отправлено'.$row['email'].'\n';
+            }
+        }
+    }else{
+        exit("Студент не найден в группе");
+    }
+
 }
 function destroyGroup(){
     //1.Закрывает целою группу
     //2. Берет список студентов и удаляет из группы
-    //3. Каждому студенту отправляет элеткронной почту сообщение
+    //3. Каждому студенту отправляет электронной почту сообщение
     //4. 
     //Q:Integer::id_teacher,Integer::id_groups,String::message
-    //tb_students_groups - > берет список студентов
+    //tb_group_students - > берет список студентов
     //
     include_once 'connect.php';
     if(!isset($_POST['id_teacher']) || empty($_POST['id_teacher']))
         exit('id_teacher');
     if(!isset($_POST['id_groups']) || empty($_POST['id_groups']))
-        exit('id_teacher');
+        exit('id_groups');
     if(!isset($_POST['message']) || empty($_POST['message']))
         exit('message');
     $id_groups=$_POST['id_groups'];
@@ -162,7 +215,7 @@ function destroyGroup(){
         WHERE A.id_student=B.id AND A.id_groups='$id_groups'");
     $result=mysqli_query($con,$query) or die('Error6'.mysqli_error($con));
     if($result){
-     while($row=mysqli_fetch_array($result)){
+       while($row=mysqli_fetch_array($result)){
         $element=array('id'=>$row['id'],
             'name'=>$row['name'],
             'email'=>$row['email']);
@@ -176,7 +229,7 @@ function destroyGroup(){
 
         $to=$students[$i]['email'];
         $subject='Удаление из группы';
-        $message_mail.='Здраствуйте,'.$students[$i]['name'].'\n';
+        $message_mail='Здраствуйте,'.$students[$i]['name'].'\n';
         $message_mail.='Вы удалены из группы\n';
         $message_mail.='Причина: \n\r'.$message.'\n';
         $message_mail.='C уважением Администрация\n';
@@ -194,14 +247,48 @@ function destroyGroup(){
         $i++;
     }
     if($count>0){
-        $query="DELETE FROM tb_groups_students WHERE id_groups='$id_groups'";
+        $query="DELETE FROM tb_group_students WHERE id_groups='$id_groups'";
+        echo $query;
         $result=mysqli_query($con,$query) or die('Error7'.mysqli_error($con));
         if(!$result){echo 'Fail!Studnet not found';}
     }
 }
-$query="DELETE FROM tb_groups WHERE id_groups='$id_groups'";
+$query="DELETE FROM tb_groups WHERE id='$id_groups'";
 $result=mysqli_query($con,$query) or die('Error8'.mysqli_error($con));
 return $result;
+}
+function editGroupName(){
+    //id_groups,id_teacher,new_namew
+    //must update column title in tb_groups;
+    include_once 'connect.php';
+    if(!isset($_POST['id_teacher']) || empty($_POST['id_teacher']))
+        exit('id_teacher');
+    if(!isset($_POST['id_groups']) || empty($_POST['id_groups']))
+        exit('id_groups');
+    if(!isset($_POST['title']) || empty($_POST['title']))
+        exit('title');
+    $id_teacher=$_POST['id_teacher'];
+    $id_groups=$_POST['id_groups'];
+    $title=$_POST['title'];
+    $title=preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-]/s', '', $title);
+    $query=mysqli_query($con,"SELECT id FROM tb_groups WHERE teacher_id='$id_teacher' and id='$id_groups'");
+    $count=mysqli_num_rows($query);
+    if($count==0){
+        //fuck!Not found records;
+        exit("Извините, не найдена запись");
+    }
+    else if($title>3){
+        exit("Новое имя группы слишком короткая: ".$title);
+    }else{
+        $query=mysqli_query($con,"UPDATE tb_groups SET title='$title' WHERE teacher_id='$id_teacher' and id='$id_groups'");
+        if(!$query){
+            exit("Ошибка!Запрос не удался");
+        }else{
+            exit("0");
+        }
+    }
+    return 'Ошибка!Запрос не удался';
+
 }
 function createTournaments(){
     include_once 'connect.php';
@@ -249,8 +336,8 @@ function createTournaments(){
 }
 /*USEFUL FUNCTION*/  
 function random_secret_code($chars = 5) {
- $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
- return substr(str_shuffle($letters), 0, $chars);
+   $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+   return substr(str_shuffle($letters), 0, $chars);
 }
 function my_statistics(){
     include_once 'connect.php';
@@ -339,6 +426,40 @@ function show_students_raitings(){
     return $result;
 }
 }
+function getGroupListStudent(){
+    include_once 'connect.php';
+    header("Content-Type: application/json; charset=utf-8");
+    if(isset($_POST['innerCommand']) || !empty($_POST['innerCommand'])){
+        //innerCommand == > getBadgeInfo
+        //Показывает в badge информация о количество студентов который запросили доступ к группе и еще не принятых группу
+        if(!isset($_POST['id_teacher'])|| empty($_POST['id_teacher']) ){
+            exit("id_teacher");
+        }
+        $q=mysqli_query($con,"SELECT count(A.id) as count FROM tb_group_students A,tb_groups B WHERE A.id_groups=B.id and B.teacher_id=1 and A.approved=0");
+        $row=mysqli_fetch_array($q);
+        $array=array('COUNT'=>$row['count']);
+        exit(json_encode($array,JSON_UNESCAPED_UNICODE));
+    }
+    else{  
+        if(!isset($_POST['id_groups']) || empty($_POST['id_groups']))
+            exit('id_groups');
+        $id_groups=$_POST['id_groups'];
+        include_once 'connect.php';
+        $query=mysqli_query($con,"SELECT  C.secret_code as secret_code,A.id_groups as id_groups,A.id_student as id_student,A.approved as approved,A.date_request as date_request,A.date_approved as date_approved,B.id,CONCAT(B.surname,' ',B.name) as fullname,B.photo_url as photo_url FROM tb_group_students A,tb_student B,tb_groups C WHERE A.id_groups=C.id and A.id_student=B.id AND A.id_groups=' $id_groups' ORDER BY A.approved ASC");
+        if(mysqli_num_rows($query)>0){
+            $array=array();
+            header("Content-Type: application/json; charset=utf-8");
+            while($row=mysqli_fetch_array($query)){
+                array_push($array,(array('id_groups'=>$row['id_groups'],'id_student'=>$row['id_student'],'secret_code'=>$row['secret_code'],'approved'=>$row['approved'],'date_request'=>$row['date_request'],'date_approved'=>$row['date_approved'],'fullname'=>$row['fullname'],'photo_url'=>$row['photo_url'])));
+            }
+            exit(json_encode($array,JSON_UNESCAPED_UNICODE));
+
+        }else{
+            exit("-1");
+        }
+    }
+
+}
 function removeSpecialCharacters($str=''){
     mb_regex_encoding('UTF-8');
     $pattern = '/[^A-Za-z0-9А-Яа-я\- ]/';
@@ -349,17 +470,27 @@ if(isset($_POST['command']) && !empty($_POST['command'])){
     $command=$_POST['command'];
     if($command=='cResult')
         calculateResult();
-    else if($command=='cGroupAdd'){
+    else if($command=='cGroupGetListStudent')
+        getGroupListStudent();
+    else if($command=='cCreateGroup')
+        createGroup();
+    else if($command=='cGroupAdd')
         addStudentToGroup();
-    }else if($command=='cGroupDestroy'){
+    else if($command=='cGroupDestroy')
         destroyGroup();
-    }else if($command=='cCreateTournament'){
+    else if($command=='cGroupEditName')
+        editGroupName();
+    else if($command=='cDeleteStudentFromGroups')
+        deleteFromGroups();
+    else if ($command == 'cFindGroupWithKey')
+        findGroup();
+    else if($command=='cCreateTournament')
         createTournaments();
-    }else if($command=='cRaintings'){
+    else if($command=='cRaintings')
         show_students_raitings();
-    }else{
+    else
         exit('Command not found');   
-    }
+
 }else{
     exit('Command not found');
 }

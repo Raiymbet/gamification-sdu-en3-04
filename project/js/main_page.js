@@ -37,7 +37,7 @@ $(function () {
                 $("html, body").animate({scrollTop: target.offset().top - 60}, 1000);
             }
         }
-    });/*
+    });
     function initialize() {
         try{
         var mapProp = {
@@ -52,7 +52,7 @@ $(function () {
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
-*/
+
     $(window).scroll(function () {
         //  console.log($(this).scrollTop());
         if ($(this).scrollTop() >= 85) {

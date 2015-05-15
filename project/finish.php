@@ -99,6 +99,7 @@ if ($query && mysqli_num_rows($query) > 0) {
             <div class="panel panel-info">
                 <div class="panel-heading">
                         <div class="row">
+
                             <div class="col-2">
                                 <h3 class="nagrada-finish">Поздравляю</h3></div>
                             <div class="col-2 col-offset-4">

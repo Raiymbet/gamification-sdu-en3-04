@@ -53,6 +53,7 @@ require_once 'nav.php';
         </div>
         <div class="col-8 col-offset-3" id="main-frame">
             <div class="well" style="height:660px;">
+                <a href="tournament_create_and_edit.php" class="btn btn-default" role="button">Создать турнир</a>
                 <?php
                 $query = mysqli_query($con, "SELECT A.id as id,A.title as title,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.id_teacher as teacher,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B
                                             WHERE B.id_tournament=A.id and A.public=1 and A.id_groups=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));

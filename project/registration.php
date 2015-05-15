@@ -78,9 +78,7 @@ if ($user == 'student' || $user == 'teacher') {
     $q2 = mysqli_query($con, "SELECT COUNT(id) as COUNT FROM tb_teacher WHERE email='$email'");
     $r1 = mysqli_fetch_array($q1);
     $r2 = mysqli_fetch_array($q2);
-    if($r1['COUNT']==0 && $r2['COUNT']==0){
-        exit( "<p class='text-danger'><strong>При регистрации произошло ошибка!</strong></p>");
-    }
+
     if ($user == 'student') {
         $group = htmlspecialchars($_POST['group']);
     }
@@ -152,7 +150,8 @@ if ($user == 'student' || $user == 'teacher') {
         foreach ($err AS $error) {
             echo "<p class='text-danger'>" . $error . "</p>";
         }
-            header("Location: error.php?message=$message");
+
+            //header("Location: error.php?message=$message");
     }
     mysqli_close($con);
 }
