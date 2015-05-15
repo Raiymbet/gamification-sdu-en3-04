@@ -708,7 +708,7 @@ include_once 'connect.php';
             public_status = '0',
             status = 'yes',
             id_group = $("#select_groups").val(),
-            id_teacher = '1';
+            id_teacher = <?php echo $id_teacher?>;
         var valid = false;
         var errors = [];
 
