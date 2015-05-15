@@ -705,7 +705,7 @@ include_once 'connect.php';
             description_tournament = $("#description_tournament").val(),
             open_datetime = $("input[name='open_datetime']").val(),
             close_datetime = $("input[name='close_datetime']").val(),
-            public_status = $(".switch .on").text(),
+            public_status = '0',
             status = 'yes',
             id_group = $("#select_groups").val(),
             id_teacher = '1';
@@ -716,7 +716,14 @@ include_once 'connect.php';
         var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
         var currentDate = fullDate.getFullYear()+"-"+twoDigitMonth + "-"+fullDate.getDate()+" "+fullDate.getHours()+":"+fullDate.getMinutes()+":"+fullDate.getSeconds();
         //console.log(currentDate);
-
+        if($(".switch .on").text()=='ON'){
+            public_status = '1';
+        }else{
+            public_status = '0';
+        }
+        if(currentDate < open_datetime){
+            status = 'no';
+        }
         if (name_tournament == "") {
             errors[errors.length] = "Пожлуйста, заполните поле имя тура.";
         }
@@ -787,9 +794,19 @@ include_once 'connect.php';
         }
         if (valid) {
             tournament_info.questions[active_li_index - 1] = '';
-            if (game_type == 'Simple' || game_type == 'True-false') {
+            if (game_type == 'Simple') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": game_type,
+                    "game_type": 1,
+                    "time_limit": time_limit,
+                    "point": question_point,
+                    "level": question_level,
+                    "question": question,
+                    "answers": answers,
+                    "correct_answer_id": correct_answer_index
+                };
+            }else if (game_type == 'True-false') {
+                tournament_info.questions[active_li_index - 1] = {
+                    "game_type": 2,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -799,7 +816,7 @@ include_once 'connect.php';
                 };
             }else if (game_type == 'Input') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": game_type,
+                    "game_type": 3,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -810,7 +827,7 @@ include_once 'connect.php';
 
             } else if (game_type == 'Polechudes') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": game_type,
+                    "game_type": 4,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -820,7 +837,7 @@ include_once 'connect.php';
                 };
             } else if (game_type == 'Match') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": game_type,
+                    "game_type": 5,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -866,6 +883,9 @@ include_once 'connect.php';
                 },
                 success: function (response) {
                     $(".modal-body-text").html("").append(response);
+                    setTimeout(function(){
+                        location.href = 'teacher.php';
+                    }, 2000);
                 }
             });
         } else {
@@ -875,6 +895,10 @@ include_once 'connect.php';
                 $("#message_modal .modal-body-text").append("<p class='text-danger'>" + value + "</p>");
             });
         }
+    }
+
+    function edit_tournament(){
+
     }
 </script>
 </html>

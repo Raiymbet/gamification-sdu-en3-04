@@ -5,7 +5,6 @@
  * Date: 02.05.2015
  * Time: 22:36
  */
-//
 include_once 'connect.php';
 /*Table tournaments: id, title, id_groups, id_teacher, datetime_added, status, when_opened, when_closed, public, description
 Table questions: id, id_tournament, question, type_question, question_point, time_limit, level_question
@@ -32,9 +31,12 @@ if (isset($_POST['dannie'])) {
     $public = $json_array['about_tournament']['public'];
     $id_group = $json_array['about_tournament']['id_groups'];
     $id_teacher = $json_array['about_tournament']['id_teacher'];
-
-    mysqli_query($con, "INSERT INTO tb_tournaments(title, id_groups, id_teacher, datetime_added, status, when_opened, when_closed, public, description)
-                        VALUES ('$title', '$id_group', '$id_teacher', '$datetime_added', '$status', '$when_opened', '$when_closed', '$public', '$description')")
+    $time_limit_tournament = 0;
+    for ($i = 0; $i < count($json_array['questions']); $i++) {
+        $time_limit_tournament = $time_limit_tournament+intval($json_array['questions'][$i]['time_limit']);
+    }
+    mysqli_query($con, "INSERT INTO tb_tournaments(title, id_groups, id_teacher, datetime_added, time_limit, status, when_opened, when_closed, public, description)
+                        VALUES ('$title', '$id_group', '$id_teacher', '$datetime_added', '$time_limit_tournament', '$status', '$when_opened', '$when_closed', '$public', '$description')")
                         or die(mysqli_error($con));
     for ($i = 0; $i < count($json_array['questions']); $i++) {
         //Данные для tb_questions нет id_tournament
@@ -68,7 +70,6 @@ if (isset($_POST['dannie'])) {
                 mysqli_query($con, "INSERT INTO tb_variants(id_question, correct, text)
                         VALUES ('$id_sa_q','$correct', '$text')")
                 or die(mysqli_error($con));
-                //echo 'ASDASDASD2222';
             }
         }else{
             $correct = $json_array['questions'][$i]['correct'];
@@ -86,7 +87,7 @@ if (isset($_POST['dannie'])) {
         }
     }
     if($con){
-        echo "<p>Tournament is successfully saved</p>";
+        echo "<p class='text-success'>Tournament is successfully saved</p>";
         mysqli_close($con);
     }
 }
