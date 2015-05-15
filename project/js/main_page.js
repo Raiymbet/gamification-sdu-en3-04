@@ -1,7 +1,7 @@
 var current = "top";
 $(function () {
     $(window).scroll(function () {
-        console.log($(this).scrollTop());
+       // console.log($(this).scrollTop());
         var sc = $(this).scrollTop();
         $("#pages1").removeClass();
         $("#about1").removeClass();
@@ -37,18 +37,22 @@ $(function () {
                 $("html, body").animate({scrollTop: target.offset().top - 60}, 1000);
             }
         }
-    });
+    });/*
     function initialize() {
+        try{
         var mapProp = {
             center: new google.maps.LatLng(43.2083297, 76.6689786),
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);}
+        catch(err){
+            console.log(err);
+        }
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
-
+*/
     $(window).scroll(function () {
         //  console.log($(this).scrollTop());
         if ($(this).scrollTop() >= 85) {
@@ -81,4 +85,18 @@ $(function () {
             }
         });
     });
+
+    function ajax_get_news_tournament() {
+        var data = "true";
+        $.ajax({
+            type: "POST",
+            url: 'get_tournament_news.php',
+            data: data,
+            cache: false,
+            success: function (response) {
+                $("#content_news").html("").append(response);
+            }
+        });
+    }
+    ajax_get_news_tournament();
 });

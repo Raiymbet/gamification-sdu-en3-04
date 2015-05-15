@@ -15,6 +15,29 @@ if (isset($_POST['teacher_submit'])) {
 } else if (isset($_POST['student_submit'])) {
     global $user;
     $user = 'student';
+}else if(isset($_POST['forgot_password'])){
+    $email = htmlspecialchars($_POST['e_mail']);
+    $new_password = md5(md5(htmlspecialchars($_POST['password'])));
+    if (!is_null($email)) {
+        $count_user = mysqli_query($con, "SELECT COUNT(email) as COUNT FROM tb_student WHERE email='$email'");
+        $row = mysqli_fetch_assoc($count_user);
+        if ($row['COUNT'] > 0) {
+            mysqli_query($con,"UPDATE tb_student SET password='$new_password' WHERE email='$email'")
+            or die(mysqli_error($con));
+            echo "<p class='text-success'><strong>Ваш пароль изменен!</strong></p>";
+        }else{
+                $count_user = mysqli_query($con, "SELECT COUNT(email) as COUNT FROM tb_teacher WHERE email='$email'");
+                $row = mysqli_fetch_assoc($count_user);
+                if ($row['COUNT'] > 0) {
+                    mysqli_query($con,"UPDATE tb_teacher SET password='$new_password' WHERE email='$email'")
+                    or die(mysqli_error($con));
+                    echo "<p class='text-success'><strong>Ваш пароль изменен!</strong></p>";
+                }else {
+                    echo "<p class='text-danger'><strong>Такого пользователя нет!</strong></p>";
+                }
+        }
+    }
+    mysqli_close($con);
 }
 
 //check all information
