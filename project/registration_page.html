@@ -168,7 +168,7 @@
                 <div role="tabpanel" class="tab-pane fade" id="student">
                     <div class="col-10 col-offset-1">
                         <!-- Форма студента -->
-                        <div class="form-teacher" id="form-student">
+                        <form class="form-teacher" id="form-student" method="post" action="registration.php">
                             <!-- Student name -->
                             <div class="form-group">
                                 <div class="input-group">
@@ -258,7 +258,7 @@
                                 <button class="btn btn-success submit" name="student_submit">Отправить
                                 </button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
@@ -276,17 +276,19 @@
                             <p>На заметку не забывайте пароли!</p>
                         </div>
 
-                        <form class="form-teacher">
+                        <form class="form-teacher" id="form-forgot-password" method="post" action="registration.php">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">@</div>
-                                    <input type="email" name="e_mail" class="form-control" placeholder="E-mail">
+                                    <input type="email" name="e_mail" class="form-control" placeholder="E-mail" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                                    <input type="password" class="form-control" name="password" placeholder="Новый пароль">
+                                    <input type="password" class="form-control" name="password" placeholder="Новый пароль"
+                                           required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,})"
+                                           title="Пароль должен содержать большие буквы, маленькие буквы, цифры и длиной как минимум 6 символа">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -369,7 +371,6 @@
         $("#form-teacher").submit(function (event) {
             event.preventDefault();
             if (validate_select_ajax('teacher_gender')) {
-                console.log('Durys');
                 var data = {name:$("#form-teacher input[name='name']").val(),
                         surname:$("#form-teacher input[name='surname']").val(),
                         birthday:$("#form-teacher input[name='birthday']").val(),
@@ -378,14 +379,40 @@
                         telephone:$("#form-teacher input[name='telephone']").val(),
                         password:$("#form-teacher input[name='password']").val(),
                         teacher_submit: true};
-                console.log(data);
                 ajax_register(data);
             }else{
                 $("#teacher_gender").focus();
                 //егер гендер тандалмаған болса қызыл болады да сабмит орындалмайды
             }
         });
+        
+        $("#form-student").submit(function (event) {
+            event.preventDefault();
+            if(!validate_select_ajax('student_gender')){
+                $("#student_gender").focus();
+            }else if(!validate_select_ajax('student_group')){
+                $("#student_group").focus();
+            }else{
+                var data = {name:$("#form-student input[name='name']").val(),
+                    surname:$("#form-student input[name='surname']").val(),
+                    group:$("#form-student select[name='group']").val(),
+                    birthday:$("#form-student input[name='birthday']").val(),
+                    gender:$("#form-student select[name='gender']").val(),
+                    e_mail:$("#form-student input[name='e_mail']").val(),
+                    telephone:$("#form-student input[name='telephone']").val(),
+                    password:$("#form-student input[name='password']").val(),
+                    student_submit: true};
+                ajax_register(data);
+            }
+        });
 
+        $("#form-forgot-password").submit(function (event) {
+            event.preventDefault();
+            var data = {e_mail:$("#form-forgot-password input[name='e_mail']").val(),
+                password:$("#form-forgot-password input[name='password']").val(),
+                forgot_password: true};
+            ajax_register(data);
+        });
     });
 
     function validate_select(select_id) {
@@ -407,7 +434,6 @@
     }
 
     function ajax_register(data) {
-        console.log("Hello Ajax");
         $.ajax({
             type: "POST",
             url: "registration.php",
@@ -416,7 +442,6 @@
             beforeSend: function () {
                 $('#myModal').modal('show');
                 $(".modal-body-text").html("").append("<img src='img/loading.gif' name='load'>")
-                //show php returns information
             },
             success: function (response) {
                 console.log("Response:" + response);

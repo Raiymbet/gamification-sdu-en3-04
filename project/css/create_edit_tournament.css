@@ -1,0 +1,106 @@
+.solid-border {
+    border: solid 1px #0099CC;
+}
+
+.margin-top-5 {
+    margin-top: 5px;
+}
+
+/* Button correct or incorrect style */
+.btn-correct-incorrect {
+    width: 80%;
+}
+
+/* Question numbers list style */
+.question_number_btn_list {
+    list-style: none;
+}
+
+.question_number_btn_list li {
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: small;
+    line-height: 1.428571429;
+    border-radius: 500px;
+    margin-left: -3em;
+    background-color: #33B5E5;
+    border: 1px solid #0099CC;
+}
+
+.question_number_btn_list .btn_list_active {
+    background-color: #449d44;
+    border: solid 1px #7fbbda;
+}
+
+.question_number_btn_list li span {
+    color: #ffffff;
+    cursor: default;
+}
+
+.question_number_btn_list .btn_have_question {
+    background-color: orange;
+    border: solid 1px #ffff00;
+}
+
+.question_number_btn_list .btn_have_question_list_active {
+    background-color: #449d44;
+    border: solid 1px #7fbbda;
+}
+
+/* switch on or off style */
+.switch {
+    list-style: none;
+    position: absolute;
+}
+
+.switch li {
+    float: left;
+    line-height: 23px;
+    font-size: 11px;
+    padding: 2px 10px 0;
+    background: #E5E5E5;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F3F3F3), to(#E5E5E5));
+    text-shadow: 0 1px 0 #FFF;
+    border-left: 1px solid #D5D5D5;
+    border-top: 1px solid #D5D5D5;
+    border-bottom: 1px solid #D5D5D5;
+    -webkit-box-shadow: 0 1px 0 #FFF inset, 0 0 5px rgba(0, 0, 0, .1) inset, 0 1px 1px rgba(0, 0, 0, .3);
+
+}
+
+.switch li:first-child {
+    -webkit-border-radius: 5px 0 0 5px;
+}
+
+.switch li:last-child {
+    -webkit-border-radius: 0 5px 5px 0;
+}
+
+.switch li span {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #a1a1a1;
+    cursor: default;
+}
+
+.switch .on {
+    background: #505050;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#777), to(#505050));
+    text-shadow: 0 -1px 0 #444, 0 0 7px #9AE658;
+    border-right: 1px solid #444;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .7) inset, 0 1px 0 #FFF;
+}
+
+.switch li:not(.on):active {
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#f1f1f1));
+}
+
+.switch li.on span {
+    color: #7BBA47;
+    cursor: default;
+}

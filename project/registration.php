@@ -150,7 +150,6 @@ if ($user == 'student' || $user == 'teacher') {
         foreach ($err AS $error) {
             echo "<p class='text-danger'>" . $error . "</p>";
         }
-
             //header("Location: error.php?message=$message");
     }
     mysqli_close($con);
