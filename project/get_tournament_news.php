@@ -6,11 +6,11 @@
  * Time: 11:46
  */
         include_once 'connect.php';
-            $news_r = mysqli_query($con,
-                "SELECT A.title, A.when_opened, A.description,CONCAT(B.surname,' ', B.name) as fullname,B.id as id_teacher,B.photo_url as photo_url FROM tb_tournaments A,tb_teacher B WHERE DATEDIFF(NOW(),A.when_opened)<20 and DATEDIFF(NOW(),A.when_opened)>-20 and A.id_teacher=B.id ORDER BY A.when_opened DESC LIMIT 3");
-            $row = mysqli_fetch_array($news_r);
+	    $news_r = mysqli_query($con,
+                "SELECT A.title as title, A.when_opened as when_opened, A.description as description,CONCAT(B.surname,' ', B.name) as fullname,B.id as id_teacher,B.photo_url as photo_url FROM tb_tournaments A,tb_teacher B WHERE DATEDIFF(NOW(),A.when_opened)<20 and DATEDIFF(NOW(),A.when_opened)>-20 and A.id_teacher=B.id ORDER BY A.when_opened DESC LIMIT 3");
+           
         $count = mysqli_num_rows($news_r);
-        for ($i = 0; $count > $i; $i++) {
+       while($row = mysqli_fetch_array($news_r)){
             $datetime = strtotime($row['when_opened']);
             $date_format = Date("H:i:s d.m.Y", $datetime);
             printf("<div class='my-col-md-3'>
