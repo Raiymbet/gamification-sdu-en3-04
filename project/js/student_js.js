@@ -31,7 +31,6 @@ $("a[role=link]").click(function () {
     }
 });
 activate = 0;
-id_student = 1;
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $(".qr-code").click(function(){
@@ -85,6 +84,7 @@ function deleteFromGroups(id_student, id_groups) {
         url: 'calculateResult.php',
         data: {command: 'cDeleteStudentFromGroups', id_groups: id_groups, id_student: id_student},
         success: function (msg) {
+            alert(msg);
             window.open("student.php", "_self");
         }
     });
@@ -109,7 +109,7 @@ function get_groups(input) {
                     '<ul class="dropdown-menu" role="menu">' +
                     '  <li><a href="#"><img src="img/chat_message.png" width="18" height="18" alt="no_photo"> Отправить сообщение</a></li>' +
 
-                    ' <li><a href="../../project/profile.php?id=' + msg[i].id_student + '"><img src="img/user.png" width="18" height="18" alt="no_photo"> Просмотреть профиль</a></li>' +
+                    ' <li><a href="profile.php?id=' + msg[i].id_student + '"><img src="img/user.png" width="18" height="18" alt="no_photo"> Просмотреть профиль</a></li>' +
                     '</ul></div></td> </tr>';
                     $("#tb_groups_table").append(s);
                 }

@@ -67,7 +67,7 @@ $(function () {
         });
         $("textarea").val("");
     });
-    $("button[name='submit']").click(function () {
+    $("button[name='send_email']").click(function () {
 
         var v1 = $("#fname").val();
         var v2=$("#subject").val();

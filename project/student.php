@@ -24,12 +24,12 @@ include_once 'utils.php';
 include_once 'connect.php';
 //Для пробный проверки достаточные эти данные
 if (check_user($con) == True) {
-    printf("<script>console.log('Пользователь найден ... OK')</script>");
+    printf("<script>console.log('Пользователь найден ... OK');id_student='".$_COOKIE['id']."';</script>");
     if($_COOKIE['user']=='teacher'){
         header("Location: teacher.php");
     }
 } else {
-    header("Location: main_page.html");
+    header("Location: error.php?message='Доступ запрещен!Вернитесь обратно на главною страницу'");
 }
 require_once 'nav.php';
 ?>
@@ -54,7 +54,7 @@ require_once 'nav.php';
             <div class="col-8 col-offset-3" id="main-frame">
                 <div class="well" style="height:660px">
                     <?php
-                    $query = mysqli_query($con, "SELECT A.id as id,A.id_groups,A.title as title,D.title as title_groups,A.id_teacher as teacher,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B ,tb_group_students C,tb_groups D WHERE A.id_groups=C.id_groups and C.id_groups=D.id and B.id_tournament=A.id and C.id_student=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
+                    $query = mysqli_query($con, "SELECT A.id as id,A.id_groups,A.title as title,D.title as title_groups,A.id_teacher as teacher,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion,(A.when_closed>NOW() && A.when_opened<NOW()) as isOpen,(SELECT COUNT(id) FROM tb_student_result E WHERE E.id_student=C.id_student and B.id_tournament=E.id_tournament) as isPlayed FROM `tb_tournaments` A,tb_questions B ,tb_group_students C,tb_groups D WHERE A.id_groups=C.id_groups and C.id_groups=D.id and B.id_tournament=A.id and C.id_student='".$_COOKIE['id']."' GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
 
                     if ($query && mysqli_num_rows($query) >
                         0
@@ -72,18 +72,20 @@ require_once 'nav.php';
                                     <div class="col-1">
                                         <img class="img-circle" src="img/sc1.png" style="width:36px;height: 36px"></div>
                                         <div class="col-3">
+                                            <span %s</span><br>
                                             <span>Время: %s:%s</span><br>
                                             <span>Группа: %s</span><br>
                                             <span>%s вопросов</span>
+
                                         </div>
                                         <div class="col-2 pull-right">
                                         <div class="btn-group" role="group" aria-label="...">
-                                                  <a href="question.php?id=%s"  type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-play"></span>Start Game</a>
+                                                  <a href="question.php?id=%s"  type="button" class="btn btn-info btn-sm" %s><span class="glyphicon glyphicon-play"></span>%s</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                ', $row['title'], $row['datetime_added'], ($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs,$row['title_groups'], $row['tQuestion'], $row['id']);
+                                ', $row['title'], $row['datetime_added'],($row['isOpen']!=0)?'>Турнир идет!':'style="color:red"> Турнир закрыт!',($mins > 9) ? $mins : '0' . $mins, ($secs > 9) ? $secs : '0' . $secs,$row['title_groups'], $row['tQuestion'], $row['id'],($row['isPlayed']!=0||$row['isOpen']!=0 )?'':'disabled',($row['isPlayed']!=0)?'See Result':'Start Game');
                         }
                     }
                     ?>
@@ -105,19 +107,19 @@ require_once 'nav.php';
                                 <table class="table table-bordered">
                                     <?php
                                     $id_student = $_COOKIE['id'];
-                                    echo $id_student;
                                     $query = mysqli_query($con, "SELECT A.id_student,
                             SUM(A.score) as SUM_SCORE,
                             SUM(A.time_end) as SUM_TIME,
                             SUM(A.correct_answers) as SUM_CORRECT
                             FROM tb_student_result A
-                            where A.id_student='$id_student' ") or die(mysqli_error($con));
+                            where A.id_student=' ".$_COOKIE['id']."' ") or die(mysqli_error($con));
                                     $row = mysqli_fetch_array($query);
                                     $query2 = mysqli_query($con, "SELECT COUNT(B.id) as COUNT
                             FROM tb_student_result A,tb_questions B
                             WHERE A.id_tournament=B.id_tournament and A.id_student='$id_student';");
                                     $row2 = mysqli_fetch_array($query2);
                                     $COUNT = $row2['COUNT'];
+
                                     $NEPRAVILNIE = $COUNT - $row['SUM_CORRECT'];
                                     $AVG = $NEPRAVILNIE / $COUNT * 100;
                                     printf(" <tr>
@@ -251,7 +253,7 @@ require_once 'nav.php';
                 </div>
             </div>
             <!-- Group -->
-            <div class="col-8 col-offset-3" id="group-frame">
+            <div class="col-8 col-offset-3" id="group-frame" style="display: none">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
@@ -273,7 +275,7 @@ require_once 'nav.php';
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Создать новою группу</h4>
+                                        <h4 class="modal-title">Найти группу</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -318,8 +320,7 @@ require_once 'nav.php';
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыт
                                         </button>
-                                        <button type="button" class="btn btn-primary" id='groud_add_btn'>Создать
-                                            группу
+                                        <button type="button" class="btn btn-primary" id='groud_add_btn'>Присоединиться к группе
                                         </button>
                                     </div>
                                 </div>
@@ -385,7 +386,7 @@ require_once 'nav.php';
                                 <ul class="nav nav-pills nav-stacked">
                                     <!--DON'T FORGET THIS CODE-->
                                     <?php
-                                    $query = mysqli_query($con, "SELECT A.id as id,A.title as title,B.id_student as id_student,A.secret_code as secret_code FROM tb_groups A,tb_group_students B WHERE A.id=B.id_groups AND B.id_student=1") or die(mysqli_error($con));
+                                    $query = mysqli_query($con, "SELECT A.id as id,A.title as title,B.id_student as id_student,A.secret_code as secret_code FROM tb_groups A,tb_group_students B WHERE A.id=B.id_groups AND B.id_student='".$_COOKIE['id']."' ") or die(mysqli_error($con));
                                     if (mysqli_num_rows($query) > 0) {
                                         $first = true;
                                         while ($row = mysqli_fetch_array($query)) {
@@ -395,7 +396,7 @@ require_once 'nav.php';
                                     </span>  <span class='glyphicon glyphicon-qrcode pull-right qr-code' name='%s'></span>
 
                 </a>
-            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'],'Group: '.$row['title'].'Secret Code: '.$row['secret_code'] , $row['id'], $row['id_student']);
+            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'], $row['id_student'],$row['id'],'Group: '.$row['title'].'Secret Code: '.$row['secret_code'] );
                                             $first = false;
                                         }
                                     } else {
@@ -404,8 +405,7 @@ require_once 'nav.php';
                                     ?>
                                     <li role="presentation" name='addGroups' data-toggle="modal" data-target="#myModal">
                                         <a
-                                            href="#"><span class="glyphicon glyphicon-plus-sign"></span>Создать
-                                            группу</a></li>
+                                            href="#"><span class="glyphicon glyphicon-plus-sign"></span>Найти группу</a></li>
                                 </ul>
                             </div>
                             <div class="col-9">

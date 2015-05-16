@@ -17,10 +17,11 @@ include_once 'utils.php';
 include_once 'connect.php';
 //Для пробный проверки достаточные эти данные
 if (check_user($con) == True) {
-    printf("<script>console.log('Пользователь найден ... OK')</script>");
+    printf("<script>console.log('Пользователь найден ... OK'); id_teacher='" . $_COOKIE['id'] . "';</script>");
     if ($_COOKIE['user'] == 'student') header("Location: student.php");
 
-} else {//header("Location: main_page.html");
+} else {
+    header("Location: error.php?message='Доступ запрещен!Вернитесь обратно на главною страницу'");
 }
 require_once 'nav.php';
 ?>
@@ -44,19 +45,17 @@ require_once 'nav.php';
                 <a role="link" href="#" name="group" class="list-group-item">
                     <img src="img/group_icon.png" style="margin-bottom:-1px;weight:18px;height:18px;">Группа
                 </a>
-                <a role="link" href="#" name="Messages" class="list-group-item">
-                    <span class="glyphicon glyphicon-stats"></span>
-                    Статистика
-                </a>
-                <a role="link" class="list-group-item">...</a>
+
+                <a role="link" class="list-group-item ">...</a>
             </div>
         </div>
         <div class="col-8 col-offset-3" id="main-frame">
             <div class="well" style="height:660px;">
                 <a href="tournament_create_and_edit.php" class="btn btn-default" role="button">Создать турнир</a>
                 <?php
-                $query = mysqli_query($con, "SELECT A.id as id,A.title as title,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.id_teacher as teacher,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion FROM `tb_tournaments` A,tb_questions B
-                                            WHERE B.id_tournament=A.id and A.public=1 and A.id_groups=1 GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
+               $query = mysqli_query($con, "SELECT A.id as id,A.title as title,DATE_FORMAT(A.datetime_added,'%d.%m.%Y') as datetime_added,A.id_teacher as teacher,A.time_limit as time_limit,A.description as description,COUNT(B.id) as tQuestion
+FROM tb_tournaments A,tb_questions B,tb_groups C
+WHERE B.id_tournament=A.id AND A.id_teacher='".$_COOKIE['id']."' AND A.id_teacher=C.teacher_id GROUP BY id,title,teacher,time_limit,description") or die(mysqli_errr($con));
 
                 if ($query && mysqli_num_rows($query) >
                     0
@@ -78,8 +77,6 @@ require_once 'nav.php';
                                                                 <img class="img-circle" src="img/sc1.png" style="width:36px;height: 36px"></div>
                                                                 <div class="col-3">
                                                                     <span>Время: %s:%s</span>
-                                                                    <br>
-                                                                    <span>500 Очков</span>
                                                                     <br>
                                                                     <span>%s вопросов</span>
                                                                 </div>
@@ -123,16 +120,15 @@ require_once 'nav.php';
                             <table class="table table-bordered">
                                 <?php
                                 $id_student = $_COOKIE['id'];
-                                echo $id_student;
                                 $query = mysqli_query($con, "SELECT A.id_student,
                                 SUM(A.score) as SUM_SCORE,
                                 SUM(A.time_end) as SUM_TIME,
                                 SUM(A.correct_answers) as SUM_CORRECT
-                                FROM tb_student_result A 
+                                FROM tb_student_result A
                                 where A.id_student='$id_student' ") or die(mysqli_error($con));
                                 $row = mysqli_fetch_array($query);
                                 $query2 = mysqli_query($con, "SELECT COUNT(B.id) as COUNT
-                                FROM tb_student_result A,tb_questions B 
+                                FROM tb_student_result A,tb_questions B
                                 WHERE A.id_tournament=B.id_tournament and A.id_student='$id_student';");
                                 $row2 = mysqli_fetch_array($query2);
                                 $COUNT = $row2['COUNT'];
@@ -268,7 +264,7 @@ require_once 'nav.php';
             </div>
         </div>
         <!-- Group -->
-        <div class="col-8 col-offset-3" id="group-frame">
+        <div class="col-8 col-offset-3" id="group-frame" style="display: none">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
@@ -417,16 +413,15 @@ require_once 'nav.php';
                             <ul class="nav nav-pills nav-stacked">
                                 <?php
                                 //DONT FORGET ADD TEACHER
-                                $query = mysqli_query($con, "SELECT A.id as id,A.title as title,A.secret_code as secret_code FROM tb_groups A") or die(mysqli_error($con));
+                                $query = mysqli_query($con, "SELECT A.id as id,A.title as title,A.secret_code as secret_code FROM tb_groups A WHERE A.teacher_id = '" . $_COOKIE['id'] . "'") or die(mysqli_error($con));
                                 if (mysqli_num_rows($query) > 0) {
                                     $first = true;
                                     while ($row = mysqli_fetch_array($query)) {
                                         printf("<li role='presentation' %s name='%s'><a href='#' onclick=\"get_groups('%s')\">%s
-                      <span class='glyphicon glyphicon-qrcode pull-right qr-code' name='%s'>
-                    <span class='glyphicon glyphicon-remove pull-right' onclick='removeGroups(\"%s\")' style='margin-right:8px'>
-                    </span><span class='glyphicon glyphicon-pencil pull-right' onclick='editNameGroups(\"%s\",\"%s\")'></span>
+                     <span class='glyphicon glyphicon-remove pull-right' onclick='removeGroups(\"%s\")'></span> <span class='glyphicon glyphicon-pencil pull-right' onclick='editNameGroups(\"%s\",\"%s\")'> </span><span class='glyphicon glyphicon-qrcode pull-right qr-code' name='%s'></span>
+
                 </a>
-            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'], 'Group: ' . $row['title'] . ' Secret Code: ' . $row['secret_code'], $row['id'], $row['id'], $row['title']);
+            </li>", ($first) ? 'class=\'active\'' : '', $row['id'], $row['id'], $row['title'],$row['id'],$row['title'], $row['id'], 'Group: ' . $row['title'] . ' Secret Code: ' . $row['secret_code']);
                                         $first = false;
                                     }
                                 } else {

@@ -1,5 +1,5 @@
 /*Teacher page JS*/
-id_teacher = 1;
+
 selectedCategory = '';
 selectedGroupID = "";
 old_name_group = "";
@@ -13,15 +13,17 @@ function removeGroups(input) {
         url: 'calculateResult.php',
         data: {'command': 'cGroupDestroy', 'id_groups': input, 'id_teacher': '1', message: 'Sorry, my friends'},
         success: function (msg) {
+
             alert(msg);
             window.open("teacher.php", "_self");
         }
     });
 }
-function editNameGroups(input, name_group) {
+function editNameGroups(name_group,ID) {
     $("#myModalEditGroupName").modal("show");
     old_name_group = name_group; //new group name;
-    selectedGroupID = input; //group ID
+    selectedGroupID = ID; //group ID
+    console.log(selectedGroupID);
 }
 $("#group_change_name").click(function () {
     if (selectedGroupID != '' || old_name_group != '') {
@@ -30,8 +32,9 @@ $("#group_change_name").click(function () {
             $.ajax({
                 method: 'POST',
                 url: 'calculateResult.php',
-                data: {'command': 'cGroupEditName', id_groups: selectedGroupID, id_teacher: '1', title: new_name},
+                data: {'command': 'cGroupEditName', id_groups: selectedGroupID, id_teacher: id_teacher, title: new_name},
                 success: function (msg) {
+                    alert(msg);
                     window.open("teacher.php", "_self");
                 }
             });
@@ -106,7 +109,7 @@ function getBadgeInfo(){
     $.ajax({
         method:'POST',
         url:'calculateResult.php',
-        data:{command:'cGroupGetListStudent',innerCommand:'getBadgeInfo',id_teacher:'1'},
+        data:{command:'cGroupGetListStudent',innerCommand:'getBadgeInfo',id_teacher:id_teacher},
         success:function(msg){
          console.log(msg);
          if(msg.COUNT>0){
@@ -125,7 +128,7 @@ function get_groups(input) {
             $("#tb_groups_table").html("");
             if (msg != '-1') {
                 for (i = 0; i < msg.length; i++) {
-                    console.log(msg[i].approved);
+                    console.log(msg[i]);
                     s = '<tr'+((msg[i].approved==1)?'':' class="warning" ')+'><td><div class="row">' +
                     '<div class="col-2"><img src="img/' + msg[i].photo_url + '" height="32px" width="32px" alt="" class="img img-cirlce"></div><div class="col-10">' + msg[i].fullname + '</div>' +
                     '  </div></td><td>' +

@@ -284,7 +284,7 @@ function editGroupName(){
         if(!$query){
             exit("Ошибка!Запрос не удался");
         }else{
-            exit("0");
+            exit("Группа успешно изменила имя");
         }
     }
     return 'Ошибка!Запрос не удался';
@@ -435,7 +435,8 @@ function getGroupListStudent(){
         if(!isset($_POST['id_teacher'])|| empty($_POST['id_teacher']) ){
             exit("id_teacher");
         }
-        $q=mysqli_query($con,"SELECT count(A.id) as count FROM tb_group_students A,tb_groups B WHERE A.id_groups=B.id and B.teacher_id=1 and A.approved=0");
+        $id_teacher=$_POST['id_teacher'];
+        $q=mysqli_query($con,"SELECT count(A.id) as count FROM tb_group_students A,tb_groups B WHERE A.id_groups=B.id and B.teacher_id='$id_teacher' and A.approved=0");
         $row=mysqli_fetch_array($q);
         $array=array('COUNT'=>$row['count']);
         exit(json_encode($array,JSON_UNESCAPED_UNICODE));

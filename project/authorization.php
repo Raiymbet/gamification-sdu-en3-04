@@ -31,10 +31,10 @@ if (isset($_COOKIE['id']) || !empty($_COOKIE['id'])) {
 /* Соединение с базы */
 include_once 'connect.php';
 if (!isset($_POST['e_mail']) || empty($_POST['e_mail'])) {
-    exit("e_mail");
+    header("Location: main_page.html?message='Недоступен e_mail!'");
 }
 if (!isset($_POST['password']) || empty($_POST['password'])) {
-    exit("password");
+    header("Location: main_page.html?message='Недоступен password!'");
 }
 $e_mail = $_POST['e_mail'];
 $password = md5(md5($_POST['password']));
@@ -57,7 +57,7 @@ if ($stmt = $con->prepare("SELECT id,name,surname,password,birthday,gender,email
     $stmt->fetch();
     if ($id == null) {
         mysqli_close($con);
-        exit('<span>Неправильный логин или пароль!</span>');
+        header("Location: main_page.html?message='Неправильный логин или пароль!'");
     } else {
         echo $id . " " . $name . " " . $surname;
         /* Fetch the value */
@@ -90,7 +90,7 @@ if ($stmt = $con->prepare("SELECT id,name,surname,password,birthday,gender,email
     /* Close statement */
     $stmt->close();
 } else {
-    echo "<span>Неправильный логин или пароль!</span>";
+    header("Location: main_page.html?message='Неправильный логин или пароль!'");
     /* Close connection */
     mysqli_close($con);
 }
@@ -111,7 +111,7 @@ if ($stmt = $con->prepare("SELECT id,name,surname,password,birthday,gender,email
         $stmt->fetch();
         if ($id == null) {
             mysqli_close($con);
-            exit('<span>Неправильный логин или пароль!</span>');
+            header("Location: main_page.html?message='Неправильный логин или пароль!'");
         } else {
             echo $id . " " . $name . " " . $surname;
             /* Fetch the value */
@@ -143,13 +143,12 @@ if ($stmt = $con->prepare("SELECT id,name,surname,password,birthday,gender,email
         /* Close statement */
         $stmt->close();
     } else {
-        mysqli_close($con);
-        exit("<span>Неправильный логин или пароль!</span>");
+        mysqli_close($con);header("Location: main_page.html?message='Неправильный логин или пароль!'");
         /* Close connection */
     }
 } else {
     mysqli_close($con);
-    exit("<span>Неправильный логин или пароль!</span>");
+    header("Location: main_page.html?message='Неправильный логин или пароль!'");
 }
 mysqli_close($con);
 
