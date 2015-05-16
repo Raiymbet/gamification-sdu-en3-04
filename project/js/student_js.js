@@ -30,6 +30,14 @@ $("a[role=link]").click(function () {
         $("#raiting-frame").fadeOut("fast");
     }
 });
+$("li[role='presentation']").click(function () {
+    if ($(this).attr("name") != 'addGroups') {
+        $("li[role='presentation']").each(function () {
+            $(this).removeClass("active");
+        });
+        $(this).addClass("active");
+    }
+});
 activate = 0;
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();

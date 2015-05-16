@@ -73,6 +73,7 @@ $("li[role='presentation']").click(function () {
         });
         $(this).addClass("active");
     }
+});
     $("#groud_add_btn").click(function () {
         name = $("#new_group_name").val();
         if (selectedCategory == '') {
@@ -104,7 +105,7 @@ $("li[role='presentation']").click(function () {
         }
     });
     //Else: Откроется modal окно. Кнопка открытые в 'Создать группу'
-});
+
 function getBadgeInfo(){
     $.ajax({
         method:'POST',
