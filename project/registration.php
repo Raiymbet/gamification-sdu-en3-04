@@ -72,7 +72,6 @@ if ($user == 'student' || $user == 'teacher') {
     $email = htmlspecialchars($_POST['e_mail']);
     $tel = htmlspecialchars($_POST['telephone']);
     $password = md5(md5(htmlspecialchars($_POST['password'])));
-    $password = md5(md5($_POST['password']));
     //Проверка email на обоих таблицах, есть ли найдется в один из них, то вернеть ошибку.
     $q1 = mysqli_query($con, "SELECT COUNT(id) as COUNT FROM tb_student WHERE email='$email'");
     $q2 = mysqli_query($con, "SELECT COUNT(id) as COUNT FROM tb_teacher WHERE email='$email'");
@@ -143,8 +142,6 @@ if ($user == 'student' || $user == 'teacher') {
             setcookie('email', $email, $time);
             setcookie("time", $time, $time);
         echo "<p class='text-success'><strong>Регистрация прошла успешно!</strong></p>";
-
-
     } else {
         echo "<p class='text-danger'><strong>При регистрации произошло ошибка!</strong></p>";
         foreach ($err AS $error) {

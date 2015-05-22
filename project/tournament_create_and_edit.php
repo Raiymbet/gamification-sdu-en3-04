@@ -22,6 +22,7 @@ include_once 'connect.php';
             <div class="col-8" style="padding-right: 10px; padding-left: 10px">
                 <div class="col-12">
                     <label class="col-2 control-label" for="name_tournament">Название: </label>
+
                     <div class="col-10">
                         <input class="form-control" id="name_tournament" type="text" style="width: 100%;"
                                placeholder="Enter tournament name">
@@ -30,6 +31,7 @@ include_once 'connect.php';
                 <!-- Description of tournament -->
                 <div class=" margin-top-5 col-12">
                     <label class="col-2 control-label" for="description_tournament">Описание: </label>
+
                     <div class="col-10" style="">
                     <textarea class="form-control margin-top-5" id="description_tournament"
                               style="width: 100%; height: 100px;"
@@ -76,8 +78,8 @@ include_once 'connect.php';
                             <?php
                             $id_teacher = $_COOKIE['id_teacher'];
                             $teacher_groups = mysqli_query($con, "SELECT title as groups, id as id_groups FROM tb_groups WHERE teacher_id='$id_teacher'");
-                            while($row_groups = mysqli_fetch_array($teacher_groups)){
-                                echo '<option value="'.$row_groups['id_groups'].'">'. $row_groups['groups']. '</option>';
+                            while ($row_groups = mysqli_fetch_array($teacher_groups)) {
+                                echo '<option value="' . $row_groups['id_groups'] . '">' . $row_groups['groups'] . '</option>';
                             };
                             ?>
                         </select>
@@ -136,11 +138,11 @@ include_once 'connect.php';
             <div class="form-group col-12" style="padding: 0px;">
                 <div class="col-6">
                     <select class="form-control" name="game_type" id="select_game_types">
-                        <option value="Simple" selected>Simple</option>
-                        <option value="True-false">True-false</option>
-                        <option value="Input">Input</option>
-                        <option value="Polechudes">Pole chudes</option>
-                        <option value="Match">Match</option>
+                        <option value="1" selected>Simple</option>
+                        <option value="2">True-false</option>
+                        <option value="3">Input</option>
+                        <option value="4">Pole chudes</option>
+                        <option value="5">Match</option>
                     </select>
                 </div>
             </div>
@@ -203,12 +205,15 @@ include_once 'connect.php';
             </div>
         </div>
         <div class="panel solid-border" style="width: 100%; float: left;">
-            <button class="btn btn-success" style="float: right; width: 6%; margin-right: 25%" onclick="check_question_for_save()">
+            <button class="btn btn-success" style="float: right; width: 6%; margin-right: 25%"
+                    onclick="check_question_for_save()">
                 Ok
             </button>
         </div>
         <div class="panel-footer" style="float: left; width: 100%">
-            <button class="btn btn-primary " style="margin-right: 0%; float: right; width: 10%" onclick="cancel()">Cancel</button>
+            <button class="btn btn-primary " style="margin-right: 0%; float: right; width: 10%" onclick="cancel()">
+                Cancel
+            </button>
             <button class="btn btn-primary " style="margin-right: 1%; float: right; width: 10%"
                     onclick="save_tournament()">Save
             </button>
@@ -347,25 +352,25 @@ include_once 'connect.php';
     }; //munda tournament informaciasy jane suraktarymen birge saktaidy
     /* tournament_info = {about_tournament{name, description, opened, closed, public},
      questions{game_type, limit_time, point, level, question, answers, corect_answer_id}}*/
-    var question_li_size = 5; //bastapky mani bes bolatyn, jane artady birak 5 kem bolmaidy bul surak sanyn korsetedi
-    var correct_answer_index = null; // bul kai jauap durys sol jauaptyn indexin korsetedi
-    var active_li_index = 1;
-    var all_questions_is_giving = false;
+    var question_li_size = 5, //bastapky mani bes bolatyn, jane artady birak 5 kem bolmaidy bul surak sanyn korsetedi
+        correct_answer_index = null, // bul kai jauap durys sol jauaptyn indexin korsetedi
+        active_li_index = 1,
+        have_question_size = 0;
 
     $(document).ready(function () {
         //when change select game type change content
         $("#select_game_types").change(function () {
             //console.log($(this).val());
             var selected_item = $(this).val();
-            if ($(this).val() == 'Simple') {
+            if ($(this).val() == '1') {
                 $("#content_game_type").html(content_simple_game).load(answer_correct_incorrect());
-            } else if ($(this).val() == 'True-false') {
+            } else if ($(this).val() == '2') {
                 $("#content_game_type").html(content_true_false_game).load(answer_correct_incorrect());
-            } else if ($(this).val() == 'Input') {
+            } else if ($(this).val() == '3') {
                 $("#content_game_type").html(content_input_game).load(input_answer_plus(), input_answer_minus());
-            } else if ($(this).val() == 'Polechudes') {
+            } else if ($(this).val() == '4') {
                 $("#content_game_type").html(content_polechudes_game);
-            } else if ($(this).val() == 'Match') {
+            } else if ($(this).val() == '5') {
                 $("#content_game_type").html(content_match_game).load(input_answer_minus(), input_answer_plus());
             }
         }).change();
@@ -380,14 +385,6 @@ include_once 'connect.php';
             $(".btn[name='btn_level']").removeClass("active");
             $(this).addClass("active");
         });
-        //Change active question number list
-        //btn_list_active_change();
-        $("#btn-question-next").click(function () {
-            question_next();
-        });
-        $("#btn-question-back").click(function () {
-            question_previous();
-        });
         //add new question
         $("#btn-question-plus").click(function () {
             question_plus();
@@ -396,9 +393,20 @@ include_once 'connect.php';
         $("#btn-question-minus").click(function () {
             question_minus();
         });
+
+        $("#btn-question-next").click(function () {
+            question_next()
+        });
+        $("#btn-question-back").click(function () {
+            question_previous();
+        });
     });
 
+    //Change active question number list
+    //btn_list_active_change();
     function question_next() {
+
+        console.log("Question list size: "+question_li_size+" Have question size: "+ have_question_size);
         if (tournament_info.questions.length < active_li_index) {
             $("#message_modal").modal('show');
             $("#message_modal .modal-body-text").html("").append("<p class='text-warning'>Сперва заполните этот вопрос!</p>");
@@ -425,10 +433,10 @@ include_once 'connect.php';
                 $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_have_question").addClass("btn_have_question_list_active");
 
                 $("#select_game_types option").removeAttr("selected");
-                $("#select_game_types option[value='"+tournament_info.questions[active_li_index - 1].game_type+"']").attr("selected",'selected').change();
+                $("#select_game_types option[value='"+tournament_info.questions[active_li_index - 1].game_type+"']").attr("selected", 'selected').change();
 
-                if (tournament_info.questions[active_li_index - 1].game_type == 'Simple' ||
-                    tournament_info.questions[active_li_index - 1].game_type == 'True-false') {
+                if (tournament_info.questions[active_li_index - 1].game_type == '1' ||
+                    tournament_info.questions[active_li_index - 1].game_type == '2') {
                     $("#content_game_type textarea[name='question_area']").text("" + tournament_info.questions[active_li_index - 1].question);
                     $("#content_answer_input input[name='answer']").each(function (index) {
                         $(this).val("" + tournament_info.questions[active_li_index - 1].answers[index]);
@@ -439,23 +447,23 @@ include_once 'connect.php';
                             correct_answer_index = tournament_info.questions[active_li_index - 1].correct_answer_id;
                         }
                     });
-                }else if(tournament_info.questions[active_li_index - 1].game_type == 'Input' ||
-                         tournament_info.questions[active_li_index - 1].game_type == 'Polechudes'){
+                } else if (tournament_info.questions[active_li_index - 1].game_type == '3' ||
+                    tournament_info.questions[active_li_index - 1].game_type == '4') {
                     $("#content_game_type textarea[name='question_area']").text("" + tournament_info.questions[active_li_index - 1].question);
-                    if(tournament_info.questions[active_li_index - 1].game_type == 'Input' && tournament_info.questions[active_li_index-1].answers.length>1){
-                        for(var i=1; i<tournament_info.questions[active_li_index-1].answers.length; i++){
+                    if (tournament_info.questions[active_li_index - 1].game_type == '3' && tournament_info.questions[active_li_index - 1].answers.length > 1) {
+                        for (var i = 1; i < tournament_info.questions[active_li_index - 1].answers.length; i++) {
                             answer_plus();
                         }
                     }
                     $("#content_answer_input input[name='answer']").each(function (index) {
                         $(this).val("" + tournament_info.questions[active_li_index - 1].answers[index]);
                     });
-                }else if(tournament_info.questions[active_li_index - 1].game_type == 'Match'){
+                } else if (tournament_info.questions[active_li_index - 1].game_type == '5') {
 
                 }
-            }else {
+            } else {
                 $("#select_game_types option").removeAttr("selected");
-                $("#select_game_types option[value='Simple']").attr("selected",'selected').change();
+                $("#select_game_types option[value='1']").attr("selected", 'selected').change();
                 $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_list_active");
                 correct_answer_index = null;
             }
@@ -467,23 +475,29 @@ include_once 'connect.php';
         $(".question_number_btn_list li").each(function () {
             if ($(this).hasClass("btn_list_active")) {
                 active_li_index = $(this).index();
-                $(this).removeClass("btn_list_active");
+                if (active_li_index > 0) {
+                    $(this).removeClass("btn_list_active");
+                } else {
+                    active_li_index = 1;
+                }
             } else if ($(this).hasClass("btn_have_question_list_active")) {
                 active_li_index = $(this).index();
-                $(this).removeClass("btn_have_question_list_active").addClass("btn_have_question");
+                if (active_li_index > 0) {
+                    $(this).removeClass("btn_have_question_list_active").addClass("btn_have_question");
+                } else {
+                    active_li_index = 1;
+                }
             }
         });
-        if (active_li_index <= 0) {
-            active_li_index = 1;
-        }
+
         if ($(".question_number_btn_list > li:nth-child(" + active_li_index + ")").hasClass("btn_have_question")) {
             $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_have_question").addClass("btn_have_question_list_active");
 
             $("#select_game_types option").removeAttr("selected");
-            $("#select_game_types option[value='"+tournament_info.questions[active_li_index - 1].game_type+"']").attr("selected",'selected').change();
+            $("#select_game_types option[value='" + tournament_info.questions[active_li_index - 1].game_type + "']").attr("selected", 'selected').change();
 
-            if (tournament_info.questions[active_li_index - 1].game_type == 'Simple' ||
-                tournament_info.questions[active_li_index - 1].game_type == 'True-false') {
+            if (tournament_info.questions[active_li_index - 1].game_type == '1' ||
+                tournament_info.questions[active_li_index - 1].game_type == '2') {
                 $("#content_game_type textarea[name='question_area']").text("" + tournament_info.questions[active_li_index - 1].question);
                 $("#content_answer_input input[name='answer']").each(function (index) {
                     $(this).val("" + tournament_info.questions[active_li_index - 1].answers[index]);
@@ -494,11 +508,11 @@ include_once 'connect.php';
                         correct_answer_index = tournament_info.questions[active_li_index - 1].correct_answer_id;
                     }
                 });
-            }else if(tournament_info.questions[active_li_index - 1].game_type == 'Input' ||
-                     tournament_info.questions[active_li_index - 1].game_type == 'Polechudes'){
+            } else if (tournament_info.questions[active_li_index - 1].game_type == '3' ||
+                tournament_info.questions[active_li_index - 1].game_type == '4') {
                 $("#content_game_type textarea[name='question_area']").text("" + tournament_info.questions[active_li_index - 1].question);
-                if(tournament_info.questions[active_li_index - 1].game_type == 'Input' && tournament_info.questions[active_li_index-1].answers.length>1){
-                    for(var i=1; i<tournament_info.questions[active_li_index-1].answers.length; i++){
+                if (tournament_info.questions[active_li_index - 1].game_type == '3' && tournament_info.questions[active_li_index - 1].answers.length > 1) {
+                    for (var i = 1; i < tournament_info.questions[active_li_index - 1].answers.length; i++) {
                         answer_plus();
                     }
                 }
@@ -515,26 +529,29 @@ include_once 'connect.php';
     }
 
     function question_plus() {
-        question_li_size++;
+        question_li_size += 1;
         if (question_li_size > 5) {
             $("#btn-question-minus").removeClass("disabled");
         }
         $(".question_number_btn_list").append('<li class=""><span>' + question_li_size + '</span></li>');
+        console.log("Question list size: "+question_li_size+" Have question size: "+ have_question_size);
     }
 
     function question_minus() {
-        question_li_size--;
-        if ($(".question_number_btn_list").children().last().hasClass("btn_list_active")) {
-            $(".question_number_btn_list").children().last().remove();
-            if ($(".question_number_btn_list li:last-child").hasClass("btn_have_question")) {
-                $(".question_number_btn_list li:last-child").removeClass("btn_have_question").addClass("btn_have_question_list_active");
+        question_li_size -= 1;
+        if ($(".question_number_btn_list").children().last().hasClass("btn_list_active") ||
+            $(".question_number_btn_list").children().last().hasClass("btn_have_question_list_active")) {
+            if ($(".question_number_btn_list > li:nth-child(" + $(".question_number_btn_list").children().last().index() + ")").hasClass("btn_have_question")) {
+                question_previous();
             }
+            $(".question_number_btn_list").children().last().remove();
         } else {
             $(".question_number_btn_list").children().last().remove();
         }
         if (question_li_size == 5) {
             $("#btn-question-minus").addClass("disabled");
         }
+        console.log("Question list size: "+question_li_size+" Have question size: "+ have_question_size);
     }
 
     /*function btn_list_active_change() {
@@ -556,10 +573,10 @@ include_once 'connect.php';
             answer_plus();
         });
     }
-    function answer_plus(){
-        if ($("#select_game_types").val() == 'Input') {
+    function answer_plus() {
+        if ($("#select_game_types").val() == '3') {
             $("#content_answer_input").append('<div class="col-12 margin-top-5" style="padding: 0px;" ><input class="form-control" style="width: 100%;" name="answer" type="text" placeholder="Input 1"></div>');
-        } else if ($("#select_game_types").val() == 'Match') {
+        } else if ($("#select_s").val() == '5') {
             var matches = '<div class="col-5 margin-top-5" style="padding: 0px;" >' +
                 '<textarea class="form-control" style="width: 100%; height: 150px" name="answer"  placeholder="Match"></textarea>' +
                 '</div>' +
@@ -571,9 +588,9 @@ include_once 'connect.php';
     }
     function input_answer_minus() {
         $(".btn[name='input_answer_minus']").click(function () {
-            if ($("#select_game_types").val() == 'Input') {
+            if ($("#select_game_types").val() == '3') {
                 $("#content_answer_input").children().last().remove();
-            } else if ($("#select_game_types").val() == 'Match') {
+            } else if ($("#select_game_types").val() == '5') {
                 $("#content_answer_input").children().last().remove();
                 $("#content_answer_input").children().last().remove();
             }
@@ -582,10 +599,10 @@ include_once 'connect.php';
 
     function answer_correct_incorrect() {
         $(".btn[name='correct_incorrect']").click(function () {
-            if ($(this).text()=='Correct') {
+            if ($(this).text() == 'Correct') {
                 $(this).removeClass("btn-success").addClass("btn-danger").text("Incorrect");
                 correct_answer_index = null;
-            } else if ($(this).text()=='Incorrect') {
+            } else if ($(this).text() == 'Incorrect') {
                 $("#content_game_type .btn-success").removeClass("btn-success").addClass("btn-danger").text("Incorrect");
                 $(this).removeClass("btn-danger").addClass("btn-success").text("Correct");
                 correct_answer_index = $(this).index();
@@ -598,23 +615,23 @@ include_once 'connect.php';
             description_tournament = $("#description_tournament").val(),
             open_datetime = $("input[name='open_datetime']").val(),
             close_datetime = $("input[name='close_datetime']").val(),
-            public_status = '0',
+            public_status = '',
             status = 'yes',
             id_group = $("#select_groups").val(),
-            id_teacher =' <?php echo $id_teacher?>';
+            id_teacher = ' <?php echo $id_teacher?>';
         var valid = false;
         var errors = [];
 
         var fullDate = new Date();
-        var twoDigitMonth = ((fullDate.getMonth().length+1) === 1)? (fullDate.getMonth()+1) : '0' + (fullDate.getMonth()+1);
-        var currentDate = fullDate.getFullYear()+"-"+twoDigitMonth + "-"+fullDate.getDate()+" "+fullDate.getHours()+":"+fullDate.getMinutes()+":"+fullDate.getSeconds();
+        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+        var currentDate = fullDate.getFullYear() + "-" + twoDigitMonth + "-" + fullDate.getDate() + " " + fullDate.getHours() + ":" + fullDate.getMinutes() + ":" + fullDate.getSeconds();
         //console.log(currentDate);
-        if($(".switch .on").text()=='ON'){
+        if ($(".switch .on").text() == 'ON') {
             public_status = '1';
-        }else{
+        } else {
             public_status = '0';
         }
-        if(currentDate < open_datetime){
+        if (currentDate < open_datetime) {
             status = 'no';
         }
         if (name_tournament == "") {
@@ -629,8 +646,11 @@ include_once 'connect.php';
         if (close_datetime == "") {
             errors[errors.length] = "Пожлуйста, выберите день закрытия тура."
         }
-        if(open_datetime>=close_datetime){
-            errors[errors.length]="Неправильно дата";
+        if (open_datetime >= close_datetime) {
+            errors[errors.length] = "Время открытия и закрытия поставлено неправильно.";
+        }
+        if (question_li_size != have_question_size) {
+            errors[errors.length] = "Не все вопросы заполнены.";
         }
         if (errors.length == 0) {
             valid = true;
@@ -677,7 +697,7 @@ include_once 'connect.php';
                 break;
             }
         }
-        if(game_type=='Simple' || game_type=='True-false'){
+        if (game_type == '1' || game_type == '2') {
             if (correct_answer_index == null) {
                 errors[errors.length] = "Выберите один правильный ответ";
             }
@@ -687,9 +707,9 @@ include_once 'connect.php';
         }
         if (valid) {
             tournament_info.questions[active_li_index - 1] = '';
-            if (game_type == 'Simple') {
+            if (game_type == '1') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": 1,
+                    "game_type": game_type,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -697,9 +717,9 @@ include_once 'connect.php';
                     "answers": answers,
                     "correct_answer_id": correct_answer_index
                 };
-            }else if (game_type == 'True-false') {
+            } else if (game_type == '2') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": 2,
+                    "game_type": game_type,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -707,9 +727,9 @@ include_once 'connect.php';
                     "answers": answers,
                     "correct_answer_id": correct_answer_index
                 };
-            }else if (game_type == 'Input') {
+            } else if (game_type == '3') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": 3,
+                    "game_type": game_type,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -718,9 +738,9 @@ include_once 'connect.php';
                     "correct": 1
                 };
 
-            } else if (game_type == 'Polechudes') {
+            } else if (game_type == '4') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": 4,
+                    "game_type": game_type,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -728,9 +748,9 @@ include_once 'connect.php';
                     "answers": answers,
                     "correct": 1
                 };
-            } else if (game_type == 'Match') {
+            } else if (game_type == '5') {
                 tournament_info.questions[active_li_index - 1] = {
-                    "game_type": 5,
+                    "game_type": game_type,
                     "time_limit": time_limit,
                     "point": question_point,
                     "level": question_level,
@@ -747,14 +767,15 @@ include_once 'connect.php';
                 $("#message_modal .modal-body-text").append("<p class='text-danger'>" + value + "</p>");
             });
         }
-        if (question_li_size == active_li_index) {
+        if (valid && question_li_size == active_li_index) {
+            have_question_size += 1;
             $("#message_modal").modal('show');
             $("#message_modal .modal-body-text").html("").append("<p class='text-success'>Все вопросы были заданы</p>");
-            all_questions_is_giving = true;
             $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").removeClass("btn_list_active").addClass("btn_have_question_list_active");
-        } else if(valid){
+        } else if (valid) {
             $(".question_number_btn_list > li:nth-child(" + active_li_index + ")").addClass("btn_have_question");
             question_next();
+            have_question_size += 1;
             correct_answer_index = null;
         }
     }
@@ -762,7 +783,7 @@ include_once 'connect.php';
     function save_tournament() {
         //Проверяет все данные касающиеся туру и его вопросы. Вопросы должны быть минимум пять. Если все правильно сохроняет на базу данных и напрвляет на страницу учителя
         var valid = check_about_tournament();
-        if (valid == true && all_questions_is_giving) {
+        if (valid == true) {
             console.log(tournament_info);
             var json = JSON.stringify(tournament_info);
             console.log(json);
@@ -776,7 +797,7 @@ include_once 'connect.php';
                 },
                 success: function (response) {
                     $(".modal-body-text").html("").append(response);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.href = 'teacher.php';
                     }, 2000);
                 }
@@ -790,7 +811,7 @@ include_once 'connect.php';
         }
     }
 
-    function edit_tournament(){
+    function edit_tournament() {
 
     }
 </script>
